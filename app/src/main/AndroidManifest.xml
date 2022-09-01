@@ -10,7 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InterViewReminderApp">
         <activity
-            android:name=".MainActivity"
+            android:name="activitiy.HomeScreen"
+            android:exported="false" />
+        <activity
+            android:name="activitiy.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="activitiy.AddInterview"
+            android:exported="false" />
+        <activity
+            android:name="activitiy.RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name="activitiy.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="activitiy.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

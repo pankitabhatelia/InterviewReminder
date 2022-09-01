@@ -1,0 +1,55 @@
+package viewmodel
+
+import android.util.Patterns
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+
+class LoginViewModel : ViewModel() {
+
+    val email: MutableLiveData<String> = MutableLiveData()
+    val password: MutableLiveData<String> = MutableLiveData()
+    private val _toastMessage: MutableLiveData<String> = MutableLiveData()
+    val toastMessage: LiveData<String> = _toastMessage
+    private lateinit var auth: FirebaseAuth
+    val emailError: MutableLiveData<String?> = MutableLiveData()
+    val passwordError: MutableLiveData<String?> = MutableLiveData()
+
+    fun loginClick() {
+        if (isValid()) {
+            loginUser()
+        }
+    }
+
+    private fun isValid(): Boolean {
+        emailError.postValue(null)
+        passwordError.postValue(null)
+
+        if (email.value.isNullOrEmpty()) {
+            emailError.postValue("Please Enter Email")
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.value.orEmpty())
+                .matches()
+        ) {
+            emailError.postValue("Please Enter valid Email")
+        } else if (password.value?.length ?: 0 < 8) {
+            passwordError.postValue("Minimum 8 characters required")
+        } else {
+            return true
+        }
+        return false
+    }
+
+    private fun loginUser() {
+        auth = FirebaseAuth.getInstance()
+        val email = email.value.toString()
+        val password = password.value.toString()
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                _toastMessage.value = "successfully Logged in !"
+            } else {
+                _toastMessage.value = " Failed to Logged in !"
+            }
+        }
+    }
+}
