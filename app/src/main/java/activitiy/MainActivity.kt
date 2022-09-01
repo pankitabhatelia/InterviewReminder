@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             loginUser()
         }
         binding.tvRedirectToLogin.setOnClickListener {
-            val intent = Intent(this, RegistrationActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
