@@ -29,7 +29,7 @@ class AddInterviewViewModel: ViewModel()  {
          fun addOnClick(){
             addData()
         }
- 
+
     private fun addData() {
         auth = FirebaseAuth.getInstance()
         firebaseUser = auth.currentUser!!
