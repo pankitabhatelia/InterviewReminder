@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import model.AddInterviewModel
+import model.Department
 
 
 class AddInterviewViewModel: ViewModel()  {
@@ -20,8 +21,8 @@ class AddInterviewViewModel: ViewModel()  {
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
     val interviewDate: MutableLiveData<String> = MutableLiveData()
-    val department: MutableLiveData<String> = MutableLiveData()
-    val interviewerName: MutableLiveData<String> = MutableLiveData()
+    private lateinit var department:String
+    private lateinit var interviewerName: String
     val remarks: MutableLiveData<String> = MutableLiveData()
     private val _toastMessage: MutableLiveData<String> = MutableLiveData()
     val toastMessage: LiveData<String> = _toastMessage
@@ -29,7 +30,22 @@ class AddInterviewViewModel: ViewModel()  {
          fun addOnClick(){
             addData()
         }
-
+    fun departmentOnItemSelected(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
+        department=parent?.selectedItem.toString()
+    }
+    fun interviewerOnItemSelected(
+        parent: AdapterView<*>?,
+        view: View?,
+        position: Int,
+        id: Long
+    ) {
+        interviewerName=parent?.selectedItem.toString()
+    }
     private fun addData() {
         auth = FirebaseAuth.getInstance()
         firebaseUser = auth.currentUser!!
@@ -39,8 +55,8 @@ class AddInterviewViewModel: ViewModel()  {
             experience.value?.toString(),
             technology.value?.toString(),
             interviewDate.value?.toString(),
-            department.value?.toString(),
-            interviewerName.value?.toString(),
+            department,
+            interviewerName,
             remarks.value?.toString()
         )
         databaseReference.child(databaseReference.push().key.toString()).setValue(addInterviewData).addOnCompleteListener {
