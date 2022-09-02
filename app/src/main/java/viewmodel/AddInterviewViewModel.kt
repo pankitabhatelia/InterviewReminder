@@ -1,5 +1,7 @@
 package viewmodel
 
+import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,7 +29,7 @@ class AddInterviewViewModel: ViewModel()  {
          fun addOnClick(){
             addData()
         }
-
+ 
     private fun addData() {
         auth = FirebaseAuth.getInstance()
         firebaseUser = auth.currentUser!!
@@ -41,7 +43,7 @@ class AddInterviewViewModel: ViewModel()  {
             interviewerName.value?.toString(),
             remarks.value?.toString()
         )
-        databaseReference.child(firebaseUser.uid).setValue(addInterviewData).addOnCompleteListener {
+        databaseReference.child(databaseReference.push().key.toString()).setValue(addInterviewData).addOnCompleteListener {
             _toastMessage.value = "Data is inserted successfully"
         }.addOnFailureListener {
             _toastMessage.value = "Data is Failed to insert!!"
