@@ -1,4 +1,5 @@
 package activitiy
+
 import android.R
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -9,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.interviewreminderapp.databinding.ActivityAddReminderBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import viewmodel.AddInterviewViewModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class AddInterview : AppCompatActivity() {
@@ -20,6 +21,7 @@ class AddInterview : AppCompatActivity() {
     private lateinit var viewModel: AddInterviewViewModel
     private val cal = Calendar.getInstance()
     private lateinit var datePickerDialog: DatePickerDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddReminderBinding.inflate(layoutInflater)
@@ -38,66 +40,11 @@ class AddInterview : AppCompatActivity() {
         binding.etInterviewDate.setOnClickListener {
             datePickerDialog.show()
         }
-        getDataOnDepartmentSpinner()
-        getDataOnInterviewerNameSpinner()
+        viewModel.getDataOnDepartmentSpinner()
+        viewModel.getDataOnInterviewerNameSpinner()
         observer()
     }
 
-    private fun getDataOnDepartmentSpinner() {
-        val departmentList = ArrayList<String>()
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("Department")
-            .get()
-            .addOnSuccessListener {
-                val department1 = it.documents[0].data?.get("departmentName").toString()
-                val department2 = it.documents[1].data?.get("departmentName").toString()
-                val department3 = it.documents[2].data?.get("departmentName").toString()
-                val department4 = it.documents[3].data?.get("departmentName").toString()
-                val department5 = it.documents[4].data?.get("departmentName").toString()
-                val department6 = it.documents[5].data?.get("departmentName").toString()
-                departmentList.add(department1)
-                departmentList.add(department2)
-                departmentList.add(department3)
-                departmentList.add(department4)
-                departmentList.add(department5)
-                departmentList.add(department6)
-                val adapter = ArrayAdapter(
-                    this@AddInterview,
-                    R.layout.simple_spinner_item,
-                    departmentList
-                )
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spinnerDepartment.adapter = adapter
-            }
-    }
-
-    private fun getDataOnInterviewerNameSpinner() {
-        val interviewerList = ArrayList<String>()
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("InterviewerName")
-            .get()
-            .addOnSuccessListener {
-                val interviewer1 = it.documents[0].data?.get("interviewerName").toString()
-                val interviewer2 = it.documents[1].data?.get("interviewerName").toString()
-                val interviewer3 = it.documents[2].data?.get("interviewerName").toString()
-                val interviewer4 = it.documents[3].data?.get("interviewerName").toString()
-                val interviewer5 = it.documents[4].data?.get("interviewerName").toString()
-                val interviewer6 = it.documents[5].data?.get("interviewerName").toString()
-                interviewerList.add(interviewer1)
-                interviewerList.add(interviewer2)
-                interviewerList.add(interviewer3)
-                interviewerList.add(interviewer4)
-                interviewerList.add(interviewer5)
-                interviewerList.add(interviewer6)
-                val adapter = ArrayAdapter(
-                    this@AddInterview,
-                    R.layout.simple_spinner_item,
-                    interviewerList
-                )
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-                binding.spinnerName.adapter = adapter
-            }
-    }
 
     private val dateSelectedListener =
         DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
@@ -117,6 +64,23 @@ class AddInterview : AppCompatActivity() {
                 finish()
             }
         }
+        viewModel.departmentLivedata.observe(this) {
+            val arrayAdapter =
+                ArrayAdapter(this@AddInterview, R.layout.simple_spinner_dropdown_item, it)
+            binding.spinnerDepartment.adapter = arrayAdapter
+            arrayAdapter.setDropDownViewResource(R.layout.simple_list_item_1)
+        }
+        val function: (t: ArrayList<String>) -> Unit = {
+            val adapter = ArrayAdapter(
+                this@AddInterview,
+                R.layout.simple_spinner_item,
+                it
+            )
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            binding.spinnerName.adapter = adapter
+        }
+        viewModel.interviewerLiveData.observe(this, function)
+
     }
 
 }

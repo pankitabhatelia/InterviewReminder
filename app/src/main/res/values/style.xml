@@ -7,4 +7,8 @@
     <item name="colorAccent">@color/design_default_color_background</item>
 </style>
 
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabBackground">@drawable/tab_bg</item>
+    </style>
+
 </resources>
