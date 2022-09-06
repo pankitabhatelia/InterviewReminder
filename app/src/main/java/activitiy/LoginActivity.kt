@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         viewModel.navigateToListScreen.observe(this) {
-            val intent = Intent(this, HomeScreen::class.java)
+            val intent = Intent(this, DashBoardActivity::class.java)
             startActivity(intent)
             finish()
         }

@@ -19,10 +19,7 @@
             android:name="activitiy.AddInterview"
             android:exported="false" />
         <activity
-            android:name="activitiy.RegistrationActivity"
-            android:exported="false" />
-        <activity
-            android:name="activitiy.MainActivity"
+            android:name="activitiy.DashBoardActivity"
             android:exported="false" />
         <activity
             android:name="activitiy.SplashScreenActivity"

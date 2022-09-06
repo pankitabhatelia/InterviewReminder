@@ -1,12 +1,11 @@
 package viewmodel
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,7 +14,6 @@ import model.AddInterviewModel
 class AddInterviewViewModel : ViewModel() {
 
     private lateinit var databaseReference: DatabaseReference
-
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
@@ -48,6 +46,10 @@ class AddInterviewViewModel : ViewModel() {
         id: Long
     ) {
         department = parent?.selectedItem.toString()
+        Log.d("TAG", department)
+        getDataOnInterviewerNameSpinner(department)
+        spinnerInterviewerList.clear()
+
     }
 
     fun interviewerOnItemSelected(
@@ -57,6 +59,8 @@ class AddInterviewViewModel : ViewModel() {
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
+        Log.d("TAG", interviewerName)
+
     }
 
     private fun addData() {
@@ -95,9 +99,9 @@ class AddInterviewViewModel : ViewModel() {
             }
     }
 
-    fun getDataOnInterviewerNameSpinner() {
+    fun getDataOnInterviewerNameSpinner(departmentName: String) {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("InterviewerName")
+        firestore.collection("InterviewerName").whereEqualTo("departmentName", departmentName)
             .get()
             .addOnSuccessListener {
                 for (i in 0 until it.documents.size) {

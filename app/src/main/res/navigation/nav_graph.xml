@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeScreen">
+
+    <fragment
+        android:id="@+id/upcomingFragment"
+        android:name="fragment.UpcomingFragment"
+        android:label="UpcomingFragment" >
+        <action
+            android:id="@+id/action_upcomingFragment_to_cancelledFragment"
+            app:destination="@id/cancelledFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_doneFragment"
+            app:destination="@id/doneFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancelledFragment"
+        android:name="fragment.CancelledFragment"
+        android:label="fragment_cancelled"
+        tools:layout="@layout/fragment_cancelled" >
+        <action
+            android:id="@+id/action_cancelledFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneFragment"
+        android:name="fragment.DoneFragment"
+        android:label="fragment_done"
+        tools:layout="@layout/fragment_done" >
+        <action
+            android:id="@+id/action_doneFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/homeScreen"
+        android:name="activitiy.HomeScreen"
+        android:label="activity_home_screen"
+        tools:layout="@layout/activity_home_screen" />
+</navigation>
