@@ -18,5 +18,10 @@
     <string name="name">Name</string>
     <string name="date">Date</string>
     <string name="image">image</string>
+    <string name="time">Time</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="done">Done</string>
+    <string name="interview_time">Interview Time</string>
 
 </resources>

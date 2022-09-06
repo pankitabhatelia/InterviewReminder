@@ -11,4 +11,5 @@
     <color name="trans" type="color">#60000000</color>
     <color name="DarkRed">#BF0000</color>
     <color name="light_blue_shade">#12B2E6</color>
+    <color name="lightViolet" type="color">#493565</color>
 </resources>

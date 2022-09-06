@@ -29,11 +29,11 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, it, Toast.LENGTH_SHORT)
                     .show()
             }
-            if (it == "successfully Logged in !") {
-                val intent = Intent(this, AddInterview::class.java)
-                startActivity(intent)
-                finish()
-            }
+        }
+        viewModel.navigateToListScreen.observe(this) {
+            val intent = Intent(this, HomeScreen::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 

@@ -35,7 +35,6 @@ class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
         fun bind(data: AddInterviewModel) {
             binding.addData = data
             binding.executePendingBindings()
-
         }
 
     }

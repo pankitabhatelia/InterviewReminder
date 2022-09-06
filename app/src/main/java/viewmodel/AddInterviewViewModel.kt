@@ -13,13 +13,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
 
 class AddInterviewViewModel : ViewModel() {
-    private lateinit var auth: FirebaseAuth
+
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var firebaseUser: FirebaseUser
+
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
     val interviewDate: MutableLiveData<String> = MutableLiveData()
+    val interviewTime: MutableLiveData<String> = MutableLiveData()
     private lateinit var department: String
     private lateinit var interviewerName: String
     private val spinnerDepartmentList = ArrayList<String>()
@@ -31,44 +32,50 @@ class AddInterviewViewModel : ViewModel() {
     val departmentLivedata: LiveData<ArrayList<String>> = _departmentLivedata
     private val _interviewerLivedata: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val interviewerLiveData: LiveData<ArrayList<String>> = _interviewerLivedata
-
+    private val _getAllInterviewInfo: MutableLiveData<List<AddInterviewModel>?> = MutableLiveData()
+    val getAllInterviewInfo: LiveData<List<AddInterviewModel>?> = _getAllInterviewInfo
+    private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
+    val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
 
     fun addOnClick() {
         addData()
     }
+
     fun departmentOnItemSelected(
         parent: AdapterView<*>?,
         view: View?,
         position: Int,
         id: Long
     ) {
-        department=parent?.selectedItem.toString()
+        department = parent?.selectedItem.toString()
     }
+
     fun interviewerOnItemSelected(
         parent: AdapterView<*>?,
         view: View?,
         position: Int,
         id: Long
     ) {
-        interviewerName=parent?.selectedItem.toString()
+        interviewerName = parent?.selectedItem.toString()
     }
 
     private fun addData() {
-        auth = FirebaseAuth.getInstance()
-        firebaseUser = auth.currentUser!!
         databaseReference = FirebaseDatabase.getInstance().getReference("AddInterview")
         val addInterviewData = AddInterviewModel(
             candidateName.value?.toString(),
             experience.value?.toString(),
             technology.value?.toString(),
             interviewDate.value?.toString(),
+            interviewTime.value?.toString(),
             department,
             interviewerName,
             remarks.value?.toString()
         )
-       
+        _getAllInterviewInfo.postValue(listOf(addInterviewData))
+
         databaseReference.child(databaseReference.push().key.toString()).setValue(addInterviewData)
             .addOnCompleteListener {
+                _navigateToListScreen.postValue(Unit)
                 _toastMessage.value = "Data is inserted successfully"
             }.addOnFailureListener {
                 _toastMessage.value = "Data is Failed to insert!!"

@@ -15,7 +15,8 @@ class LoginViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
     val emailError: MutableLiveData<String?> = MutableLiveData()
     val passwordError: MutableLiveData<String?> = MutableLiveData()
-
+    private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
+    val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
     fun loginClick() {
         if (isValid()) {
             loginUser()
@@ -46,10 +47,12 @@ class LoginViewModel : ViewModel() {
         val password = password.value.toString()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                _navigateToListScreen.postValue(Unit)
                 _toastMessage.value = "successfully Logged in !"
             } else {
-                _toastMessage.value = " Failed to Logged in !"
+                _toastMessage.value = "User is not registered !"
             }
         }
+
     }
 }
