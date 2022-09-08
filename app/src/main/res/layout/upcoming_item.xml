@@ -12,9 +12,9 @@
     android:id="@+id/cvUpcoming"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
+    android:layout_marginStart="10dp"
     android:layout_marginTop="20dp"
-    android:layout_marginEnd="5dp"
+    android:layout_marginEnd="10dp"
     app:cardCornerRadius="10dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -32,7 +32,7 @@
             android:layout_marginTop="20dp"
             android:text="@{addData.candidateName}"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,14 +45,14 @@
             android:layout_marginTop="20dp"
             android:text="@{addData.interviewDate}"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCandidateName" />
 
         <ImageView
             android:id="@+id/ivNotification"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_baseline_notifications_24"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,8 +62,8 @@
 
         <ImageView
             android:id="@+id/ivCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginEnd="20dp"
             android:src="@drawable/ic_cancel"
             app:layout_constraintBottom_toBottomOf="parent"

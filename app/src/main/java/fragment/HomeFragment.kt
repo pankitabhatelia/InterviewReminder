@@ -1,44 +1,53 @@
-package activitiy
+package fragment
 
 import Adapter.MyAdapter
-import Adapter.UpcomingAdapter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.R
-import com.example.interviewreminderapp.databinding.ActivityHomeScreenBinding
+import com.example.interviewreminderapp.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayout
-import fragment.CancelledFragment
-import fragment.DoneFragment
-import fragment.UpcomingFragment
 
-class HomeScreen : AppCompatActivity() {
+class HomeFragment : Fragment() {
     private lateinit var adapter: MyAdapter
-    private lateinit var binding: ActivityHomeScreenBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityHomeScreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private lateinit var binding: FragmentHomeBinding
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.upcoming))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.cancelled))
         binding.tabLayout.addTab(binding.tabLayout.newTab().setText(R.string.done))
         binding.tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
-        adapter = MyAdapter(this, supportFragmentManager, binding.tabLayout.tabCount)
+        adapter = MyAdapter(requireContext(),parentFragmentManager, binding.tabLayout.tabCount)
         binding.viewPager.adapter = adapter
 
+        binding.btnAdd.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_addFragment)
+        }
         binding.viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(binding.tabLayout))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when (binding.viewPager.currentItem) {
                     0 -> {
-                         UpcomingFragment()
+                        UpcomingFragment()
                     }
-                    1->{
+                    1 -> {
                         CancelledFragment()
                     }
-                    2->{
+                    2 -> {
                         DoneFragment()
                     }
                 }
@@ -55,4 +64,5 @@ class HomeScreen : AppCompatActivity() {
             }
         })
     }
+
 }

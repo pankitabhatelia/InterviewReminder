@@ -1,9 +1,6 @@
 package fragment
 
 import Adapter.UpcomingAdapter
-import activitiy.AddInterview
-import android.R
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,10 +32,9 @@ class UpcomingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
-        binding.btnAdd.setOnClickListener {
-           val intent= Intent(requireContext(),AddInterview::class.java)
-            startActivity(intent)
-        }
+
+        interviewViewModel.showData()
+        interviewViewModel.interviewList.clear()
         fragmentStudentObserver()
 
     }

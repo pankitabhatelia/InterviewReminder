@@ -23,6 +23,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="done">Done</string>
     <string name="interview_time">Interview Time</string>
+    <string name="please_wait">Please wait....</string>
 
 
 </resources>

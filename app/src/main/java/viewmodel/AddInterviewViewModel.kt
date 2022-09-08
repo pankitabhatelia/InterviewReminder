@@ -6,14 +6,17 @@ import android.widget.AdapterView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import model.AddInterviewModel
 
 class AddInterviewViewModel : ViewModel() {
-
+    private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var firebaseUser: FirebaseUser
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
@@ -34,6 +37,7 @@ class AddInterviewViewModel : ViewModel() {
     val getAllInterviewInfo: LiveData<List<AddInterviewModel>?> = _getAllInterviewInfo
     private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
     val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
+    var interviewList = arrayListOf<AddInterviewModel>()
 
     fun addOnClick() {
         addData()
@@ -86,6 +90,7 @@ class AddInterviewViewModel : ViewModel() {
             }
     }
 
+
     fun getDataOnDepartmentSpinner() {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("Department")
@@ -110,5 +115,30 @@ class AddInterviewViewModel : ViewModel() {
                 }
                 _interviewerLivedata.postValue(spinnerInterviewerList)
             }
+    }
+
+    fun showData(){
+        databaseReference = FirebaseDatabase.getInstance().getReference("AddInterview")
+        databaseReference.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    for(interviewSnapshot in snapshot.children){
+
+                        val user = interviewSnapshot.getValue(AddInterviewModel::class.java)
+                        if (user != null) {
+                            interviewList.add(user)
+                        }
+
+                    }
+                    _getAllInterviewInfo.postValue(interviewList)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
     }
 }

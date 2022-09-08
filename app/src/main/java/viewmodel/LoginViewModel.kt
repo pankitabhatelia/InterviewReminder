@@ -1,11 +1,19 @@
 package viewmodel
 
+import activitiy.LoginActivity
 import android.app.AlertDialog
+import android.app.Application
+import android.content.ContentProvider
+import android.content.Context
+import android.content.DialogInterface
 import android.util.Patterns
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelStoreOwner
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.coroutines.coroutineContext
 
 class LoginViewModel : ViewModel() {
 

@@ -9,14 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InterViewReminderApp">
-        <activity
-            android:name="activitiy.HomeScreen"
-            android:exported="false" />
+
         <activity
             android:name="activitiy.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name="activitiy.AddInterview"
             android:exported="false" />
         <activity
             android:name="activitiy.DashBoardActivity"
