@@ -39,17 +39,9 @@ class CustomProgressDialog(context: Context) {
         cpCardView = view.findViewById(R.id.cpCardView)
         progressBar = view.findViewById(R.id.progressBar)
 
-        // Card Color
-        cpCardView.setCardBackgroundColor(Color.parseColor("#70000000"))
-
-        // Progress Bar Color
-        setColorFilter(
-            progressBar.indeterminateDrawable,
-            ResourcesCompat.getColor(context.resources, R.color.purple_500, null)
-        )
 
         // Text Color
-        cpTitle.setTextColor(Color.WHITE)
+        cpTitle.setTextColor(Color.GRAY)
 
         // Custom Dialog initialization
         dialog = CustomDialog(context)
@@ -68,7 +60,7 @@ class CustomProgressDialog(context: Context) {
     class CustomDialog(context: Context) : Dialog(context, R.style.CustomDialogTheme) {
         init {
             // Set Semi-Transparent Color for Dialog Background
-            window?.decorView?.rootView?.setBackgroundResource(R.color.light_blue_shade)
+            window?.decorView?.rootView?.setBackgroundResource(R.color.trans)
             window?.decorView?.setOnApplyWindowInsetsListener { _, insets ->
                 insets.consumeSystemWindowInsets()
             }

@@ -6,24 +6,19 @@ import android.widget.AdapterView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.auth.User
 import model.AddInterviewModel
 
 class AddInterviewViewModel : ViewModel() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var firebaseUser: FirebaseUser
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
     val interviewDate: MutableLiveData<String> = MutableLiveData()
     val interviewTime: MutableLiveData<String> = MutableLiveData()
     private lateinit var department: String
-    private lateinit var interviewerName: String
+    var interviewerName: String? = null
     private val spinnerDepartmentList = ArrayList<String>()
     private val spinnerInterviewerList = ArrayList<String>()
     val remarks: MutableLiveData<String> = MutableLiveData()
@@ -38,9 +33,54 @@ class AddInterviewViewModel : ViewModel() {
     private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
     val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
     var interviewList = arrayListOf<AddInterviewModel>()
+    val nameError: MutableLiveData<String?> = MutableLiveData()
+    val experienceError: MutableLiveData<String?> = MutableLiveData()
+    val technologyError: MutableLiveData<String?> = MutableLiveData()
+    val interviewDateError: MutableLiveData<String?> = MutableLiveData()
+    val interviewerTimeError: MutableLiveData<String?> = MutableLiveData()
+    val remarksError: MutableLiveData<String?> = MutableLiveData()
+
 
     fun addOnClick() {
-        addData()
+        if (isValid()) {
+            addData()
+        }
+
+    }
+
+    private fun isValid(): Boolean {
+        nameError.postValue(null)
+        experienceError.postValue(null)
+        technologyError.postValue(null)
+        interviewDateError.postValue(null)
+        interviewDateError.postValue(null)
+        interviewerTimeError.postValue(null)
+        remarksError.postValue(null)
+
+        when {
+            candidateName.value.isNullOrEmpty() -> {
+                nameError.postValue("Please Enter CandidateName")
+            }
+            experience.value.isNullOrEmpty() -> {
+                experienceError.postValue("Please Enter Experience")
+            }
+            technology.value.isNullOrEmpty() -> {
+                technologyError.postValue("Please Enter Technology")
+            }
+            interviewDate.value.isNullOrEmpty() -> {
+                interviewDateError.postValue("Please Enter Date")
+            }
+            interviewTime.value.isNullOrEmpty() -> {
+                interviewerTimeError.postValue("Please Enter Time")
+            }
+            remarks.value.isNullOrEmpty() -> {
+                remarksError.postValue("Please Enter Remarks")
+            }
+            else -> {
+                return true
+            }
+        }
+        return false
     }
 
     fun departmentOnItemSelected(
@@ -63,7 +103,7 @@ class AddInterviewViewModel : ViewModel() {
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
-        Log.d("TAG", interviewerName)
+        Log.d("TAG", interviewerName!!)
 
     }
 
@@ -111,19 +151,19 @@ class AddInterviewViewModel : ViewModel() {
             .addOnSuccessListener {
                 for (i in 0 until it.documents.size) {
                     interviewerName = it.documents[i].data?.get("interviewerName").toString()
-                    spinnerInterviewerList.add(interviewerName)
+                    spinnerInterviewerList.add(interviewerName!!)
                 }
                 _interviewerLivedata.postValue(spinnerInterviewerList)
             }
     }
 
-    fun showData(){
+    fun showData(interviewerName: String) {
         databaseReference = FirebaseDatabase.getInstance().getReference("AddInterview")
-        databaseReference.addValueEventListener(object :ValueEventListener{
+        databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    for(interviewSnapshot in snapshot.children){
 
+                if (snapshot.exists()) {
+                    for (interviewSnapshot in snapshot.children) {
                         val user = interviewSnapshot.getValue(AddInterviewModel::class.java)
                         if (user != null) {
                             interviewList.add(user)
@@ -141,4 +181,6 @@ class AddInterviewViewModel : ViewModel() {
         })
 
     }
+
+
 }

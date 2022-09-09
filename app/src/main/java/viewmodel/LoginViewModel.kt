@@ -1,19 +1,9 @@
 package viewmodel
-
-import activitiy.LoginActivity
-import android.app.AlertDialog
-import android.app.Application
-import android.content.ContentProvider
-import android.content.Context
-import android.content.DialogInterface
 import android.util.Patterns
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelStoreOwner
 import com.google.firebase.auth.FirebaseAuth
-import kotlin.coroutines.coroutineContext
 
 class LoginViewModel : ViewModel() {
 
@@ -26,6 +16,8 @@ class LoginViewModel : ViewModel() {
     val passwordError: MutableLiveData<String?> = MutableLiveData()
     private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
     val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
+    private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
+    val showProgress: LiveData<Boolean> = _showProgress
     fun loginClick() {
         if (isValid()) {
             loginUser()
@@ -51,17 +43,19 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun loginUser() {
+        _showProgress.value = true
         auth = FirebaseAuth.getInstance()
         val email = email.value.toString()
         val password = password.value.toString()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            _showProgress.value = false
             if (task.isSuccessful) {
+                _showProgress.postValue(true)
                 _navigateToListScreen.postValue(Unit)
                 _toastMessage.value = "successfully Logged in !"
             } else {
                 _toastMessage.value = "User is not registered !"
             }
         }
-
     }
 }

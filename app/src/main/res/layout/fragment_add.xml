@@ -42,6 +42,7 @@
                 app:boxStrokeWidthFocused="0dp"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
+                app:helperText="@{addInterview.nameError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAddInterview">
@@ -70,6 +71,7 @@
                 app:boxStrokeWidthFocused="0dp"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
+                app:helperText="@{addInterview.experienceError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tilName">
@@ -97,6 +99,7 @@
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
                 app:helperTextTextColor="@color/DarkRed"
+                app:helperText="@{addInterview.technologyError}"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
@@ -136,6 +139,7 @@
                 android:layout_marginTop="10dp"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
+                app:helperText="@{addInterview.interviewDateError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tvInterviewDate">
@@ -176,6 +180,7 @@
                 android:layout_marginTop="10dp"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
+                app:helperText="@{addInterview.interviewerTimeError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tvInterviewTime">
@@ -273,6 +278,7 @@
                 android:layout_marginTop="20dp"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
+                app:helperText="@{addInterview.remarksError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/cvSpinnerName">
