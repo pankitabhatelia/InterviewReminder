@@ -28,16 +28,20 @@ class LoginViewModel : ViewModel() {
         emailError.postValue(null)
         passwordError.postValue(null)
 
-        if (email.value.isNullOrEmpty()) {
-            emailError.postValue("Please Enter Email")
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.value.orEmpty())
-                .matches()
-        ) {
-            emailError.postValue("Please Enter valid Email")
-        } else if (password.value?.length ?: 0 < 8) {
-            passwordError.postValue("Minimum 8 characters required")
-        } else {
-            return true
+        when {
+            email.value.isNullOrEmpty() -> {
+                emailError.postValue("Please Enter Email")
+            }
+            (!Patterns.EMAIL_ADDRESS.matcher(email.value.orEmpty())
+                .matches()) -> {
+                emailError.postValue("Please Enter valid Email")
+            }
+            password.value?.length ?: 0 < 8 -> {
+                passwordError.postValue("Minimum 8 characters required")
+            }
+            else -> {
+                return true
+            }
         }
         return false
     }

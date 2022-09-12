@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <data>
+
+        <variable
+            name="addData"
+            type="viewmodel.AddInterviewViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout1"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.tabs.TabLayout
             style="@style/MyCustomTabLayout"
@@ -20,33 +21,40 @@
             android:layout_height="50dp"
             android:background="@color/white"
             app:tabTextColor="@color/black"
+            app:tabIndicatorColor="@color/blueShade"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
         </com.google.android.material.tabs.TabLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout">
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
 
     </androidx.viewpager.widget.ViewPager>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="56dp"
-        android:contentDescription="@string/image"
-        android:src="@android:drawable/ic_input_add"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:paddingHorizontal="25dp"
+        android:drawablePadding="5dp"
+        android:onClick="@{v->addData.floatingAddOnClick()}"
+        android:drawableStart="@drawable/plus"
+        android:backgroundTint="@color/blueShade"
+        android:text="@string/add_interview"
+        android:background="@drawable/customsignup"
+        android:textColor="@color/white"
+        android:drawableTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

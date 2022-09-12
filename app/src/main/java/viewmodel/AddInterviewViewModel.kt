@@ -1,24 +1,32 @@
 package viewmodel
 
+import android.app.DatePickerDialog
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AddInterviewViewModel : ViewModel() {
-    private lateinit var databaseReference: DatabaseReference
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
     val interviewDate: MutableLiveData<String> = MutableLiveData()
     val interviewTime: MutableLiveData<String> = MutableLiveData()
+    private  var auth: FirebaseAuth =FirebaseAuth.getInstance()
+    private lateinit var databaseReference: DatabaseReference
+    private  var firebaseUser: FirebaseUser = auth.currentUser!!
     private lateinit var department: String
-    var interviewerName: String? = null
+     lateinit var interviewerName: String
     private val spinnerDepartmentList = ArrayList<String>()
     private val spinnerInterviewerList = ArrayList<String>()
     val remarks: MutableLiveData<String> = MutableLiveData()
@@ -40,6 +48,11 @@ class AddInterviewViewModel : ViewModel() {
     val interviewerTimeError: MutableLiveData<String?> = MutableLiveData()
     val remarksError: MutableLiveData<String?> = MutableLiveData()
 
+
+
+    fun floatingAddOnClick() {
+        _navigateToListScreen.postValue(Unit)
+    }
 
     fun addOnClick() {
         if (isValid()) {
@@ -103,12 +116,13 @@ class AddInterviewViewModel : ViewModel() {
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
-        Log.d("TAG", interviewerName!!)
+        Log.d("TAG", interviewerName)
 
     }
 
     private fun addData() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("AddInterview")
+
+        val firestore = FirebaseFirestore.getInstance()
         val addInterviewData = AddInterviewModel(
             candidateName.value?.toString(),
             experience.value?.toString(),
@@ -116,13 +130,13 @@ class AddInterviewViewModel : ViewModel() {
             interviewDate.value?.toString(),
             interviewTime.value?.toString(),
             department,
+            firebaseUser.uid,
             interviewerName,
             remarks.value?.toString()
         )
         _getAllInterviewInfo.postValue(listOf(addInterviewData))
-
-        databaseReference.child(databaseReference.push().key.toString()).setValue(addInterviewData)
-            .addOnCompleteListener {
+        firestore.collection("AddInterview").add(addInterviewData)
+            .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
                 _toastMessage.value = "Data is inserted successfully"
             }.addOnFailureListener {
@@ -136,8 +150,8 @@ class AddInterviewViewModel : ViewModel() {
         firestore.collection("Department")
             .get()
             .addOnSuccessListener {
-                for (i in 0 until it.documents.size) {
-                    department = it.documents[i].data?.get("departmentName").toString()
+                it.documents.forEach {
+                    department = it.data?.get("departmentName").toString()
                     spinnerDepartmentList.add(department)
                 }
                 _departmentLivedata.postValue(spinnerDepartmentList)
@@ -149,38 +163,25 @@ class AddInterviewViewModel : ViewModel() {
         firestore.collection("InterviewerName").whereEqualTo("departmentName", departmentName)
             .get()
             .addOnSuccessListener {
-                for (i in 0 until it.documents.size) {
-                    interviewerName = it.documents[i].data?.get("interviewerName").toString()
-                    spinnerInterviewerList.add(interviewerName!!)
+                it.documents.forEach {
+                    interviewerName = it.data?.get("interviewerName").toString()
+                    spinnerInterviewerList.add(interviewerName)
                 }
                 _interviewerLivedata.postValue(spinnerInterviewerList)
             }
     }
 
-    fun showData(interviewerName: String) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("AddInterview")
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+    fun showData() {
+        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+        firestore.collection("AddInterview").whereEqualTo("interviewerId",firebaseUser.uid)
+            .get()
+            .addOnSuccessListener {
+                for (data in it.documents) {
+                    val user: AddInterviewModel? = data.toObject(AddInterviewModel::class.java)
+                    interviewList.add(user!!)
 
-                if (snapshot.exists()) {
-                    for (interviewSnapshot in snapshot.children) {
-                        val user = interviewSnapshot.getValue(AddInterviewModel::class.java)
-                        if (user != null) {
-                            interviewList.add(user)
-                        }
-
-                    }
-                    _getAllInterviewInfo.postValue(interviewList)
                 }
+                _getAllInterviewInfo.postValue(interviewList)
             }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        })
-
     }
-
-
 }

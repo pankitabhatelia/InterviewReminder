@@ -6,8 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.interviewreminderapp.CustomProgressDialog
+import utils.CustomProgressDialog
 import com.example.interviewreminderapp.PreferenceDataStore
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.USER_IS_LOGGED_IN
 import com.example.interviewreminderapp.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
@@ -41,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
         }
         viewModel.showProgress.observe(this) {
             if (it) {
-                progressDialog.start("Loading....")
+                progressDialog.start()
             } else {
                 progressDialog.stop()
             }

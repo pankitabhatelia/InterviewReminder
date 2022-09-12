@@ -12,4 +12,6 @@
     <color name="DarkRed">#BF0000</color>
     <color name="light_blue_shade">#12B2E6</color>
     <color name="lightViolet" type="color">#493565</color>
+    <color name="buttoncolor" type="color">#e6e6e6</color>
+    <color name="blueShade" type="color" >#5277ce</color>
 </resources>

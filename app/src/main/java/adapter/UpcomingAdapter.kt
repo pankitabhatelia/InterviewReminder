@@ -1,4 +1,4 @@
-package Adapter
+package adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

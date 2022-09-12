@@ -1,6 +1,7 @@
 package fragment
 
 import activitiy.DashBoardActivity
+import android.app.ActionBar
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -39,6 +40,7 @@ class AddFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         viewModel.getDataOnDepartmentSpinner()
 
         binding.etInterviewDate.setOnClickListener {

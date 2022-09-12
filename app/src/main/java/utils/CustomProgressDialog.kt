@@ -1,6 +1,5 @@
-package com.example.interviewreminderapp
+package utils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
@@ -13,7 +12,7 @@ import android.os.Build
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.res.ResourcesCompat
+import com.example.interviewreminderapp.R
 
 class CustomProgressDialog(context: Context) {
 
@@ -22,8 +21,8 @@ class CustomProgressDialog(context: Context) {
     private var cpCardView: CardView
     private var progressBar: ProgressBar
 
-    fun start(title: String = "") {
-        cpTitle.text = title
+    fun start() {
+        cpTitle.setText(R.string.loading)
         dialog.show()
     }
 
@@ -42,7 +41,7 @@ class CustomProgressDialog(context: Context) {
 
         // Text Color
         cpTitle.setTextColor(Color.GRAY)
-
+        cpTitle.setText(R.string.loading)
         // Custom Dialog initialization
         dialog = CustomDialog(context)
         dialog.setContentView(view)

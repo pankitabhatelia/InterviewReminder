@@ -8,25 +8,26 @@
             name="addInterview"
             type="viewmodel.AddInterviewViewModel" />
     </data>
-    <ScrollView
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
             tools:context="activitiy.AddInterview">
 
             <TextView
                 android:id="@+id/tvAddInterview"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:fontFamily="sans-serif-thin"
                 android:text="@string/add_interview"
                 android:textColor="@color/black"
-                android:textSize="36sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,9 +41,9 @@
                 android:layout_marginTop="20dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
+                app:helperText="@{addInterview.nameError}"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
-                app:helperText="@{addInterview.nameError}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvAddInterview">
@@ -53,10 +54,10 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="username"
                     android:background="@drawable/textborder"
-                    android:text="@={addInterview.candidateName}"
                     android:hint="@string/name"
                     android:inputType="text"
                     android:padding="15dp"
+                    android:text="@={addInterview.candidateName}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -69,9 +70,9 @@
                 android:layout_marginTop="20dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
+                app:helperText="@{addInterview.experienceError}"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
-                app:helperText="@{addInterview.experienceError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tilName">
@@ -82,10 +83,10 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="username"
                     android:background="@drawable/textborder"
-                    android:text="@={addInterview.experience}"
                     android:hint="@string/experience"
                     android:inputType="text"
                     android:padding="15dp"
+                    android:text="@={addInterview.experience}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -98,8 +99,8 @@
                 android:layout_marginTop="20dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:helperTextTextColor="@color/DarkRed"
                 app:helperText="@{addInterview.technologyError}"
+                app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
@@ -111,9 +112,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/textborder"
                     android:hint="@string/technology"
-                    android:text="@={addInterview.technology}"
                     android:inputType="text"
                     android:padding="15dp"
+                    android:text="@={addInterview.technology}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -137,9 +138,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                app:helperText="@{addInterview.interviewDateError}"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
-                app:helperText="@{addInterview.interviewDateError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tvInterviewDate">
@@ -154,13 +155,14 @@
                     android:drawableEnd="@drawable/calendar"
                     android:focusable="false"
                     android:hint="@string/interview_date"
-                    android:text="@={addInterview.interviewDate}"
                     android:inputType="text"
                     android:padding="15dp"
+                    android:text="@={addInterview.interviewDate}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
+
             <TextView
                 android:id="@+id/tvInterviewTime"
                 android:layout_width="wrap_content"
@@ -173,14 +175,15 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/tilTechnology"
                 app:layout_constraintTop_toBottomOf="@+id/tilInterviewDate" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilInterviewTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                app:helperText="@{addInterview.interviewerTimeError}"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
-                app:helperText="@{addInterview.interviewerTimeError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tvInterviewTime">
@@ -197,8 +200,8 @@
                     android:focusable="false"
                     android:hint="@string/time"
                     android:inputType="text"
-                    android:text="@={addInterview.interviewTime}"
                     android:padding="15dp"
+                    android:text="@={addInterview.interviewTime}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -219,11 +222,9 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvSpinner"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="30dp"
                 android:orientation="vertical"
                 app:cardCornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
@@ -253,14 +254,13 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvSpinnerName"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="30dp"
                 android:orientation="vertical"
                 app:cardCornerRadius="5dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tilName"
+                app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/tvName">
 
                 <Spinner
@@ -269,6 +269,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:onItemSelected="@{addInterview.interviewerOnItemSelected}" />
+
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -276,9 +277,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                app:helperText="@{addInterview.remarksError}"
                 app:helperTextTextColor="@color/DarkRed"
                 app:hintEnabled="false"
-                app:helperText="@{addInterview.remarksError}"
                 app:layout_constraintEnd_toEndOf="@id/tilName"
                 app:layout_constraintStart_toStartOf="@id/tilName"
                 app:layout_constraintTop_toBottomOf="@+id/cvSpinnerName">
@@ -290,9 +291,9 @@
                     android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:hint="@string/remarks"
-                    android:text="@={addInterview.remarks}"
                     android:inputType="text"
                     android:padding="15dp"
+                    android:text="@={addInterview.remarks}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -303,11 +304,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/my_button_bg"
-                android:paddingHorizontal="40dp"
+                android:backgroundTint="@color/buttoncolor"
                 android:onClick="@{v->addInterview.addOnClick()}"
+                android:paddingHorizontal="40dp"
                 android:text="@string/add"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilRemarks" />

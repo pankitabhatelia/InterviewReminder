@@ -7,6 +7,7 @@ data class AddInterviewModel(
     val interviewDate: String? = null,
     val interviewTime: String? = null,
     val department: String? = null,
+    val interviewerId:String?=null,
     val interviewerName: String? = null,
     val remarks: String? = null
 )
