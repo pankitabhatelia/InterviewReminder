@@ -7,6 +7,11 @@
         <variable
             name="addInterview"
             type="viewmodel.AddInterviewViewModel" />
+
+        <variable name="handler"
+            type="fragment.AddFragment"/>
+
+
     </data>
 
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
@@ -158,6 +163,7 @@
                     android:inputType="text"
                     android:padding="15dp"
                     android:text="@={addInterview.interviewDate}"
+                    android:onClickListener="@{()->handler.showDate()}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -202,6 +208,7 @@
                     android:inputType="text"
                     android:padding="15dp"
                     android:text="@={addInterview.interviewTime}"
+                    android:onClick="@{()->handler.showTime()}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>

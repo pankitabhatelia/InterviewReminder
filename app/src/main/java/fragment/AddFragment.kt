@@ -26,8 +26,8 @@ import java.util.*
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var viewModel: AddInterviewViewModel
-    private val cal = Calendar.getInstance()
-    private lateinit var datePickerDialog: DatePickerDialog
+    val cal = Calendar.getInstance()
+    lateinit var datePickerDialog: DatePickerDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,16 +43,16 @@ class AddFragment : Fragment() {
 
         viewModel.getDataOnDepartmentSpinner()
 
-        binding.etInterviewDate.setOnClickListener {
-            showDate()
-        }
-        binding.etInterviewTime.setOnClickListener {
-            showTime()
-        }
+        /*  binding.etInterviewDate.setOnClickListener {
+              showDate()
+          }
+          binding.etInterviewTime.setOnClickListener {
+              showTime()
+          }*/
         observer()
     }
 
-    private val dateSelectedListener =
+    val dateSelectedListener =
         DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
             val date = "$mdayOfMonth/${mmonth + 1}/$myear"
             binding.etInterviewDate.setText(date)
@@ -87,7 +87,8 @@ class AddFragment : Fragment() {
 
     }
 
-    private fun showDate() {
+    fun showDate() {
+
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
@@ -101,7 +102,7 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun showTime() {
+    fun showTime() {
         var amPm = ""
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
@@ -134,14 +135,14 @@ class AddFragment : Fragment() {
         timePicker.show()
     }
 
-    private fun getCurrentTime(): String? {
+    fun getCurrentTime(): String? {
 
         val simpleDateFormat = SimpleDateFormat("hh:mm a")
         return simpleDateFormat.format(Calendar.getInstance().time)
 
     }
 
-    private fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
+    fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
         val sdf = SimpleDateFormat("hh:mm a")
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
