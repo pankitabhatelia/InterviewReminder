@@ -12,12 +12,9 @@
 
         <activity
             android:name="activitiy.DashBoardActivity"
-            android:theme="@style/Theme.AddFragment"
             android:parentActivityName="activitiy.LoginActivity"
             android:exported="false" />
-        <activity
-            android:name="activitiy.SplashScreenActivity"
-            android:exported="false" />
+
         <activity
             android:name="activitiy.LoginActivity"
             android:theme="@style/Theme.App.Splashscreen"

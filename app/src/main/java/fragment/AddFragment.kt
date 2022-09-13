@@ -1,33 +1,31 @@
 package fragment
 
 import activitiy.DashBoardActivity
-import android.app.ActionBar
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.interviewreminderapp.INTERVIEWER
-import com.example.interviewreminderapp.PreferenceDataStore
-import com.example.interviewreminderapp.USER_IS_LOGGED_IN
+import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
-import kotlinx.coroutines.launch
 import viewmodel.AddInterviewViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var viewModel: AddInterviewViewModel
-    val cal = Calendar.getInstance()
-    lateinit var datePickerDialog: DatePickerDialog
+    private val cal = Calendar.getInstance()
+    private lateinit var datePickerDialog: DatePickerDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,15 +38,23 @@ class AddFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        val activity = activity as AppCompatActivity?
+        activity!!.setSupportActionBar(binding.appBar)
+        activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        activity.supportActionBar!!.setHomeButtonEnabled(true)
+        binding.appBar.setNavigationOnClickListener {
+            val intent = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(intent)
+        }
         viewModel.getDataOnDepartmentSpinner()
 
-        /*  binding.etInterviewDate.setOnClickListener {
-              showDate()
-          }
-          binding.etInterviewTime.setOnClickListener {
-              showTime()
-          }*/
+
+        binding.etInterviewDate.setOnClickListener {
+            showDate()
+        }
+        binding.etInterviewTime.setOnClickListener {
+            showTime()
+        }
         observer()
     }
 

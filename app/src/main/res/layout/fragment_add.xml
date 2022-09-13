@@ -8,10 +8,6 @@
             name="addInterview"
             type="viewmodel.AddInterviewViewModel" />
 
-        <variable name="handler"
-            type="fragment.AddFragment"/>
-
-
     </data>
 
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
@@ -24,19 +20,37 @@
             android:paddingBottom="15dp"
             tools:context="activitiy.AddInterview">
 
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/appBar"
+                    style="@style/interviewReminder.toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    app:title=" " />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
             <TextView
                 android:id="@+id/tvAddInterview"
                 style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="sans-serif-thin"
                 android:text="@string/add_interview"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilName"
@@ -57,7 +71,6 @@
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:hint="@string/name"
                     android:inputType="text"
@@ -86,7 +99,6 @@
                     android:id="@+id/etExperience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:hint="@string/experience"
                     android:inputType="text"
@@ -154,7 +166,6 @@
                     android:id="@+id/etInterviewDate"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:clickable="true"
                     android:drawableEnd="@drawable/calendar"
@@ -163,7 +174,6 @@
                     android:inputType="text"
                     android:padding="15dp"
                     android:text="@={addInterview.interviewDate}"
-                    android:onClickListener="@{()->handler.showDate()}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -198,17 +208,15 @@
                     android:id="@+id/etInterviewTime"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:clickable="true"
                     android:drawableEnd="@drawable/ic_baseline_access_time_24"
-                    android:drawableTint="@color/black"
+                    app:drawableTint="@color/black"
                     android:focusable="false"
                     android:hint="@string/time"
                     android:inputType="text"
                     android:padding="15dp"
                     android:text="@={addInterview.interviewTime}"
-                    android:onClick="@{()->handler.showTime()}"
                     android:textColor="@color/black">
 
                 </com.google.android.material.textfield.TextInputEditText>
@@ -295,7 +303,6 @@
                     android:id="@+id/etRemarks"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:autofillHints="username"
                     android:background="@drawable/textborder"
                     android:hint="@string/remarks"
                     android:inputType="text"
@@ -313,9 +320,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/my_button_bg"
-                android:backgroundTint="@color/buttoncolor"
+                app:backgroundTint="@color/buttoncolor"
                 android:onClick="@{v->addInterview.addOnClick()}"
-                android:paddingHorizontal="40dp"
+                app:paddingHorizontal="40dp"
                 android:text="@string/add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
