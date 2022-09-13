@@ -16,10 +16,11 @@
             android:parentActivityName="activitiy.LoginActivity"
             android:exported="false" />
         <activity
-            android:name="activitiy.LoginActivity"
+            android:name="activitiy.SplashScreenActivity"
             android:exported="false" />
         <activity
-            android:name="activitiy.SplashScreenActivity"
+            android:name="activitiy.LoginActivity"
+            android:theme="@style/Theme.App.Splashscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

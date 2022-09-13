@@ -8,20 +8,23 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import utils.CustomProgressDialog
 import com.example.interviewreminderapp.PreferenceDataStore
-import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.USER_IS_LOGGED_IN
 import com.example.interviewreminderapp.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.launch
 import viewmodel.LoginViewModel
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var progressDialog: CustomProgressDialog
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.sleep(2000)
+        val splashScreen=installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
