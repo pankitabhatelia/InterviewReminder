@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<style name="SplashScreenTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-
-    <item name="colorPrimary">@color/design_default_color_primary</item>
-    <item name="colorPrimaryDark">@color/material_dynamic_primary20</item>
-    <item name="colorAccent">@color/design_default_color_background</item>
-</style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabBackground">@drawable/tab_bg</item>

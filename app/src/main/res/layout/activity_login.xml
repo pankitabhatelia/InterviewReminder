@@ -9,108 +9,105 @@
             type="viewmodel.LoginViewModel" />
     </data>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context="activitiy.LoginActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="activitiy.LoginActivity">
 
-    <TextView
-        android:id="@+id/tvInterview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:textColor="@color/black"
-        android:text="@string/login"
-        style="@style/TextAppearance.MaterialComponents.Headline2"
-        android:fontFamily="sans-serif-thin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="100dp"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:helperText="@{loginViewModel.emailError}"
-        app:helperTextTextColor="@color/DarkRed"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvInterview">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvInterview"
+            style="@style/TextAppearance.MaterialComponents.Headline2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:layout_marginTop="12dp"
-            android:autofillHints="username"
-            android:paddingHorizontal="10dp"
-            android:background="@drawable/textborder"
-            android:hint="@string/enter_email"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:inputType="text"
-            android:text="@={loginViewModel.email}"
-            android:textColor="@color/black">
+            android:layout_marginTop="60dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="70dp"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:helperText="@{loginViewModel.passwordError}"
-        app:helperTextTextColor="@color/DarkRed"
-        app:hintEnabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:padding="15dp"
-            android:autofillHints="username"
-            android:paddingHorizontal="10dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:background="@drawable/textborder"
-            android:text="@={loginViewModel.password}"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:textColor="@color/black">
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="100dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:helperText="@{loginViewModel.emailError}"
+            app:helperTextTextColor="@color/DarkRed"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvInterview">
 
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/textborder"
+                android:hint="@string/enter_email"
+                android:inputType="text"
+                android:padding="15dp"
+                android:paddingHorizontal="10dp"
+                android:text="@={loginViewModel.email}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/black">
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/my_button_bg"
-        android:layout_marginTop="80dp"
-        android:paddingHorizontal="60dp"
-        android:text="@string/login"
-        android:onClick="@{v->loginViewModel.loginClick()}"
-        android:textColor="@color/black"
-        android:backgroundTint="@color/buttoncolor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="70dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:helperText="@{loginViewModel.passwordError}"
+            app:helperTextTextColor="@color/DarkRed"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/textborder"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:padding="15dp"
+                android:paddingHorizontal="10dp"
+                android:text="@={loginViewModel.password}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/black">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/my_button_bg"
+            android:backgroundTint="@color/buttoncolor"
+            android:onClick="@{v->loginViewModel.loginClick()}"
+            android:paddingHorizontal="60dp"
+            android:text="@string/login"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

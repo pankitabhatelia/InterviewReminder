@@ -322,7 +322,7 @@
                 android:background="@drawable/my_button_bg"
                 app:backgroundTint="@color/buttoncolor"
                 android:onClick="@{v->addInterview.addOnClick()}"
-                app:paddingHorizontal="40dp"
+                android:paddingHorizontal="40dp"
                 android:text="@string/add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

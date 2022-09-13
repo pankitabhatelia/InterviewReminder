@@ -21,7 +21,7 @@ class AddInterviewViewModel : ViewModel() {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebaseUser: FirebaseUser = auth.currentUser!!
     private lateinit var department: String
-    lateinit var interviewerName: String
+    private lateinit var interviewerName: String
     private val spinnerDepartmentList = ArrayList<String>()
     private val spinnerInterviewerList = ArrayList<String>()
     val remarks: MutableLiveData<String> = MutableLiveData()
@@ -152,7 +152,7 @@ class AddInterviewViewModel : ViewModel() {
             }
     }
 
-    fun getDataOnInterviewerNameSpinner(departmentName: String) {
+    private fun getDataOnInterviewerNameSpinner(departmentName: String) {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("InterviewerName").whereEqualTo("departmentName", departmentName)
             .get()
