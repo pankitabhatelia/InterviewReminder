@@ -56,7 +56,7 @@ class AddFragment : Fragment() {
         observer()
     }
 
-    val dateSelectedListener =
+    private val dateSelectedListener =
         DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
             val date = "$mdayOfMonth/${mmonth + 1}/$myear"
             binding.etInterviewDate.setText(date)
@@ -91,7 +91,7 @@ class AddFragment : Fragment() {
 
     }
 
-    fun showDate() {
+    private fun showDate() {
 
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
@@ -106,7 +106,7 @@ class AddFragment : Fragment() {
         }
     }
 
-    fun showTime() {
+    private fun showTime() {
         var amPm = ""
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
@@ -146,7 +146,7 @@ class AddFragment : Fragment() {
 
     }
 
-    fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
+    private fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
         val sdf = SimpleDateFormat("hh:mm a")
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
