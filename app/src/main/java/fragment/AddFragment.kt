@@ -13,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
 import viewmodel.AddInterviewViewModel
 import java.text.SimpleDateFormat
@@ -141,7 +139,7 @@ class AddFragment : Fragment() {
         timePicker.show()
     }
 
-    fun getCurrentTime(): String? {
+    private fun getCurrentTime(): String? {
 
         val simpleDateFormat = SimpleDateFormat("hh:mm a")
         return simpleDateFormat.format(Calendar.getInstance().time)
