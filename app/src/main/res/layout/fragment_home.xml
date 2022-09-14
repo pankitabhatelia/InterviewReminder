@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="25dp">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -42,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
             android:background="@drawable/customsignup"
             android:backgroundTint="@color/blueShade"
             android:drawableStart="@drawable/ic_plus"

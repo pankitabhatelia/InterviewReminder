@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SimpleItemDecoration
@@ -48,6 +49,7 @@ class UpcomingFragment : Fragment() {
                 adapter.setData(it as ArrayList<AddInterviewModel>)
             }
         }
+
     }
 
     private fun setUpRecyclerview() {

@@ -170,10 +170,10 @@ class AddInterviewViewModel : ViewModel() {
         firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
             .get()
             .addOnSuccessListener {
+                _navigateToListScreen.postValue(Unit)
                 for (data in it.documents) {
                     val user: AddInterviewModel? = data.toObject(AddInterviewModel::class.java)
                     interviewList.add(user!!)
-
                 }
                 _getAllInterviewInfo.postValue(interviewList)
             }
