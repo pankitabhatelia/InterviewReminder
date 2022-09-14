@@ -1,4 +1,4 @@
-package com.example.interviewreminderapp
+package data
 
 
 import Interfaces.Session

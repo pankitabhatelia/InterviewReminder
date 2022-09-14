@@ -45,7 +45,7 @@
             android:layout_marginBottom="40dp"
             android:background="@drawable/customsignup"
             android:backgroundTint="@color/blueShade"
-            android:drawableStart="@drawable/plus"
+            android:drawableStart="@drawable/ic_plus"
             android:drawablePadding="5dp"
             android:drawableTint="@color/white"
             android:onClick="@{v->addData.floatingAddOnClick()}"

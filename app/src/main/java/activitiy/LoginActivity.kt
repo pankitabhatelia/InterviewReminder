@@ -7,13 +7,13 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import utils.CustomProgressDialog
-import com.example.interviewreminderapp.PreferenceDataStore
-import com.example.interviewreminderapp.USER_IS_LOGGED_IN
 import com.example.interviewreminderapp.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.launch
 import viewmodel.LoginViewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import data.PreferenceDataStore
+import data.USER_IS_LOGGED_IN
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,7 +23,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Thread.sleep(2000)
         val splashScreen=installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this

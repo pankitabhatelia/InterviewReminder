@@ -20,4 +20,5 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/toolbartext</item>
     </style>
+
 </resources>
