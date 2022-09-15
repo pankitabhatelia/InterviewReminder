@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SimpleItemDecoration
 import model.AddInterviewModel
+import utils.CustomProgressDialog
 import viewmodel.AddInterviewViewModel
 
 
@@ -21,7 +21,6 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private lateinit var binding: FragmentUpcomingBinding
     private lateinit var interviewViewModel: AddInterviewViewModel
     private lateinit var adapter: UpcomingAdapter
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +52,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
         interviewViewModel.navigateToListScreen.observe(viewLifecycleOwner) {
             findNavController().navigateUp()
         }
+
 
     }
 

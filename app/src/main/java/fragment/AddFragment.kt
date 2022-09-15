@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
+import utils.CustomProgressDialog
 import viewmodel.AddInterviewViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -27,6 +28,7 @@ class AddFragment : Fragment() {
     private lateinit var viewModel: AddInterviewViewModel
     private val cal = Calendar.getInstance()
     private lateinit var datePickerDialog: DatePickerDialog
+    private lateinit var progressDialog: CustomProgressDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,9 +49,9 @@ class AddFragment : Fragment() {
             val intent = Intent(requireContext(), DashBoardActivity::class.java)
             startActivity(intent)
         }
+        progressDialog = CustomProgressDialog(requireContext())
         viewModel.getDataOnDepartmentSpinner()
-
-
+        progressDialog = CustomProgressDialog(requireContext())
         binding.etInterviewDate.setOnClickListener {
             showDate()
         }
@@ -73,7 +75,15 @@ class AddFragment : Fragment() {
             }
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
-            findNavController().navigateUp()
+            val intent = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(intent)
+        }
+        viewModel.showProgress.observe(viewLifecycleOwner) {
+            if (it) {
+                progressDialog.start()
+            } else {
+                progressDialog.stop()
+            }
         }
         viewModel.departmentLivedata.observe(viewLifecycleOwner) {
             val arrayAdapter =

@@ -42,7 +42,8 @@ class AddInterviewViewModel : ViewModel() {
     val interviewDateError: MutableLiveData<String?> = MutableLiveData()
     val interviewerTimeError: MutableLiveData<String?> = MutableLiveData()
     val remarksError: MutableLiveData<String?> = MutableLiveData()
-
+    private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
+    val showProgress: LiveData<Boolean> = _showProgress
 
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
@@ -115,6 +116,7 @@ class AddInterviewViewModel : ViewModel() {
     }
 
     private fun addData() {
+        _showProgress.value = true
         val firestore = FirebaseFirestore.getInstance()
         val addInterviewData = AddInterviewModel(
             candidateName.value?.toString(),
@@ -131,6 +133,7 @@ class AddInterviewViewModel : ViewModel() {
         firestore.collection("AddInterview").add(addInterviewData)
             .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
+                _showProgress.value = false
                 _toastMessage.value = "Data is inserted successfully"
             }.addOnFailureListener {
                 _toastMessage.value = "Data is Failed to insert!!"
