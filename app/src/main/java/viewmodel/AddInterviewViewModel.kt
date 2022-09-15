@@ -165,7 +165,7 @@ class AddInterviewViewModel : ViewModel() {
             }
     }
 
-   fun showData() {
+    fun showData() {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
             .get()
@@ -177,5 +177,14 @@ class AddInterviewViewModel : ViewModel() {
                 }
                 _getAllInterviewInfo.postValue(interviewList)
             }
+    }
+
+    fun getInterviewData(addInterviewModel: AddInterviewModel) {
+        candidateName.value = addInterviewModel.candidateName!!
+        experience.value = addInterviewModel.experience!!
+        technology.value = addInterviewModel.technology!!
+        interviewDate.value = addInterviewModel.interviewDate!!
+        interviewTime.value = addInterviewModel.interviewTime!!
+        remarks.value = addInterviewModel.remarks!!
     }
 }

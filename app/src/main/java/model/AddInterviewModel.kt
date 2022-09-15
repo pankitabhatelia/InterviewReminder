@@ -1,5 +1,9 @@
 package model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class AddInterviewModel(
     val candidateName: String? = null,
     val experience: String? = null,
@@ -10,4 +14,6 @@ data class AddInterviewModel(
     val interviewerId:String?=null,
     val interviewerName: String? = null,
     val remarks: String? = null
-)
+):Parcelable
+
+

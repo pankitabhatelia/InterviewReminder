@@ -8,19 +8,24 @@
     <fragment
         android:id="@+id/upcomingFragment"
         android:name="fragment.UpcomingFragment"
-        android:label="UpcomingFragment" >
+        android:label="UpcomingFragment">
         <action
             android:id="@+id/action_upcomingFragment_to_cancelledFragment"
             app:destination="@id/cancelledFragment" />
         <action
             android:id="@+id/action_upcomingFragment_to_doneFragment"
             app:destination="@id/doneFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+
+
     </fragment>
     <fragment
         android:id="@+id/cancelledFragment"
         android:name="fragment.CancelledFragment"
         android:label="fragment_cancelled"
-        tools:layout="@layout/fragment_cancelled" >
+        tools:layout="@layout/fragment_cancelled">
         <action
             android:id="@+id/action_cancelledFragment_to_upcomingFragment"
             app:destination="@id/upcomingFragment" />
@@ -29,7 +34,7 @@
         android:id="@+id/doneFragment"
         android:name="fragment.DoneFragment"
         android:label="fragment_done"
-        tools:layout="@layout/fragment_done" >
+        tools:layout="@layout/fragment_done">
         <action
             android:id="@+id/action_doneFragment_to_upcomingFragment"
             app:destination="@id/upcomingFragment" />
@@ -38,7 +43,7 @@
         android:id="@+id/addFragment"
         android:name="fragment.AddFragment"
         android:label="fragment_add"
-        tools:layout="@layout/fragment_add" >
+        tools:layout="@layout/fragment_add">
         <action
             android:id="@+id/action_addFragment_to_upcomingFragment"
             app:destination="@id/upcomingFragment" />
@@ -47,9 +52,31 @@
         android:id="@+id/homeFragment"
         android:name="fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_addFragment"
             app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_interviewDetailFragment"
+            app:destination="@id/interviewDetailFragment">
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/interviewDetailFragment"
+        android:name="fragment.InterviewDetailFragment"
+        android:label="fragment_interview_detail"
+        tools:layout="@layout/fragment_interview_detail">
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment"/>
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment"/>
+
+            <argument
+                android:name="currentInterview"
+                app:argType="model.AddInterviewModel"
+                app:nullable="true" />
     </fragment>
 </navigation>

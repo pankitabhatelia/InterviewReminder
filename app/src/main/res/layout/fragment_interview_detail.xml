@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+
+    <variable
+        name="getInterviewData"
+        type="viewmodel.AddInterviewViewModel" />
+
+</data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/appBar"
+                style="@style/interviewReminder.toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:title="Interview Details">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/ic_baseline_close_24"
+                    android:contentDescription="@string/image" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvIntervieweeName"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <EditText
+        android:id="@+id/etIntervieweeName"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@={getInterviewData.candidateName}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvIntervieweeName"
+        android:inputType="text" />
+
+
+    <TextView
+        android:id="@+id/tvExperienceName"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/experience"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/etIntervieweeName" />
+
+    <EditText
+        android:id="@+id/etExperienceName"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@={getInterviewData.experience}"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvExperienceName" />
+
+    <TextView
+        android:id="@+id/tvTechnology"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/technology"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/etExperienceName" />
+
+    <EditText
+        android:id="@+id/etTechnology"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@={getInterviewData.technology}"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvTechnology" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/date"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/etTechnology" />
+
+    <EditText
+        android:id="@+id/etDate"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@={getInterviewData.interviewDate}"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/time"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/etDate" />
+
+
+    <EditText
+        android:id="@+id/etTime"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="@={getInterviewData.interviewTime}"
+        android:inputType="time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+
+    <TextView
+        android:id="@+id/tvRemarks"
+        style="@style/TextAppearance.MaterialComponents.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/remarks"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/etTime" />
+
+    <EditText
+        android:id="@+id/etRemarks"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:inputType="text"
+        android:text="@={getInterviewData.remarks}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntervieweeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvRemarks" />
+
+    <Button
+        android:id="@+id/btnSetReminder"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:text="@string/setReminder"
+        app:layout_constraintStart_toStartOf="@+id/etRemarks"
+        app:layout_constraintTop_toBottomOf="@+id/etRemarks" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/cancelbtncolor"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
+        android:text="@string/cancel"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/etRemarks"
+        app:layout_constraintStart_toEndOf="@+id/btnSetReminder"
+        app:layout_constraintTop_toBottomOf="@+id/etRemarks" />
+
+    <Button
+        android:id="@+id/btnDone"
+        style="@style/TextAppearance.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/donebtncolor"
+        android:text="@string/done"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/etRemarks"
+        app:layout_constraintStart_toStartOf="@+id/etRemarks"
+        app:layout_constraintTop_toBottomOf="@+id/btnSetReminder" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

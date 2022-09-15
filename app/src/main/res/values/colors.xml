@@ -15,4 +15,6 @@
     <color name="buttoncolor" type="color">#e6e6e6</color>
     <color name="blueShade" type="color" >#5277ce</color>
     <color name="toolbarshade" type="color">#4d72f8</color>
+    <color name="cancelbtncolor" type="color">#df4140</color>
+    <color name="donebtncolor" type="color">#008c31</color>
 </resources>

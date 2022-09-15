@@ -1,6 +1,7 @@
 package fragment
 
 import activitiy.DashBoardActivity
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -13,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
 import viewmodel.AddInterviewViewModel
 import java.text.SimpleDateFormat
@@ -70,8 +73,7 @@ class AddFragment : Fragment() {
             }
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+            findNavController().navigateUp()
         }
         viewModel.departmentLivedata.observe(viewLifecycleOwner) {
             val arrayAdapter =
@@ -152,5 +154,6 @@ class AddFragment : Fragment() {
         val time2 = sdf.parse(currentTime)
         return !time2!!.before(time1)
     }
+
 
 }

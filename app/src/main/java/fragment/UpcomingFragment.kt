@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SimpleItemDecoration
@@ -15,7 +16,7 @@ import model.AddInterviewModel
 import viewmodel.AddInterviewViewModel
 
 
-class UpcomingFragment : Fragment() {
+class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentUpcomingBinding
     private lateinit var interviewViewModel: AddInterviewViewModel
@@ -49,6 +50,9 @@ class UpcomingFragment : Fragment() {
                 adapter.setData(it as ArrayList<AddInterviewModel>)
             }
         }
+        interviewViewModel.navigateToListScreen.observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
 
     }
 
@@ -57,5 +61,13 @@ class UpcomingFragment : Fragment() {
         binding.rvUpcoming.adapter = adapter
         val itemMargin = SimpleItemDecoration()
         binding.rvUpcoming.addItemDecoration(itemMargin)
+        adapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClick(data: AddInterviewModel) {
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+        findNavController().navigate(action)
+
     }
 }

@@ -19,6 +19,7 @@
         <item name="theme">@style/Theme.InterViewReminderApp</item>
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="titleTextAppearance">@style/toolbartext</item>
+        <item name="titleTextColor">@color/white</item>
     </style>
 
 </resources>

@@ -35,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     app:title=" " />
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -102,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/textborder"
                     android:hint="@string/experience"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:padding="15dp"
                     android:text="@={addInterview.experience}"
                     android:textColor="@color/black">
