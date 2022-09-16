@@ -13,7 +13,8 @@ data class AddInterviewModel(
     val department: String? = null,
     val interviewerId:String?=null,
     val interviewerName: String? = null,
-    val remarks: String? = null
+    val remarks: String? = null,
+    val status:Int?=0
 ):Parcelable
 
 

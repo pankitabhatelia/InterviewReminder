@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="doneData"
+            type="model.AddInterviewModel" />
+    </data>
 <androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cvUpcoming"
+    android:id="@+id/cvDone"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="10dp"
@@ -21,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Name"
+            android:text="@{doneData.candidateName}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="Date"
+            android:text="@{doneData.interviewDate}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,3 +61,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+</layout>

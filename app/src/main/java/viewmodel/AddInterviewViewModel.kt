@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
+import java.util.*
 import kotlin.collections.ArrayList
 
 class AddInterviewViewModel : ViewModel() {
@@ -44,7 +45,7 @@ class AddInterviewViewModel : ViewModel() {
     val remarksError: MutableLiveData<String?> = MutableLiveData()
     private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
     val showProgress: LiveData<Boolean> = _showProgress
-
+    private var interviewListOnDone = arrayListOf<AddInterviewModel>()
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
     }
@@ -127,7 +128,8 @@ class AddInterviewViewModel : ViewModel() {
             department,
             firebaseUser.uid,
             interviewerName,
-            remarks.value?.toString()
+            remarks.value?.toString(),
+            0
         )
         _getAllInterviewInfo.postValue(listOf(addInterviewData))
         firestore.collection("AddInterview").add(addInterviewData)
@@ -171,6 +173,7 @@ class AddInterviewViewModel : ViewModel() {
     fun showData() {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
+            .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
@@ -189,5 +192,22 @@ class AddInterviewViewModel : ViewModel() {
         interviewDate.value = addInterviewModel.interviewDate!!
         interviewTime.value = addInterviewModel.interviewTime!!
         remarks.value = addInterviewModel.remarks!!
+    }
+
+    fun getDoneInterviewData() {
+        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+        Log.d("FAG", Calendar.DATE.toString())
+        firestore.collection("AddInterview")
+            .orderBy("interviewDate").startAt("10/9/2022").endAt("16/9/2022")
+            .get()
+            .addOnSuccessListener {
+                _navigateToListScreen.postValue(Unit)
+                for (data in it.documents) {
+                    val user: AddInterviewModel? = data.toObject(AddInterviewModel::class.java)
+                    interviewListOnDone.add(user!!)
+                }
+                _getAllInterviewInfo.postValue(interviewListOnDone)
+            }
+        interviewListOnDone.clear()
     }
 }

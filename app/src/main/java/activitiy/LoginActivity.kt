@@ -12,6 +12,7 @@ import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.launch
 import viewmodel.LoginViewModel
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.asLiveData
 import data.PreferenceDataStore
 import data.USER_IS_LOGGED_IN
 
@@ -22,8 +23,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
-        val splashScreen=installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
@@ -57,5 +58,21 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+        lifecycleScope.launch {
+            PreferenceDataStore(this@LoginActivity).getBoolean(
+                USER_IS_LOGGED_IN
+            ).asLiveData().observe(
+                this@LoginActivity
+            ) {
+                if (it == true) {
+                    startActivity(Intent(this@LoginActivity, DashBoardActivity::class.java))
+                    finish()
+                } else {
+                    startActivity(Intent(this@LoginActivity, LoginActivity::class.java))
+                    finish()
+                }
+            }
+        }
     }
+
 }
