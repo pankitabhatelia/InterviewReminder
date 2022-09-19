@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import model.AddInterviewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AddInterviewViewModel : ViewModel() {
     val candidateName: MutableLiveData<String> = MutableLiveData()
@@ -53,6 +51,7 @@ class AddInterviewViewModel : ViewModel() {
     val date = Date()
     val current = formatter.format(date)
     val cal = Calendar.getInstance()
+    val id: MutableLiveData<String> = MutableLiveData()
 
 
     fun floatingAddOnClick() {
@@ -188,6 +187,7 @@ class AddInterviewViewModel : ViewModel() {
                 _navigateToListScreen.postValue(Unit)
                 for (data in it.documents) {
                     val user: AddInterviewModel? = data.toObject(AddInterviewModel::class.java)
+                    id.postValue(data.id)
                     interviewList.add(user!!)
                 }
                 _getAllInterviewInfo.postValue(interviewList)
@@ -224,8 +224,9 @@ class AddInterviewViewModel : ViewModel() {
         val preDate = cal.time
         val previousDate = formatter.format(preDate)
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        for (interviewdate in arrayListOf(previousDate, current)) {
-            firestore.collection("AddInterview").document("RMfvq7RaiKp3ZJpYOf5i").update("status", 1)
+        Log.d("FAG",id.value.toString())
+        if (interviewDate == arrayListOf(previousDate, current)) {
+            firestore.collection("AddInterview").document(id.value.toString()).update("status", 1)
                 .addOnSuccessListener {
                     _navigateToListScreen.postValue(Unit)
                 }
