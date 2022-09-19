@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         viewModel = ViewModelProvider(this)[LoginViewModel::class.java]
         binding.loginViewModel = viewModel
+        sessionObserver()
         setContentView(binding.root)
         FirebaseApp.initializeApp(this)
         progressDialog = CustomProgressDialog(this)
@@ -58,6 +59,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun sessionObserver() {
         lifecycleScope.launch {
             PreferenceDataStore(this@LoginActivity).getBoolean(
                 USER_IS_LOGGED_IN
@@ -65,14 +69,12 @@ class LoginActivity : AppCompatActivity() {
                 this@LoginActivity
             ) {
                 if (it == true) {
-                    startActivity(Intent(this@LoginActivity, DashBoardActivity::class.java))
-                    finish()
-                } else {
-                    startActivity(Intent(this@LoginActivity, LoginActivity::class.java))
-                    finish()
+                    val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
     }
+
 
 }

@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import model.AddInterviewModel
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -19,6 +21,7 @@ class AddInterviewViewModel : ViewModel() {
     val technology: MutableLiveData<String> = MutableLiveData()
     val interviewDate: MutableLiveData<String> = MutableLiveData()
     val interviewTime: MutableLiveData<String> = MutableLiveData()
+    val status: MutableLiveData<Int> = MutableLiveData()
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebaseUser: FirebaseUser = auth.currentUser!!
     private lateinit var department: String
@@ -46,6 +49,12 @@ class AddInterviewViewModel : ViewModel() {
     private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
     val showProgress: LiveData<Boolean> = _showProgress
     private var interviewListOnDone = arrayListOf<AddInterviewModel>()
+    val formatter = SimpleDateFormat("dd/M/yyyy")
+    val date = Date()
+    val current = formatter.format(date)
+    val cal = Calendar.getInstance()
+
+
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
     }
@@ -196,9 +205,8 @@ class AddInterviewViewModel : ViewModel() {
 
     fun getDoneInterviewData() {
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        Log.d("FAG", Calendar.DATE.toString())
-        firestore.collection("AddInterview")
-            .orderBy("interviewDate").startAt("10/9/2022").endAt("16/9/2022")
+        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
+            .whereEqualTo("status",1)
             .get()
             .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
@@ -210,4 +218,18 @@ class AddInterviewViewModel : ViewModel() {
             }
         interviewListOnDone.clear()
     }
+
+    fun updateStatusOnFirebase() {
+        cal.add(Calendar.MONTH, -2)
+        val preDate = cal.time
+        val previousDate = formatter.format(preDate)
+        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+        for (interviewdate in arrayListOf(previousDate, current)) {
+            firestore.collection("AddInterview").document("RMfvq7RaiKp3ZJpYOf5i").update("status", 1)
+                .addOnSuccessListener {
+                    _navigateToListScreen.postValue(Unit)
+                }
+        }
+    }
+
 }

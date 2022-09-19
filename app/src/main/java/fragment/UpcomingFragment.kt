@@ -37,6 +37,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
         auth = FirebaseAuth.getInstance()
+        interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
         fragmentStudentObserver()
