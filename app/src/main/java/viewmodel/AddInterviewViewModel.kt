@@ -1,6 +1,5 @@
 package viewmodel
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -18,7 +17,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class AddInterviewViewModel(application: Application) : AndroidViewModel(application) {
-
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
@@ -57,11 +55,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val current = formatter.format(date)
     private val cal = Calendar.getInstance()
     val id: MutableLiveData<String> = MutableLiveData()
-    private val time = Calendar.getInstance().time
-    private val formatterTime = SimpleDateFormat("HH:mm")
-    // private val currentTime = formatterTime.format(time)
-    private lateinit var datePickerDialog: DatePickerDialog
-
 
 
     fun floatingAddOnClick() {
@@ -147,8 +140,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             firebaseUser.uid,
             interviewerName,
             remarks.value?.toString(),
-            0,
-            id.value.toString()
+            0
         )
         _getAllInterviewInfo.postValue(listOf(addInterviewData))
         firestore.collection("AddInterview").add(addInterviewData)
@@ -192,8 +184,8 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun showData() {
-     /*   val preDay = System.currentTimeMillis() - 1000 * 60 * 60 * 24
-        val prev = Date(preDay)*/
+        /*   val preDay = System.currentTimeMillis() - 1000 * 60 * 60 * 24
+           val prev = Date(preDay)*/
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
             .whereEqualTo("status", 0)
@@ -272,33 +264,19 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         interviewListOnCancelled.clear()
     }
 
-
-   /* private val dateSelectedListener =
-        DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
-            val formatter = SimpleDateFormat("dd/M/yyyy")
-            val date = Date()
-            val current = formatter.format(date)
-            interviewDate.value=current
-        }*/
-
     fun showDate(view: View?) {
         val context = view?.context
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
-        val datePickerDialog = DatePickerDialog(context!!,
-            { view1, myear, mmonth, mdayOfMonth ->
-                interviewDate.value= "$mdayOfMonth/$mmonth/$myear"
-            }, year, month, day)
+        val datePickerDialog = DatePickerDialog(
+            context!!,
+            { _, myear, mmonth, mdayOfMonth ->
+                val date = "$mdayOfMonth/${mmonth + 1}/$myear"
+                interviewDate.value = date
+            }, year, month, day
+        )
         datePickerDialog.show()
-        /*datePickerDialog =
-            DatePickerDialog(getApplication(), { _, myear, mmonth, mdayOfMonth ->
-                val formatter = SimpleDateFormat("dd/M/yyyy")
-                val date = Date()
-                val current = formatter.format(date)
-                interviewDate.value=current
-            }, year, month, day)
-        datePickerDialog.show()*/
         cal.set(year, month, day)
         datePickerDialog.datePicker.minDate = cal.timeInMillis
     }
@@ -310,7 +288,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val minute = cal.get(Calendar.MINUTE)
         val timePicker = TimePickerDialog(
             context,
-            { view1, hourOfDay, minuteOfDay ->
+            { _, hourOfDay, minuteOfDay ->
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 cal.set(Calendar.MINUTE, minuteOfDay)
                 if (cal.get(Calendar.AM_PM) == Calendar.AM) {
@@ -327,7 +305,9 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
                     else "${cal.get(Calendar.MINUTE)}"
                 val time = "$showHours:$showMinutes $amPm"
                 if (compareTwoTimes(getCurrentTime()!!, time)) {
-                    interviewTime.value=time
+                    interviewTime.value = time
+                } else {
+                    _toastMessage.value = "Can not use past time!!"
                 }
             }, hour, minute, false
         )

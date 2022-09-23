@@ -1,7 +1,5 @@
 package fragment
-
 import adapter.CancelAdapter
-import adapter.DoneAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentCancelledBinding
-import com.example.interviewreminderapp.databinding.FragmentDoneBinding
-import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SimpleItemDecoration
 import model.AddInterviewModel
 import viewmodel.AddInterviewViewModel
@@ -25,7 +20,7 @@ class CancelledFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCancelledBinding.inflate(inflater, container, false)
         interviewViewModel = ViewModelProvider(this)[AddInterviewViewModel::class.java]
         binding.cancelledInterview = interviewViewModel
