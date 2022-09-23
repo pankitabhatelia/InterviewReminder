@@ -1,11 +1,15 @@
 package viewmodel
 
+import android.annotation.SuppressLint
+import android.app.Application
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,7 +17,8 @@ import model.AddInterviewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AddInterviewViewModel : ViewModel() {
+class AddInterviewViewModel(application: Application) : AndroidViewModel(application) {
+
     val candidateName: MutableLiveData<String> = MutableLiveData()
     val experience: MutableLiveData<String> = MutableLiveData()
     val technology: MutableLiveData<String> = MutableLiveData()
@@ -55,6 +60,8 @@ class AddInterviewViewModel : ViewModel() {
     private val time = Calendar.getInstance().time
     private val formatterTime = SimpleDateFormat("HH:mm")
     // private val currentTime = formatterTime.format(time)
+    private lateinit var datePickerDialog: DatePickerDialog
+
 
 
     fun floatingAddOnClick() {
@@ -263,6 +270,82 @@ class AddInterviewViewModel : ViewModel() {
                 _getAllInterviewInfo.postValue(interviewListOnCancelled)
             }
         interviewListOnCancelled.clear()
+    }
+
+
+   /* private val dateSelectedListener =
+        DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
+            val formatter = SimpleDateFormat("dd/M/yyyy")
+            val date = Date()
+            val current = formatter.format(date)
+            interviewDate.value=current
+        }*/
+
+    fun showDate(view: View?) {
+        val context = view?.context
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
+        val datePickerDialog = DatePickerDialog(context!!,
+            { view1, myear, mmonth, mdayOfMonth ->
+                interviewDate.value= "$mdayOfMonth/$mmonth/$myear"
+            }, year, month, day)
+        datePickerDialog.show()
+        /*datePickerDialog =
+            DatePickerDialog(getApplication(), { _, myear, mmonth, mdayOfMonth ->
+                val formatter = SimpleDateFormat("dd/M/yyyy")
+                val date = Date()
+                val current = formatter.format(date)
+                interviewDate.value=current
+            }, year, month, day)
+        datePickerDialog.show()*/
+        cal.set(year, month, day)
+        datePickerDialog.datePicker.minDate = cal.timeInMillis
+    }
+
+    fun showTime(view: View?) {
+        val context = view?.context
+        var amPm = ""
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
+        val timePicker = TimePickerDialog(
+            context,
+            { view1, hourOfDay, minuteOfDay ->
+                cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                cal.set(Calendar.MINUTE, minuteOfDay)
+                if (cal.get(Calendar.AM_PM) == Calendar.AM) {
+                    amPm = "AM"
+                } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+                    amPm = "PM"
+                }
+                val hrs =
+                    if (cal.get(Calendar.HOUR) == 0) "12" else cal.get(Calendar.HOUR).toString()
+                val showHours =
+                    if (cal.get(Calendar.HOUR) <= 9 && cal.get(Calendar.HOUR) != 0) "0$hrs" else hrs
+                val showMinutes =
+                    if (cal.get(Calendar.MINUTE) <= 9) "0${cal.get(Calendar.MINUTE)}"
+                    else "${cal.get(Calendar.MINUTE)}"
+                val time = "$showHours:$showMinutes $amPm"
+                if (compareTwoTimes(getCurrentTime()!!, time)) {
+                    interviewTime.value=time
+                }
+            }, hour, minute, false
+        )
+        timePicker.show()
+    }
+
+    private fun getCurrentTime(): String? {
+
+        val simpleDateFormat = SimpleDateFormat("hh:mm a")
+        return simpleDateFormat.format(Calendar.getInstance().time)
+
+    }
+
+    private fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
+        val sdf = SimpleDateFormat("hh:mm a")
+        val time1 = sdf.parse(fromTime)
+        val time2 = sdf.parse(currentTime)
+        return !time2!!.before(time1)
     }
 
 }

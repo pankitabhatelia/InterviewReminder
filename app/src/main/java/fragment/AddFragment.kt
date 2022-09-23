@@ -57,22 +57,22 @@ class AddFragment : Fragment() {
         progressDialog = CustomProgressDialog(requireContext())
         viewModel.getDataOnDepartmentSpinner()
         progressDialog = CustomProgressDialog(requireContext())
-        binding.etInterviewDate.setOnClickListener {
+     /*  binding.etInterviewDate.setOnClickListener {
             showDate()
         }
         binding.etInterviewTime.setOnClickListener {
             showTime()
-        }
+        }*/
         observer()
     }
 
-    private val dateSelectedListener =
+   /* private val dateSelectedListener =
         DatePickerDialog.OnDateSetListener { _, myear, mmonth, mdayOfMonth ->
             val formatter = SimpleDateFormat("dd/M/yyyy")
             val date = Date()
             val current = formatter.format(date)
             binding.etInterviewDate.setText(current)
-        }
+        }*/
 
     private fun observer() {
         viewModel.toastMessage.observe(viewLifecycleOwner) {
@@ -112,7 +112,7 @@ class AddFragment : Fragment() {
 
     }
 
-    private fun showDate() {
+    /* fun showDate() {
 
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
@@ -127,7 +127,7 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun showTime() {
+     fun showTime() {
         var amPm = ""
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
@@ -172,7 +172,7 @@ class AddFragment : Fragment() {
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
         return !time2!!.before(time1)
-    }
+    }*/
 
 
 }

@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
-        viewModel = ViewModelProvider(this)[AddInterviewViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[AddInterviewViewModel::class.java]
         binding.addData = viewModel
         return binding.root
     }
