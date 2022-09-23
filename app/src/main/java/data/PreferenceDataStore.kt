@@ -1,7 +1,7 @@
 package data
 
 
-import Interfaces.Session
+import interfaces.Session
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

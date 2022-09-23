@@ -1,4 +1,4 @@
-package Interfaces
+package interfaces
 
 import androidx.datastore.preferences.core.Preferences
 import kotlinx.coroutines.flow.Flow

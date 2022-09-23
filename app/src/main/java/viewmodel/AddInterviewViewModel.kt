@@ -184,8 +184,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun showData() {
-        /*   val preDay = System.currentTimeMillis() - 1000 * 60 * 60 * 24
-           val prev = Date(preDay)*/
         val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser.uid)
             .whereEqualTo("status", 0)

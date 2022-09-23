@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.example.interviewreminderapp.R
-import com.example.interviewreminderapp.databinding.FragmentAddBinding
 import com.example.interviewreminderapp.databinding.FragmentInterviewDetailBinding
 import viewmodel.AddInterviewViewModel
 
@@ -24,7 +22,7 @@ class InterviewDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentInterviewDetailBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
