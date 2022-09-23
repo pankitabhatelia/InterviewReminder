@@ -10,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
+import model.AddInterviewModel
 import utils.CustomProgressDialog
 import viewmodel.AddInterviewViewModel
 import java.text.SimpleDateFormat
@@ -38,6 +42,10 @@ class AddFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val intent = Intent(requireContext(), DashBoardActivity::class.java)
+            startActivity(intent)
+        }
         val activity = activity as AppCompatActivity?
         activity!!.setSupportActionBar(binding.appBar)
         activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -75,7 +83,9 @@ class AddFragment : Fragment() {
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
             val intent = Intent(requireContext(), DashBoardActivity::class.java)
+            intent.putExtra("addinterviewModel",AddInterviewModel())
             startActivity(intent)
+
         }
         viewModel.showProgress.observe(viewLifecycleOwner) {
             if (it) {

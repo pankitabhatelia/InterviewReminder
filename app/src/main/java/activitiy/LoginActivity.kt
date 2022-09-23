@@ -71,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                 if (it == true) {
                     val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
                     startActivity(intent)
+                    finish()
                 }
             }
         }

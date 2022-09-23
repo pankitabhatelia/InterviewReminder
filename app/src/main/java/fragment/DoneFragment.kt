@@ -20,7 +20,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class DoneFragment : Fragment() {
-    private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentDoneBinding
     private lateinit var interviewViewModel: AddInterviewViewModel
     private lateinit var adapter: DoneAdapter
@@ -37,7 +36,6 @@ class DoneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
-        auth = FirebaseAuth.getInstance()
         interviewViewModel.getDoneInterviewData()
         interviewViewModel.interviewList.clear()
         fragmentStudentObserver()
