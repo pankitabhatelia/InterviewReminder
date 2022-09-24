@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.databinding.FragmentDoneBinding
-import itemdecoration.SimpleItemDecoration
+import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import viewmodel.AddInterviewViewModel
 import kotlin.collections.ArrayList
 
-class DoneFragment : Fragment() {
+class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDoneBinding
     private lateinit var interviewViewModel: AddInterviewViewModel
     private lateinit var adapter: DoneAdapter
@@ -51,8 +51,15 @@ class DoneFragment : Fragment() {
     private fun setUpRecyclerview() {
         adapter = DoneAdapter()
         binding.rvDone.adapter = adapter
-        val itemMargin = SimpleItemDecoration()
+        val itemMargin = SpaceItemDecoration(10,10,10,10)
         binding.rvDone.addItemDecoration(itemMargin)
+        adapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClick(data: AddInterviewModel) {
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+        findNavController().navigate(action)
     }
 
 }

@@ -12,6 +12,8 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
 import model.AddInterviewModel
 import utils.CustomProgressDialog
@@ -35,16 +37,15 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_addFragment_to_dashBoardActivity)
         }
-        val activity = activity as AppCompatActivity?
-        activity!!.setSupportActionBar(binding.appBar)
-        activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        activity.supportActionBar!!.setHomeButtonEnabled(true)
+        (requireActivity() as? AppCompatActivity)?.apply {
+            setSupportActionBar(binding.appBar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeButtonEnabled(true)
+        }
         binding.appBar.setNavigationOnClickListener {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_addFragment_to_dashBoardActivity)
         }
         progressDialog = CustomProgressDialog(requireContext())
         viewModel.getDataOnDepartmentSpinner()

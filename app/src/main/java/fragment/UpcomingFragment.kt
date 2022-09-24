@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
-import itemdecoration.SimpleItemDecoration
+import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import viewmodel.AddInterviewViewModel
 
@@ -37,7 +37,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
         setUpRecyclerview()
         auth = FirebaseAuth.getInstance()
         //interviewViewModel.updateStatusOnFirebaseCancel()
-        interviewViewModel.updateStatusOnFirebase()
+       // interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
         fragmentStudentObserver()
@@ -60,7 +60,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private fun setUpRecyclerview() {
         adapter = UpcomingAdapter()
         binding.rvUpcoming.adapter = adapter
-        val itemMargin = SimpleItemDecoration()
+        val itemMargin = SpaceItemDecoration(10,10,10,10)
         binding.rvUpcoming.addItemDecoration(itemMargin)
         adapter.setOnItemClickListener(this)
     }

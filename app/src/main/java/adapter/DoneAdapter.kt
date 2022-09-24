@@ -6,8 +6,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.interviewreminderapp.databinding.DoneItemBinding
 import model.AddInterviewModel
 
-class DoneAdapter: RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
+class DoneAdapter : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
     private var interviewList = ArrayList<AddInterviewModel>()
+    private lateinit var itemClickListener: DoneAdapter.OnItemClickListener
+
+    interface OnItemClickListener {
+        fun onItemClick(data: AddInterviewModel)
+    }
+
+    fun setOnItemClickListener(listener: DoneAdapter.OnItemClickListener) {
+        itemClickListener = listener
+    }
 
     fun setData(interView: ArrayList<AddInterviewModel>) {
         this.interviewList = interView
@@ -23,6 +32,9 @@ class DoneAdapter: RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = interviewList[position]
         holder.bind(currentItem)
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(currentItem)
+        }
     }
 
     override fun getItemCount(): Int {

@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_addFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_addFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -84,5 +87,12 @@
                 android:name="currentInterview"
                 app:argType="model.AddInterviewModel"
                 app:nullable="true" />
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
     </fragment>
+    <activity
+        android:id="@+id/dashBoardActivity"
+        android:name="activitiy.DashBoardActivity"
+        android:label="DashBoardActivity" />
 </navigation>

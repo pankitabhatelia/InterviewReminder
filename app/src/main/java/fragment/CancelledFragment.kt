@@ -1,5 +1,6 @@
 package fragment
 import adapter.CancelAdapter
+import adapter.UpcomingAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.databinding.FragmentCancelledBinding
-import itemdecoration.SimpleItemDecoration
+import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import viewmodel.AddInterviewViewModel
 
-class CancelledFragment : Fragment() {
+class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     private lateinit var binding: FragmentCancelledBinding
     private lateinit var interviewViewModel: AddInterviewViewModel
     private lateinit var adapter: CancelAdapter
@@ -50,8 +51,15 @@ class CancelledFragment : Fragment() {
     private fun setUpRecyclerview() {
         adapter = CancelAdapter()
         binding.rvCancelled.adapter = adapter
-        val itemMargin = SimpleItemDecoration()
+        val itemMargin = SpaceItemDecoration(10,10,10,10)
         binding.rvCancelled.addItemDecoration(itemMargin)
+        adapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClick(data: AddInterviewModel) {
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+        findNavController().navigate(action)
     }
 
 }

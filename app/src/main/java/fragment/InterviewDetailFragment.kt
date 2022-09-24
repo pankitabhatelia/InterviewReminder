@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentInterviewDetailBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import viewmodel.AddInterviewViewModel
 
 
@@ -33,17 +36,27 @@ class InterviewDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val activity = activity as AppCompatActivity?
-        activity!!.setSupportActionBar(binding.appBar)
-        activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        activity.supportActionBar!!.setHomeButtonEnabled(true)
+        (requireActivity() as? AppCompatActivity)?.apply {
+            setSupportActionBar(binding.appBar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeButtonEnabled(true)
+        }
         binding.appBar.setNavigationOnClickListener {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+            findNavController().navigate(R.id.action_interviewDetailFragment_to_dashBoardActivity)
         }
         if (args.currentInterview != null) {
-            viewModel.getInterviewData(args.currentInterview!!)
+            viewModel.getInterviewData(args.currentInterview)
+        }
+
+        observer()
+    }
+
+    private fun observer() {
+        viewModel.navigateToListScreen.observe(viewLifecycleOwner){
+            findNavController().navigate(R.id.action_interviewDetailFragment_to_dashBoardActivity)
         }
     }
+
+
 
 }
