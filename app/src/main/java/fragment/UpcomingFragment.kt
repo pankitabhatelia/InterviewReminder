@@ -12,6 +12,7 @@ import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
+import model.Fragments
 import viewmodel.AddInterviewViewModel
 
 
@@ -36,8 +37,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
         auth = FirebaseAuth.getInstance()
-        //interviewViewModel.updateStatusOnFirebaseCancel()
-       // interviewViewModel.updateStatusOnFirebase()
+        interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
         fragmentStudentObserver()
@@ -66,8 +66,11 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
+       val MY_ENUM = "MY_ENUM"
+        val args = Bundle()
         val action =
             HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+        args.putSerializable(MY_ENUM, Fragments.UpcomingFragment)
         findNavController().navigate(action)
 
     }

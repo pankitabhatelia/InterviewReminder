@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.databinding.FragmentDoneBinding
 import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
+import model.Fragments
 import viewmodel.AddInterviewViewModel
 import kotlin.collections.ArrayList
 
@@ -57,8 +58,11 @@ class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
+        val MY_ENUM = "MY_ENUM"
+        val args = Bundle()
         val action =
             HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+        args.putSerializable(MY_ENUM, Fragments.DoneFragment)
         findNavController().navigate(action)
     }
 
