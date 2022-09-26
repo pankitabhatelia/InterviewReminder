@@ -58,7 +58,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     var id: MutableLiveData<String?> = MutableLiveData()
     private lateinit var documentReference: DocumentReference
     val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    var button: MutableLiveData<Boolean?> = MutableLiveData(false)
+    var button: MutableLiveData<Boolean?> = MutableLiveData()
 
 
     fun floatingAddOnClick() {

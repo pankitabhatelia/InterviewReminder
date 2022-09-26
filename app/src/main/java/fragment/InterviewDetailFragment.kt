@@ -51,7 +51,7 @@ class InterviewDetailFragment : Fragment() {
         if (args.currentInterview != null) {
             viewModel.getInterviewData(args.currentInterview)
         }
-         val myEnum= arguments?.getSerializable("My_Enum")
+         val myEnum= arguments?.getSerializable("MY_ENUM")
         if(myEnum?.equals(Fragments.UpcomingFragment)==true){
             viewModel.button.value=true
         }else if(myEnum?.equals(Fragments.CancelledFragment)==true){

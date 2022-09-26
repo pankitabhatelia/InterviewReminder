@@ -69,7 +69,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
        val MY_ENUM = "MY_ENUM"
         val args = Bundle()
         val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
+                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
         args.putSerializable(MY_ENUM, Fragments.UpcomingFragment)
         findNavController().navigate(action)
 
