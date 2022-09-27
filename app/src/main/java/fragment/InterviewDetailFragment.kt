@@ -35,6 +35,7 @@ class InterviewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setFromFragment(args.fromFragment)
         (requireActivity() as? AppCompatActivity)?.apply {
             setSupportActionBar(binding.appBar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -45,15 +46,6 @@ class InterviewDetailFragment : Fragment() {
         }
         if (args.currentInterview != null) {
             viewModel.getInterviewData(args.currentInterview)
-        }
-        if(args.fromFragment != null){
-           if(arguments?.getString("args") == Fragments.upcomingFragment){
-              viewModel.button.value = true
-           }else if(arguments?.getString("args") == Fragments.cancelledFragment){
-               viewModel.button.value = false
-           }else if(arguments?.getString("args") == Fragments.doneFragment){
-               viewModel.button.value = false
-           }
         }
         observer()
     }

@@ -57,10 +57,9 @@ class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
-        val bundle = Bundle()
         val action =
             HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
-                bundle.putString("args",Fragments.cancelledFragment).toString())
+                Fragments.cancelledFragment)
         findNavController().navigate(action)
     }
 

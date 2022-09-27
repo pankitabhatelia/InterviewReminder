@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
+import model.Fragments
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -397,6 +398,14 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
                         }
                     }
                 }
+            }
+    }
+
+    fun setFromFragment(fromFragment: String) {
+            if(fromFragment == Fragments.upcomingFragment){
+                button.value = true
+            }else if(fromFragment == Fragments.cancelledFragment || fromFragment == Fragments.doneFragment){
+                button.value = false
             }
     }
 

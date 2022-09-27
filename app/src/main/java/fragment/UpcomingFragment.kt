@@ -66,10 +66,9 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
-        val bundle = Bundle()
         val action =
                 HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
-                    bundle.putString("args",Fragments.upcomingFragment).toString())
+                    Fragments.upcomingFragment)
         findNavController().navigate(action)
 
     }

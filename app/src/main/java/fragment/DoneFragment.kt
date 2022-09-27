@@ -58,10 +58,8 @@ class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
-        val bundle = Bundle()
         val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
-                bundle.putString("args",Fragments.doneFragment).toString())
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,Fragments.doneFragment)
         findNavController().navigate(action)
     }
 
