@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
-import model.Fragments
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,11 +36,8 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     val departmentLivedata: LiveData<ArrayList<String>> = _departmentLivedata
     private val _interviewerLivedata: MutableLiveData<ArrayList<String>> = MutableLiveData()
     val interviewerLiveData: LiveData<ArrayList<String>> = _interviewerLivedata
-    private val _getAllInterviewInfo: MutableLiveData<List<AddInterviewModel>?> = MutableLiveData()
-    val getAllInterviewInfo: LiveData<List<AddInterviewModel>?> = _getAllInterviewInfo
     private val _navigateToListScreen: MutableLiveData<Unit> = MutableLiveData()
     val navigateToListScreen: LiveData<Unit> = _navigateToListScreen
-    var interviewList = arrayListOf<AddInterviewModel>()
     val nameError: MutableLiveData<String?> = MutableLiveData()
     val experienceError: MutableLiveData<String?> = MutableLiveData()
     val technologyError: MutableLiveData<String?> = MutableLiveData()
@@ -50,21 +46,9 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     val remarksError: MutableLiveData<String?> = MutableLiveData()
     private val _showProgress: MutableLiveData<Boolean> = MutableLiveData()
     val showProgress: LiveData<Boolean> = _showProgress
-    private var interviewListOnDone = arrayListOf<AddInterviewModel>()
-    private var interviewListOnCancelled = arrayListOf<AddInterviewModel>()
-    private val formatter = SimpleDateFormat("dd/M/yyyy")
-    private val date = Date()
-    private val current = formatter.format(date)
     private val cal = Calendar.getInstance()
-    var id: MutableLiveData<String?> = MutableLiveData()
     private lateinit var documentReference: DocumentReference
-    val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    var button: MutableLiveData<Boolean?> = MutableLiveData()
 
-
-    fun floatingAddOnClick() {
-        _navigateToListScreen.postValue(Unit)
-    }
 
     fun addOnClick() {
         if (isValid()) {
@@ -150,7 +134,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             documentReference.id
 
         )
-        _getAllInterviewInfo.postValue(listOf(addInterviewData))
         firestore.collection("AddInterview").add(addInterviewData)
             .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
@@ -161,7 +144,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
                 _toastMessage.value = "Data is Failed to insert!!"
             }
     }
-
 
     fun getDataOnDepartmentSpinner() {
         spinnerDepartmentList.add(0, "Select Department")
@@ -190,103 +172,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
                 }
                 _interviewerLivedata.postValue(spinnerInterviewerList)
             }
-    }
-
-    fun showData() {
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 0)
-            .get()
-            .addOnSuccessListener {
-                val documents = it?.documents
-                documents?.forEach { it1 ->
-                    val user: AddInterviewModel? = it1.toObject(AddInterviewModel::class.java)
-                    id.postValue(it1.id)
-                    val interviewId = it1.data?.get("id")
-                    user?.let { it2 -> interviewList.add(it2) }
-                    if (user?.interviewDate!! < current && interviewId == id.value.toString() ) {
-                        firestore.collection("AddInterview").document(id.value.toString())
-                            .update("status", 2)
-                            .addOnSuccessListener {
-                                _navigateToListScreen.postValue(Unit)
-                            }
-                    }
-                }
-                _getAllInterviewInfo.postValue(interviewList)
-            }
-    }
-
-    fun getInterviewData(addInterviewModel: AddInterviewModel?) {
-        candidateName.value = addInterviewModel?.candidateName
-        experience.value = addInterviewModel?.experience
-        technology.value = addInterviewModel?.technology
-        interviewDate.value = addInterviewModel?.interviewDate
-        interviewTime.value = addInterviewModel?.interviewTime
-        remarks.value = addInterviewModel?.remarks
-        id.value = addInterviewModel?.id
-    }
-
-
-    fun getDoneInterviewData() {
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 1)
-            .get()
-            .addOnSuccessListener {
-                val documents = it?.documents
-                documents?.forEach { it1 ->
-                    val user: AddInterviewModel? = it1.toObject(AddInterviewModel::class.java)
-                    if (user != null) {
-                        interviewListOnDone.add(user)
-                    }
-                }
-                _getAllInterviewInfo.postValue(interviewListOnDone)
-            }
-        interviewListOnDone.clear()
-    }
-
-    fun updateStatusOnFirebase() {
-        cal.add(Calendar.MONTH, -2)
-        val preDate = cal.time
-        val previousDate = formatter.format(preDate)
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .get()
-            .addOnSuccessListener {
-                it.forEach { it1 ->
-                    val interviewId = it1.data["id"]
-                    if (interviewDate == arrayListOf(
-                            previousDate,
-                            current
-                        ) && interviewId == id.value.toString()
-                    ) {
-                        firestore.collection("AddInterview").document(id.value.toString())
-                            .update("status", 2)
-                            .addOnSuccessListener {
-                                _navigateToListScreen.postValue(Unit)
-                            }
-                    }
-                }
-            }
-
-    }
-
-
-    fun getCancelledInterviewData() {
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 2)
-            .get()
-            .addOnSuccessListener {
-                val documents = it?.documents
-                documents?.forEach { it1 ->
-                    val user: AddInterviewModel? = it1.toObject(AddInterviewModel::class.java)
-                    if (user != null) {
-                        interviewListOnCancelled.add(user)
-                    }
-                }
-                _getAllInterviewInfo.postValue(interviewListOnCancelled)
-            }
-        interviewListOnCancelled.clear()
     }
 
     fun showDate(view: View) {
@@ -352,62 +237,4 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val time2 = sdf.parse(currentTime)
         return !time2.before(time1)
     }
-
-    private fun onClickOnDone(): Boolean {
-        _navigateToListScreen.postValue(Unit)
-        return true
-    }
-
-    fun changeStatusOnDone() {
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .get()
-            .addOnSuccessListener {
-                if (onClickOnDone()) {
-                    it.forEach { it1 ->
-                        val interviewId = it1.data["id"]
-                        if (interviewId == id.value.toString()) {
-                            firestore.collection("AddInterview").document(it1.id)
-                                .update("status", 1)
-                                .addOnSuccessListener {
-
-                                }
-                        }
-                    }
-                }
-            }
-    }
-
-    private fun onClickOnCancel(): Boolean {
-        _navigateToListScreen.postValue(Unit)
-        return true
-    }
-
-    fun changeStatusOnCancel() {
-        firestore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .get()
-            .addOnSuccessListener {
-                if (onClickOnCancel()) {
-                    it.forEach { it1 ->
-                        val interviewId = it1.data["id"]
-                        if (interviewId == id.value.toString()) {
-                            firestore.collection("AddInterview").document(it1.id)
-                                .update("status", 2)
-                                .addOnSuccessListener {
-
-                                }
-                        }
-                    }
-                }
-            }
-    }
-
-    fun setFromFragment(fromFragment: String) {
-            if(fromFragment == Fragments.upcomingFragment){
-                button.value = true
-            }else if(fromFragment == Fragments.cancelledFragment || fromFragment == Fragments.doneFragment){
-                button.value = false
-            }
-    }
-
-
 }

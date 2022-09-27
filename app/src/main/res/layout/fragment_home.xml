@@ -6,7 +6,7 @@
 
         <variable
             name="addData"
-            type="viewmodel.AddInterviewViewModel" />
+            type="viewmodel.FragmentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

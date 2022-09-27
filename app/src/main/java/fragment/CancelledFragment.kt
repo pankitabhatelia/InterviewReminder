@@ -12,10 +12,11 @@ import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import model.Fragments
 import viewmodel.AddInterviewViewModel
+import viewmodel.FragmentViewModel
 
 class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     private lateinit var binding: FragmentCancelledBinding
-    private lateinit var interviewViewModel: AddInterviewViewModel
+    private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: CancelAdapter
 
     override fun onCreateView(
@@ -23,7 +24,7 @@ class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCancelledBinding.inflate(inflater, container, false)
-        interviewViewModel = ViewModelProvider(this)[AddInterviewViewModel::class.java]
+        interviewViewModel = ViewModelProvider(this)[FragmentViewModel::class.java]
         binding.cancelledInterview = interviewViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

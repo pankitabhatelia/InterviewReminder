@@ -14,12 +14,13 @@ import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import model.Fragments
 import viewmodel.AddInterviewViewModel
+import viewmodel.FragmentViewModel
 
 
 class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: FragmentUpcomingBinding
-    private lateinit var interviewViewModel: AddInterviewViewModel
+    private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: UpcomingAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +28,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentUpcomingBinding.inflate(inflater, container, false)
-        interviewViewModel = ViewModelProvider(this)[AddInterviewViewModel::class.java]
+        interviewViewModel = ViewModelProvider(this)[FragmentViewModel::class.java]
         binding.interviewViewModel = interviewViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

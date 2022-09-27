@@ -12,11 +12,12 @@ import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentHomeBinding
 import com.google.android.material.tabs.TabLayout
 import viewmodel.AddInterviewViewModel
+import viewmodel.FragmentViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var adapter: MyAdapter
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: AddInterviewViewModel
+    private lateinit var viewModel: FragmentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +25,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
-        viewModel = ViewModelProvider(requireActivity())[AddInterviewViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[FragmentViewModel::class.java]
         binding.addData = viewModel
         return binding.root
     }

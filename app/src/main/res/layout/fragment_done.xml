@@ -7,7 +7,7 @@
 
         <variable
             name="doneInterview"
-            type="viewmodel.AddInterviewViewModel" />
+            type="viewmodel.FragmentViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

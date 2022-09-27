@@ -13,18 +13,19 @@ import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import model.Fragments
 import viewmodel.AddInterviewViewModel
+import viewmodel.FragmentViewModel
 import kotlin.collections.ArrayList
 
 class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDoneBinding
-    private lateinit var interviewViewModel: AddInterviewViewModel
+    private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: DoneAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDoneBinding.inflate(inflater, container, false)
-        interviewViewModel = ViewModelProvider(this)[AddInterviewViewModel::class.java]
+        interviewViewModel = ViewModelProvider(this)[FragmentViewModel::class.java]
         binding.doneInterview = interviewViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root

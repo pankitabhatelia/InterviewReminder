@@ -8,7 +8,7 @@
 
         <variable
             name="getInterviewData"
-            type="viewmodel.AddInterviewViewModel" />
+            type="viewmodel.FragmentViewModel" />
 
     </data>
 
