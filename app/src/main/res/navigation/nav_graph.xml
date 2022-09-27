@@ -25,7 +25,6 @@
             android:id="@+id/action_upcomingFragment_to_interviewDetailFragment"
             app:destination="@id/interviewDetailFragment" />
 
-
     </fragment>
     <fragment
         android:id="@+id/cancelledFragment"
@@ -70,8 +69,7 @@
             app:destination="@id/addFragment" />
         <action
             android:id="@+id/action_homeFragment_to_interviewDetailFragment"
-            app:destination="@id/interviewDetailFragment">
-        </action>
+            app:destination="@id/interviewDetailFragment" />
 
     </fragment>
     <fragment
@@ -81,15 +79,19 @@
         tools:layout="@layout/fragment_interview_detail">
         <action
             android:id="@+id/action_interviewDetailFragment_to_upcomingFragment"
-            app:destination="@id/upcomingFragment"/>
+            app:destination="@id/upcomingFragment" />
         <action
             android:id="@+id/action_interviewDetailFragment_to_homeFragment"
-            app:destination="@id/homeFragment"/>
+            app:destination="@id/homeFragment" />
 
-            <argument
-                android:name="currentInterview"
-                app:argType="model.AddInterviewModel"
-                app:nullable="true" />
+        <argument
+            android:name="currentInterview"
+            app:argType="model.AddInterviewModel"
+            app:nullable="true" />
+
+        <argument
+            android:name="fromFragment"
+            app:argType="string" />
         <action
             android:id="@+id/action_interviewDetailFragment_to_dashBoardActivity"
             app:destination="@id/dashBoardActivity" />

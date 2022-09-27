@@ -58,11 +58,10 @@ class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
-        val MY_ENUM = "MY_ENUM"
-        val args = Bundle()
+        val bundle = Bundle()
         val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
-        args.putSerializable(MY_ENUM, Fragments.DoneFragment)
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
+                bundle.putString("args",Fragments.doneFragment).toString())
         findNavController().navigate(action)
     }
 

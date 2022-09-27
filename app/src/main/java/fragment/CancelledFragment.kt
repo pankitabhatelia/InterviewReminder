@@ -1,6 +1,5 @@
 package fragment
 import adapter.CancelAdapter
-import adapter.UpcomingAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -58,11 +57,10 @@ class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     }
 
     override fun onItemClick(data: AddInterviewModel) {
-        val MY_ENUM = "MY_ENUM"
-        val args = Bundle()
+        val bundle = Bundle()
         val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data)
-        args.putSerializable(MY_ENUM, Fragments.CancelledFragment)
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
+                bundle.putString("args",Fragments.cancelledFragment).toString())
         findNavController().navigate(action)
     }
 
