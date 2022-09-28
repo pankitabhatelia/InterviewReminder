@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -23,7 +24,7 @@ import notification.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentViewModel: ViewModel() {
+class FragmentViewModel : ViewModel() {
     val candidateName: MutableLiveData<String?> = MutableLiveData()
     val experience: MutableLiveData<String?> = MutableLiveData()
     val technology: MutableLiveData<String?> = MutableLiveData()
@@ -65,7 +66,7 @@ class FragmentViewModel: ViewModel() {
                     id.postValue(it1.id)
                     val interviewId = it1.data?.get("id")
                     user?.let { it2 -> interviewList.add(it2) }
-                    if (user?.interviewDate!! < current && interviewId == id.value.toString() ) {
+                    if (user?.interviewDate!! < current && interviewId == id.value.toString()) {
                         fireStore.collection("AddInterview").document(id.value.toString())
                             .update("status", 2)
                             .addOnSuccessListener {
@@ -198,44 +199,47 @@ class FragmentViewModel: ViewModel() {
     }
 
     fun setFromFragment(fromFragment: String) {
-        if(fromFragment == Fragments.upcomingFragment){
+        if (fromFragment == Fragments.upcomingFragment) {
             button.value = true
-        }else if(fromFragment == Fragments.cancelledFragment || fromFragment == Fragments.doneFragment){
+        } else if (fromFragment == Fragments.cancelledFragment || fromFragment == Fragments.doneFragment) {
             button.value = false
         }
     }
 
-   fun onReminderButtonClick(view:View){
+    fun onReminderButtonClick(view: View) {
         setAlarm(view)
-       _navigateToListScreen.postValue(Unit)
+        _navigateToListScreen.postValue(Unit)
     }
-  fun createNotificationChannel(view: View){
-      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-          val name :CharSequence = "InterviewReminder"
-          val descreption = "Reminder for Interview Scheduled"
-          val importance = NotificationManager.IMPORTANCE_HIGH
-          val channel = NotificationChannel("InterviewReminder",name,importance)
-          channel.description = descreption
-          val notificationManager:NotificationManager = view.context.getSystemService(NotificationManager::class.java)
-          notificationManager.createNotificationChannel(channel)
-      }
-  }
+
+    fun createNotificationChannel(view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "InterviewReminder"
+            val descreption = "Reminder for Interview Scheduled"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel("InterviewReminder", name, importance)
+            channel.description = descreption
+            val notificationManager: NotificationManager =
+                view.context.getSystemService(NotificationManager::class.java)
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
     private fun setAlarm(view: View) {
         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(view.context, AlarmReceiver::class.java)
 
-        pendingIntent = PendingIntent.getBroadcast(view.context,0,intent,0)
-        alarmManager.setRepeating(
-            AlarmManager.RTC_WAKEUP,cal.timeInMillis,
-            AlarmManager.INTERVAL_DAY,pendingIntent
+        pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP, cal.timeInMillis,pendingIntent
         )
+        Log.d("time",cal.timeInMillis.toString())
     }
 
-    private fun cancelAlarm(view: View){
+    private fun cancelAlarm(view: View) {
         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(view.context, AlarmReceiver::class.java)
 
-        pendingIntent = PendingIntent.getBroadcast(view.context,0,intent,0)
+        pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
         alarmManager.cancel(pendingIntent)
     }
 
