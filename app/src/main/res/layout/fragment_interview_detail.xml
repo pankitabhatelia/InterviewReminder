@@ -201,6 +201,7 @@
             android:paddingEnd="40dp"
             android:text="@string/setReminder"
             android:visibility="@{getInterviewData.button ? View.VISIBLE : View.GONE}"
+            android:onClick="@{rootView->getInterviewData.onReminderButtonClick(rootView)}"
             app:layout_constraintStart_toStartOf="@+id/etRemarks"
             app:layout_constraintTop_toBottomOf="@+id/etRemarks" />
 
@@ -212,7 +213,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/cancelbtncolor"
-            android:onClick="@{v->getInterviewData.changeStatusOnCancel()}"
+            android:onClick="@{rootView->getInterviewData.changeStatusOnCancel(rootView)}"
             android:visibility="@{getInterviewData.button ? View.VISIBLE : View.GONE}"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"

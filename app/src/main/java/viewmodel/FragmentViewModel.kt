@@ -1,5 +1,16 @@
 package viewmodel
 
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context.ALARM_SERVICE
+import android.content.Intent
+import android.os.Build
+import android.view.View
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
 import model.Fragments
+import notification.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,6 +46,9 @@ class FragmentViewModel: ViewModel() {
     var id: MutableLiveData<String?> = MutableLiveData()
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var button: MutableLiveData<Boolean?> = MutableLiveData()
+    private lateinit var alarmManager: AlarmManager
+    private lateinit var pendingIntent: PendingIntent
+
 
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
@@ -157,16 +172,17 @@ class FragmentViewModel: ViewModel() {
             }
     }
 
-    private fun onClickOnCancel(): Boolean {
+    private fun onClickOnCancel(view: View): Boolean {
+        cancelAlarm(view)
         _navigateToListScreen.postValue(Unit)
         return true
     }
 
-    fun changeStatusOnCancel() {
+    fun changeStatusOnCancel(view: View) {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
-                if (onClickOnCancel()) {
+                if (onClickOnCancel(view)) {
                     it.forEach { it1 ->
                         val interviewId = it1.data["id"]
                         if (interviewId == id.value.toString()) {
@@ -188,5 +204,40 @@ class FragmentViewModel: ViewModel() {
             button.value = false
         }
     }
+
+   fun onReminderButtonClick(view:View){
+        setAlarm(view)
+       _navigateToListScreen.postValue(Unit)
+    }
+  fun createNotificationChannel(view: View){
+      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+          val name :CharSequence = "InterviewReminder"
+          val descreption = "Reminder for Interview Scheduled"
+          val importance = NotificationManager.IMPORTANCE_HIGH
+          val channel = NotificationChannel("InterviewReminder",name,importance)
+          channel.description = descreption
+          val notificationManager:NotificationManager = view.context.getSystemService(NotificationManager::class.java)
+          notificationManager.createNotificationChannel(channel)
+      }
+  }
+    private fun setAlarm(view: View) {
+        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(view.context, AlarmReceiver::class.java)
+
+        pendingIntent = PendingIntent.getBroadcast(view.context,0,intent,0)
+        alarmManager.setRepeating(
+            AlarmManager.RTC_WAKEUP,cal.timeInMillis,
+            AlarmManager.INTERVAL_DAY,pendingIntent
+        )
+    }
+
+    private fun cancelAlarm(view: View){
+        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(view.context, AlarmReceiver::class.java)
+
+        pendingIntent = PendingIntent.getBroadcast(view.context,0,intent,0)
+        alarmManager.cancel(pendingIntent)
+    }
+
 
 }

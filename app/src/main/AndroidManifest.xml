@@ -22,29 +22,22 @@
 
         <activity
             android:name="activitiy.DashBoardActivity"
-            android:parentActivityName="activitiy.LoginActivity"
+            android:exported="false"
 
-            android:exported="false" />
+            android:parentActivityName="activitiy.LoginActivity" />
 
         <activity
             android:name="activitiy.LoginActivity"
-            android:theme="@style/Theme.App.Splashscreen"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.App.Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name="notification.MyFirebaseMessagingService"
-            android:exported="false"
-            tools:ignore="Instantiatable">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
 
+        <receiver android:name="notification.AlarmReceiver" />
     </application>
 
 </manifest>

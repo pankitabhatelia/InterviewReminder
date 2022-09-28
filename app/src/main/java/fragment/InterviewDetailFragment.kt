@@ -34,6 +34,7 @@ class InterviewDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
+        viewModel.createNotificationChannel(requireView())
         viewModel.setFromFragment(args.fromFragment)
         (requireActivity() as? AppCompatActivity)?.apply {
             setSupportActionBar(binding.appBar)
