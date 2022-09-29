@@ -4,6 +4,7 @@ import android.app.*
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.view.get
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +26,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private var firebaseUser: FirebaseUser? = auth.currentUser
     private lateinit var department: String
     private lateinit var interviewerName: String
+    private lateinit var interviewerEmail: String
     private val spinnerDepartmentList = ArrayList<String>()
     private val spinnerInterviewerList = ArrayList<String>()
     val remarks: MutableLiveData<String?> = MutableLiveData()
@@ -46,7 +48,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     val showProgress: LiveData<Boolean> = _showProgress
     private val cal = Calendar.getInstance()
     private lateinit var documentReference: DocumentReference
-
+    val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     fun addOnClick() {
         if (isValid()) {
@@ -110,12 +112,17 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
-        Log.d("TAG", interviewerName)
+        firestore.collection("InterviewerName").whereEqualTo("interviewerName",interviewerName)
+            .get()
+            .addOnSuccessListener {
+                it.forEach { it1->
+                    interviewerEmail = it1.data["interviewerEmail"].toString()
+                }
+            }
 
     }
 
     private fun addData() {
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         _showProgress.value = true
         documentReference = firestore.collection("AddInterview").document()
         val addInterviewData = AddInterviewModel(
@@ -129,7 +136,8 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             interviewerName,
             remarks.value?.toString(),
             0,
-            documentReference.id
+            documentReference.id,
+            interviewerEmail
 
         )
         firestore.collection("AddInterview").add(addInterviewData)
@@ -145,7 +153,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
 
     fun getDataOnDepartmentSpinner() {
         spinnerDepartmentList.add(0, "Select Department")
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("Department")
             .get()
             .addOnSuccessListener {
@@ -159,7 +166,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     }
 
     private fun getDataOnInterviewerNameSpinner(departmentName: String) {
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
         firestore.collection("InterviewerName").whereEqualTo("departmentName", departmentName)
             .get()
             .addOnSuccessListener {

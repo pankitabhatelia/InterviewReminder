@@ -4,7 +4,6 @@ import android.app.*
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
 import model.Fragments
 import notification.AlarmReceiver
-import notification.AlarmService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,14 +35,13 @@ class FragmentViewModel : ViewModel() {
     private var interviewListOnCancelled = arrayListOf<AddInterviewModel>()
     private val formatter = SimpleDateFormat("dd/M/yyyy")
     private val date = Date()
-    private val current = formatter.format(date)
+    //private val current = formatter.format(date)
     private val cal = Calendar.getInstance()
     var id: MutableLiveData<String?> = MutableLiveData()
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     var button: MutableLiveData<Boolean?> = MutableLiveData()
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
-    private lateinit var alarmService: AlarmService
 
 
     fun floatingAddOnClick() {
@@ -53,7 +50,7 @@ class FragmentViewModel : ViewModel() {
 
     fun showData() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 0)
+            .whereEqualTo("status", 0).whereEqualTo("interviewerEmail", firebaseUser?.email)
             .get()
             .addOnSuccessListener {
                 val documents = it?.documents
@@ -190,7 +187,6 @@ class FragmentViewModel : ViewModel() {
     }
 
     fun onReminderButtonClick(view: View) {
-        alarmService = AlarmService(view.context)
         setAlarm(view)
         _navigateToListScreen.postValue(Unit)
     }

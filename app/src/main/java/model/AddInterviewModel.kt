@@ -15,7 +15,8 @@ data class AddInterviewModel(
     val interviewerName: String? = null,
     val remarks: String? = null,
     val status:Int?=0,
-    var id:String?=null
+    var id:String?=null,
+    var interviewerEmail:String?=null
 ):Parcelable
 
 
