@@ -8,14 +8,10 @@ import model.AddInterviewModel
 
 class DoneAdapter : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
     private var interviewList = ArrayList<AddInterviewModel>()
-    private lateinit var itemClickListener: DoneAdapter.OnItemClickListener
+    private var itemClickListener: ((AddInterviewModel) -> Unit)? = null
 
-    interface OnItemClickListener {
-        fun onItemClick(data: AddInterviewModel)
-    }
-
-    fun setOnItemClickListener(listener: DoneAdapter.OnItemClickListener) {
-        itemClickListener = listener
+    fun setOnItemClickListener(data :(AddInterviewModel)->Unit) {
+        itemClickListener = data
     }
 
     fun setData(interView: ArrayList<AddInterviewModel>) {
@@ -33,7 +29,7 @@ class DoneAdapter : RecyclerView.Adapter<DoneAdapter.ViewHolder>() {
         val currentItem = interviewList[position]
         holder.bind(currentItem)
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(currentItem)
+            itemClickListener?.invoke(currentItem)
         }
     }
 
