@@ -1,11 +1,9 @@
 package viewmodel
 
 import android.app.*
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

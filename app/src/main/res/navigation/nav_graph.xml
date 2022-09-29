@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_upcomingFragment_to_interviewDetailFragment"
             app:destination="@id/interviewDetailFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
 
     </fragment>
     <fragment
@@ -70,6 +73,9 @@
         <action
             android:id="@+id/action_homeFragment_to_interviewDetailFragment"
             app:destination="@id/interviewDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
 
     </fragment>
     <fragment

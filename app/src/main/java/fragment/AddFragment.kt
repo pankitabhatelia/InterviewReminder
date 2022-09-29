@@ -63,7 +63,6 @@ class AddFragment : Fragment() {
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
             val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            intent.putExtra("addinterviewModel", AddInterviewModel())
             startActivity(intent)
 
         }

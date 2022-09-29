@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentUpcomingBinding
 import com.google.firebase.auth.FirebaseAuth
 import itemdecoration.SpaceItemDecoration
