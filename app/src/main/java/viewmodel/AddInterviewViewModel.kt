@@ -112,13 +112,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
-        firestore.collection("InterviewerName").whereEqualTo("interviewerName",interviewerName)
-            .get()
-            .addOnSuccessListener {
-                it.forEach { it1->
-                    interviewerEmail = it1.data["interviewerEmail"].toString()
-                }
-            }
 
     }
 
@@ -137,7 +130,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             remarks.value?.toString(),
             0,
             documentReference.id,
-            interviewerEmail
+           " "
 
         )
         firestore.collection("AddInterview").add(addInterviewData)

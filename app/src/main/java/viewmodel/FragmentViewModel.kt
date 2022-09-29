@@ -50,7 +50,7 @@ class FragmentViewModel : ViewModel() {
 
     fun showData() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 0).whereEqualTo("interviewerEmail", firebaseUser?.email)
+            .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 val documents = it?.documents
