@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -49,11 +50,12 @@ class FragmentViewModel : ViewModel() {
     }
 
     fun showData() {
-        fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
+        fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid).whereEqualTo("interviewerEmail", firebaseUser?.email)
             .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 val documents = it?.documents
+                Log.d("id", firebaseUser?.email.toString())
                 documents?.forEach { it1 ->
                     val user: AddInterviewModel? = it1.toObject(AddInterviewModel::class.java)
                     interviewList.add(user!!)

@@ -27,6 +27,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private lateinit var department: String
     private lateinit var interviewerName: String
     private lateinit var interviewerEmail: String
+    private lateinit var interviewersId: String
     private val spinnerDepartmentList = ArrayList<String>()
     private val spinnerInterviewerList = ArrayList<String>()
     val remarks: MutableLiveData<String?> = MutableLiveData()
@@ -112,6 +113,15 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         id: Long
     ) {
         interviewerName = parent?.selectedItem.toString()
+        firestore.collection("InterviewerName").whereEqualTo("interviewerName", interviewerName)
+            .get()
+            .addOnSuccessListener {
+                it.forEach { it1 ->
+                    interviewerEmail = it1.data["email"].toString()
+                    interviewersId = it1.data["interviewerId"].toString()
+                    Log.d("mail", interviewerEmail)
+                }
+            }
 
     }
 
@@ -125,19 +135,18 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             interviewDate.value?.toString(),
             interviewTime.value?.toString(),
             department,
-            firebaseUser?.uid,
+            interviewersId,
             interviewerName,
             remarks.value?.toString(),
             0,
             documentReference.id,
-           " "
+            interviewerEmail
 
         )
         firestore.collection("AddInterview").add(addInterviewData)
             .addOnSuccessListener {
                 _navigateToListScreen.postValue(Unit)
                 _showProgress.value = false
-
                 _toastMessage.value = "Data is inserted successfully"
             }.addOnFailureListener {
                 _toastMessage.value = "Data is Failed to insert!!"
