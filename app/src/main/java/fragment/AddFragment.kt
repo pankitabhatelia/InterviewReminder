@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentAddBinding
-import model.AddInterviewModel
 import utils.CustomProgressDialog
 import viewmodel.AddInterviewViewModel
 
@@ -49,7 +48,6 @@ class AddFragment : Fragment() {
         }
         progressDialog = CustomProgressDialog(requireContext())
         viewModel.getDataOnDepartmentSpinner()
-        progressDialog = CustomProgressDialog(requireContext())
         observer()
     }
 

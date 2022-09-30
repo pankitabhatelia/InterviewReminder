@@ -11,7 +11,6 @@ import com.example.interviewreminderapp.databinding.FragmentCancelledBinding
 import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import model.Fragments
-import viewmodel.AddInterviewViewModel
 import viewmodel.FragmentViewModel
 
 class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {

@@ -18,7 +18,7 @@ import data.USER_IS_LOGGED_IN
 
 class LoginActivity : AppCompatActivity() {
 
-    private var progressDialog: CustomProgressDialog = CustomProgressDialog(this)
+    private lateinit var progressDialog: CustomProgressDialog
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
 
@@ -31,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
         binding.loginViewModel = viewModel
         sessionObserver()
         setContentView(binding.root)
+        progressDialog = CustomProgressDialog(this)
         FirebaseApp.initializeApp(this)
         observer()
     }

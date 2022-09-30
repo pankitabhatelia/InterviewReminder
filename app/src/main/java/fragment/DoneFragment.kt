@@ -12,11 +12,10 @@ import com.example.interviewreminderapp.databinding.FragmentDoneBinding
 import itemdecoration.SpaceItemDecoration
 import model.AddInterviewModel
 import model.Fragments
-import viewmodel.AddInterviewViewModel
 import viewmodel.FragmentViewModel
 import kotlin.collections.ArrayList
 
-class DoneFragment : Fragment() {
+class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
     private lateinit var binding: FragmentDoneBinding
     private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: DoneAdapter
@@ -55,12 +54,13 @@ class DoneFragment : Fragment() {
         binding.rvDone.adapter = adapter
         val itemMargin = SpaceItemDecoration(10,10,10,10)
         binding.rvDone.addItemDecoration(itemMargin)
-        adapter.setOnItemClickListener {
-            val action =
-                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(it,Fragments.doneFragment)
-            findNavController().navigate(action)
-        }
+        adapter.setOnItemClickListener(this)
     }
 
+    override fun onItemClick(data: AddInterviewModel) {
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,Fragments.doneFragment)
+        findNavController().navigate(action)
+    }
 
 }
