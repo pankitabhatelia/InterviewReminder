@@ -16,7 +16,7 @@ import viewmodel.AddInterviewViewModel
 import viewmodel.FragmentViewModel
 import kotlin.collections.ArrayList
 
-class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
+class DoneFragment : Fragment() {
     private lateinit var binding: FragmentDoneBinding
     private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: DoneAdapter
@@ -55,13 +55,12 @@ class DoneFragment : Fragment(), DoneAdapter.OnItemClickListener {
         binding.rvDone.adapter = adapter
         val itemMargin = SpaceItemDecoration(10,10,10,10)
         binding.rvDone.addItemDecoration(itemMargin)
-        adapter.setOnItemClickListener(this)
+        adapter.setOnItemClickListener {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(it,Fragments.doneFragment)
+            findNavController().navigate(action)
+        }
     }
 
-    override fun onItemClick(data: AddInterviewModel) {
-        val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,Fragments.doneFragment)
-        findNavController().navigate(action)
-    }
 
 }
