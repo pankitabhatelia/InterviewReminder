@@ -1,5 +1,6 @@
 package fragment
 
+import activitiy.DashBoardActivity
 import adapter.UpcomingAdapter
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -33,12 +34,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
-    private lateinit var auth: FirebaseAuth
+class UpcomingFragment : Fragment() {
+
     private lateinit var binding: FragmentUpcomingBinding
     private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: UpcomingAdapter
-    private val cal = Calendar.getInstance()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,13 +54,14 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
-        auth = FirebaseAuth.getInstance()
+        fragmentStudentObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
         interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
-        fragmentStudentObserver()
-
-
     }
 
     private fun fragmentStudentObserver() {
@@ -79,17 +80,16 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private fun setUpRecyclerview() {
         adapter = UpcomingAdapter()
         binding.rvUpcoming.adapter = adapter
-        val itemMargin = SpaceItemDecoration(10,10,10,10)
+        val itemMargin = SpaceItemDecoration(10, 10, 10, 10)
         binding.rvUpcoming.addItemDecoration(itemMargin)
-        adapter.setOnItemClickListener(this)
-    }
-
-    override fun onItemClick(data: AddInterviewModel) {
-        val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
-                Fragments.upcomingFragment)
-        findNavController().navigate(action)
-
+        adapter.setOnItemClickListener {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(
+                    it,
+                    Fragments.upcomingFragment
+                )
+            findNavController().navigate(action)
+        }
     }
 
 

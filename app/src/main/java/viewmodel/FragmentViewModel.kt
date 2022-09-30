@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -35,7 +36,7 @@ class FragmentViewModel : ViewModel() {
     private var interviewListOnCancelled = arrayListOf<AddInterviewModel>()
     private val formatter = SimpleDateFormat("dd/M/yyyy")
     private val date = Date()
-    //private val current = formatter.format(date)
+    private val current = formatter.format(date)
     private val cal = Calendar.getInstance()
     var id: MutableLiveData<String?> = MutableLiveData()
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -50,10 +51,12 @@ class FragmentViewModel : ViewModel() {
 
     fun showData() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
+            .whereEqualTo("interviewerEmail", firebaseUser?.email)
             .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 val documents = it?.documents
+                Log.d("id", firebaseUser?.email.toString())
                 documents?.forEach { it1 ->
                     val user: AddInterviewModel? = it1.toObject(AddInterviewModel::class.java)
                     interviewList.add(user!!)
@@ -112,6 +115,7 @@ class FragmentViewModel : ViewModel() {
         cal.add(Calendar.MONTH, -2)
         val preDate = cal.time
         val previousDate = formatter.format(preDate)
+        Log.d("pre", previousDate)
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()

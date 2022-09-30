@@ -22,7 +22,7 @@ import viewmodel.AddInterviewViewModel
 class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private lateinit var viewModel: AddInterviewViewModel
-    private lateinit var progressDialog: CustomProgressDialog
+    private val progressDialog by lazy { CustomProgressDialog(requireContext()) }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +46,6 @@ class AddFragment : Fragment() {
         binding.appBar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_addFragment_to_dashBoardActivity)
         }
-        progressDialog = CustomProgressDialog(requireContext())
         viewModel.getDataOnDepartmentSpinner()
         observer()
     }

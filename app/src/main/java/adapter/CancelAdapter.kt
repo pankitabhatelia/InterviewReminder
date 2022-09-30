@@ -8,15 +8,10 @@ import model.AddInterviewModel
 
 class CancelAdapter : RecyclerView.Adapter<CancelAdapter.ViewHolder>() {
     private var interviewList = ArrayList<AddInterviewModel>()
-    private lateinit var itemClickListener: CancelAdapter.OnItemClickListener
+    private var itemClickListener: ((AddInterviewModel) -> Unit)? = null
 
-
-    interface OnItemClickListener {
-        fun onItemClick(data: AddInterviewModel)
-    }
-
-    fun setOnItemClickListener(listener: CancelAdapter.OnItemClickListener) {
-        itemClickListener = listener
+    fun setOnItemClickListener(data :(AddInterviewModel)->Unit) {
+        itemClickListener = data
     }
 
     fun setData(interView: ArrayList<AddInterviewModel>) {
@@ -34,7 +29,7 @@ class CancelAdapter : RecyclerView.Adapter<CancelAdapter.ViewHolder>() {
         val currentItem = interviewList[position]
         holder.bind(currentItem)
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(currentItem)
+            itemClickListener?.invoke(currentItem)
         }
     }
 

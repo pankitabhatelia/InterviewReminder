@@ -1,4 +1,5 @@
 package fragment
+
 import adapter.CancelAdapter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,7 +14,7 @@ import model.AddInterviewModel
 import model.Fragments
 import viewmodel.FragmentViewModel
 
-class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
+class CancelledFragment : Fragment() {
     private lateinit var binding: FragmentCancelledBinding
     private lateinit var interviewViewModel: FragmentViewModel
     private lateinit var adapter: CancelAdapter
@@ -32,8 +33,12 @@ class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecyclerview()
-        interviewViewModel.getCancelledInterviewData()
         fragmentStudentObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        interviewViewModel.getCancelledInterviewData()
     }
 
     private fun fragmentStudentObserver() {
@@ -51,16 +56,17 @@ class CancelledFragment : Fragment(), CancelAdapter.OnItemClickListener  {
     private fun setUpRecyclerview() {
         adapter = CancelAdapter()
         binding.rvCancelled.adapter = adapter
-        val itemMargin = SpaceItemDecoration(10,10,10,10)
+        val itemMargin = SpaceItemDecoration(10, 10, 10, 10)
         binding.rvCancelled.addItemDecoration(itemMargin)
-        adapter.setOnItemClickListener(this)
+        adapter.setOnItemClickListener {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(
+                    it,
+                    Fragments.cancelledFragment
+                )
+            findNavController().navigate(action)
+        }
     }
 
-    override fun onItemClick(data: AddInterviewModel) {
-        val action =
-            HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(data,
-                Fragments.cancelledFragment)
-        findNavController().navigate(action)
-    }
 
 }
