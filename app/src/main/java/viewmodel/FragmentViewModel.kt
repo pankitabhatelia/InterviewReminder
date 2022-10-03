@@ -196,7 +196,7 @@ class FragmentViewModel : ViewModel() {
     }
 
     fun createNotificationChannel(view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val name: CharSequence = "InterviewReminder"
             val description = "Reminder for Interview Scheduled"
             val importance = NotificationManager.IMPORTANCE_HIGH

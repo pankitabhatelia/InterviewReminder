@@ -59,8 +59,7 @@ class AddFragment : Fragment() {
             }
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
-            val intent = Intent(requireContext(), DashBoardActivity::class.java)
-            startActivity(intent)
+           findNavController().navigateUp()
 
         }
         viewModel.showProgress.observe(viewLifecycleOwner) {

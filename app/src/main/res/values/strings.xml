@@ -28,6 +28,7 @@
     <string name="cancel">Cancel</string>
     <string name="setReminder">Set Reminder</string>
     <string name="welcometohome">Welcome To Home</string>
+    <string name="logout">Log out</string>
 
 
 </resources>
