@@ -1,6 +1,9 @@
 package viewmodel
 
-import android.app.*
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.os.Build
@@ -16,7 +19,11 @@ import model.AddInterviewModel
 import model.Fragments
 import notification.AlarmReceiver
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 class FragmentViewModel : ViewModel() {
     val candidateName: MutableLiveData<String?> = MutableLiveData()
@@ -34,9 +41,6 @@ class FragmentViewModel : ViewModel() {
     var interviewList = arrayListOf<AddInterviewModel>()
     private var interviewListOnDone = arrayListOf<AddInterviewModel>()
     private var interviewListOnCancelled = arrayListOf<AddInterviewModel>()
-    private val formatter = SimpleDateFormat("dd/M/yyyy")
-    private val date = Date()
-    private val current = formatter.format(date)
     private val cal = Calendar.getInstance()
     var id: MutableLiveData<String?> = MutableLiveData()
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -111,26 +115,42 @@ class FragmentViewModel : ViewModel() {
         interviewListOnCancelled.clear()
     }
 
+
     fun updateStatusOnFirebase() {
         cal.add(Calendar.MONTH, -2)
-        val preDate = cal.time
-        val previousDate = formatter.format(preDate)
-        Log.d("pre", previousDate)
+        val current = LocalDateTime.now()
+        val getTime = LocalTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY")
+        val formatted = current.format(formatter)
+        val sdf = DateTimeFormatter.ofPattern("hh:mm a")
+        val formatterTime = getTime.format(sdf)
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 it.forEach { it1 ->
                     val date = it1.data["interviewDate"]
-                    if (date.toString() < previousDate) {
-                        fireStore.collection("AddInterview").document(it1.id)
-                            .update("status", 2)
-                            .addOnSuccessListener {
+                    val time = it1.data["interviewTime"]
+                    val compareDate = SimpleDateFormat("dd/MM/yyyy").parse(date as String)
+                    val currentDate = SimpleDateFormat("dd/MM/yyyy").parse(formatted as String)
+                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
+                    val currentTime = SimpleDateFormat("hh:mm aa").parse(formatterTime as String)
+                    if (compareTime != null) {
+                        if (compareDate!!.before(currentDate) || (compareDate.equals(currentDate)) && compareTime.before(
+                                currentTime
+                            )
+                        ) {
+                            fireStore.collection("AddInterview").document(it1.id)
+                                .update("status", 2)
+                                .addOnSuccessListener {
 
-                            }
+                                }
+                        }
                     }
+
                 }
             }
+
     }
 
     private fun onClickOnDone(): Boolean {
@@ -227,6 +247,5 @@ class FragmentViewModel : ViewModel() {
         pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
         alarmManager.cancel(pendingIntent)
     }
-
 
 }

@@ -59,7 +59,7 @@ class AddFragment : Fragment() {
             }
         }
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
-           findNavController().navigateUp()
+           findNavController().navigate(R.id.action_addFragment_to_dashBoardActivity)
 
         }
         viewModel.showProgress.observe(viewLifecycleOwner) {

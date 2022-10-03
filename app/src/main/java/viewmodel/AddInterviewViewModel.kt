@@ -54,13 +54,11 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val cal = Calendar.getInstance()
     private lateinit var documentReference: DocumentReference
     val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private lateinit var alarmManager: AlarmManager
-    private lateinit var pendingIntent: PendingIntent
+
 
     fun addOnClick(view: View) {
         if (isValid()) {
             addData()
-            setAlarm(view)
         }
 
     }
@@ -249,31 +247,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
         return !time2.before(time1)
-    }
-    fun createNotificationChannel(view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name: CharSequence = "InterviewReminder"
-            val description = "Reminder for Interview Scheduled"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("InterviewReminder", name, importance)
-            channel.description = description
-            val notificationManager: NotificationManager =
-                view.context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun setAlarm(view: View) {
-        alarmManager = view.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(view.context, AlarmReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
-        try {
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
 
