@@ -1,22 +1,15 @@
 package viewmodel
 
 import android.app.*
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import androidx.core.view.get
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
-import notification.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,8 +19,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     val technology: MutableLiveData<String?> = MutableLiveData()
     val interviewDate: MutableLiveData<String?> = MutableLiveData()
     val interviewTime: MutableLiveData<String?> = MutableLiveData()
-    private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var firebaseUser: FirebaseUser? = auth.currentUser
     private lateinit var department: String
     private lateinit var interviewerName: String
     private lateinit var interviewerEmail: String
@@ -53,7 +44,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     val showProgress: LiveData<Boolean> = _showProgress
     private val cal = Calendar.getInstance()
     private lateinit var documentReference: DocumentReference
-    val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
 
     fun addOnClick(view: View) {
@@ -246,7 +237,10 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val sdf = SimpleDateFormat("hh:mm a")
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
-        return !time2.before(time1)
+        if (time2 != null) {
+            return !(time2.before(time1))
+        }
+        return false
     }
 
 
