@@ -1,7 +1,6 @@
 package adapter
 
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -9,21 +8,21 @@ import fragment.CancelledFragment
 import fragment.DoneFragment
 import fragment.UpcomingFragment
 
-class MyAdapter(private val myContext: Context, fm: FragmentManager, internal var totalTabs: Int) : FragmentPagerAdapter(fm) {
+class MyAdapter(fm: FragmentManager, private var totalTabs: Int) : FragmentPagerAdapter(fm) {
 
 
     override fun getItem(position: Int): Fragment {
-        when (position) {
+        return when (position) {
             0 -> {
-                return UpcomingFragment()
+                UpcomingFragment()
             }
             1 -> {
-                return CancelledFragment()
+                CancelledFragment()
             }
             2 -> {
-                return DoneFragment()
+                DoneFragment()
             }
-            else -> return UpcomingFragment()
+            else -> UpcomingFragment()
         }
     }
 

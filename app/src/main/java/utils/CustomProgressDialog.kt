@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.example.interviewreminderapp.R
 
+
 class CustomProgressDialog(context: Context) {
 
     private var dialog: CustomDialog
@@ -28,16 +29,11 @@ class CustomProgressDialog(context: Context) {
     init {
         val inflater = (context as Activity).layoutInflater
         val view = inflater.inflate(R.layout.loading_item, null)
-
         cpTitle = view.findViewById(R.id.cpTitle)
         cpCardView = view.findViewById(R.id.cpCardView)
         progressBar = view.findViewById(R.id.progressBar)
-
-
-        // Text Color
         cpTitle.setTextColor(Color.GRAY)
         cpTitle.setText(R.string.loading)
-        // Custom Dialog initialization
         dialog = CustomDialog(context)
         dialog.setContentView(view)
     }
@@ -45,11 +41,7 @@ class CustomProgressDialog(context: Context) {
 
     class CustomDialog(context: Context) : Dialog(context, R.style.CustomDialogTheme) {
         init {
-            // Set Semi-Transparent Color for Dialog Background
             window?.decorView?.rootView?.setBackgroundResource(R.color.trans)
-            window?.decorView?.setOnApplyWindowInsetsListener { _, insets ->
-                insets.consumeSystemWindowInsets()
-            }
         }
     }
 }

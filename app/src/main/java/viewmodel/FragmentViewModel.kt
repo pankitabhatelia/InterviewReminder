@@ -2,7 +2,6 @@ package viewmodel
 
 import android.app.*
 import android.content.Context.ALARM_SERVICE
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -45,7 +44,8 @@ class FragmentViewModel : ViewModel() {
     var button: MutableLiveData<Boolean?> = MutableLiveData()
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
-
+    private val _toastMessage: MutableLiveData<String> = MutableLiveData()
+    val toastMessage: LiveData<String> = _toastMessage
 
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
@@ -118,7 +118,7 @@ class FragmentViewModel : ViewModel() {
         cal.add(Calendar.MONTH, -2)
         val current = LocalDateTime.now()
         val getTime = LocalTime.now()
-        val formatter = DateTimeFormatter.ofPattern("dd/MM/YYYY")
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val formatted = current.format(formatter)
         val sdf = DateTimeFormatter.ofPattern("hh:mm a")
         val formatterTime = getTime.format(sdf)
@@ -129,10 +129,18 @@ class FragmentViewModel : ViewModel() {
                 it.forEach { it1 ->
                     val date = it1.data["interviewDate"]
                     val time = it1.data["interviewTime"]
-                    val compareDate = SimpleDateFormat("dd/MM/yyyy").parse(date as String)
-                    val currentDate = SimpleDateFormat("dd/MM/yyyy").parse(formatted as String)
-                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
-                    val currentTime = SimpleDateFormat("hh:mm aa").parse(formatterTime as String)
+                    val compareDate =
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date as String)
+                    val currentDate = SimpleDateFormat(
+                        "dd/MM/yyyy",
+                        Locale.getDefault()
+                    ).parse(formatted as String)
+                    val compareTime =
+                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
+                    val currentTime = SimpleDateFormat(
+                        "hh:mm aa",
+                        Locale.getDefault()
+                    ).parse(formatterTime as String)
                     if (compareTime != null) {
                         if (compareDate!!.before(currentDate) || (compareDate.equals(currentDate)) && compareTime.before(
                                 currentTime
@@ -175,40 +183,40 @@ class FragmentViewModel : ViewModel() {
             }
     }
 
-     fun onClickOnCancel(view: View) {
+    fun onClickOnCancel(view: View) {
         val dialogBuilder = AlertDialog.Builder(view.context)
         dialogBuilder.setMessage("Are you sure you want to cancel?")
             .setCancelable(false)
-            .setPositiveButton("No", DialogInterface.OnClickListener { dialog, id ->
+            .setPositiveButton("No") { _, _ ->
 
-            })
-            .setNegativeButton("Yes", DialogInterface.OnClickListener { dialog, id ->
+            }
+            .setNegativeButton("Yes") { dialog, _ ->
                 dialog.cancel()
                 changeStatusOnCancel()
                 cancelAlarm(view)
                 _navigateToListScreen.postValue(Unit)
-            })
+            }
         val alert = dialogBuilder.create()
         alert.setTitle("Alert!!!!")
         alert.show()
     }
 
-    fun changeStatusOnCancel() {
+    private fun changeStatusOnCancel() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
 
-                    it.forEach { it1 ->
-                        val interviewId = it1.data["id"]
-                        if (interviewId == id.value.toString()) {
-                            fireStore.collection("AddInterview").document(it1.id)
-                                .update("status", 2)
-                                .addOnSuccessListener {
+                it.forEach { it1 ->
+                    val interviewId = it1.data["id"]
+                    if (interviewId == id.value.toString()) {
+                        fireStore.collection("AddInterview").document(it1.id)
+                            .update("status", 2)
+                            .addOnSuccessListener {
 
-                                }
-                        }
+                            }
                     }
                 }
+            }
     }
 
     fun setFromFragment(fromFragment: String) {
@@ -220,8 +228,8 @@ class FragmentViewModel : ViewModel() {
     }
 
     fun onReminderButtonClick(view: View) {
-        setAlarm(view)
-        _navigateToListScreen.postValue(Unit)
+         setAlarm(view)
+        _toastMessage.value = "Reminder is set!!!"
     }
 
     fun createNotificationChannel(view: View) {
@@ -244,10 +252,16 @@ class FragmentViewModel : ViewModel() {
             .addOnSuccessListener {
                 it.forEach { it1 ->
                     val time = it1.data["interviewTime"]
-                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
+                    val compareTime =
+                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
                     alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
                     val intent = Intent(view.context, AlarmReceiver::class.java)
-                    pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                    pendingIntent = PendingIntent.getBroadcast(
+                        view.context,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
                     if (compareTime != null) {
                         alarmManager.set(
                             AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
@@ -265,11 +279,19 @@ class FragmentViewModel : ViewModel() {
             .addOnSuccessListener {
                 it.forEach { it1 ->
                     val time = it1.data["interviewTime"]
-                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
+                    val compareTime =
+                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
                     alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
                     val intent = Intent(view.context, AlarmReceiver::class.java)
-                    pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent)
+                    pendingIntent = PendingIntent.getBroadcast(
+                        view.context,
+                        0,
+                        intent,
+                        PendingIntent.FLAG_IMMUTABLE
+                    )
+                    if (compareTime != null) {
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent)
+                    }
                     alarmManager.cancel(pendingIntent)
                 }
             }

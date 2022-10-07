@@ -47,7 +47,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
 
-    fun addOnClick(view: View) {
+    fun addOnClick() {
         if (isValid()) {
             addData()
         }
@@ -228,13 +228,13 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
 
     private fun getCurrentTime(): String? {
 
-        val simpleDateFormat = SimpleDateFormat("hh:mm a")
+        val simpleDateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         return simpleDateFormat.format(Calendar.getInstance().time)
 
     }
 
     private fun compareTwoTimes(fromTime: String, currentTime: String): Boolean {
-        val sdf = SimpleDateFormat("hh:mm a")
+        val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
         val time1 = sdf.parse(fromTime)
         val time2 = sdf.parse(currentTime)
         if (time2 != null) {

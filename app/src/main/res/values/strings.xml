@@ -30,6 +30,7 @@
     <string name="welcometohome">Welcome To Home</string>
     <string name="logout">Log out</string>
     <string name="dialogTitle">Are you sure you want to cancel?</string>
+    <string name="message">Message</string>
 
 
 </resources>

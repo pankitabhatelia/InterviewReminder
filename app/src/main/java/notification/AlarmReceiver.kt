@@ -13,7 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent:Intent?) {
         val i = Intent(context,DashBoardActivity::class.java)
         intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        val pendingIntent = PendingIntent.getActivity(context,0,i,0)
+        val pendingIntent = PendingIntent.getActivity(context,0,i,PendingIntent.FLAG_IMMUTABLE)
         val builder = NotificationCompat.Builder(context!!,"InterviewReminder")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("Interview Reminder")

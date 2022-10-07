@@ -2,12 +2,10 @@ package fragment
 
 
 import adapter.UpcomingAdapter
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -43,7 +41,6 @@ class UpcomingFragment : Fragment() {
         fragmentStudentObserver()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         interviewViewModel.updateStatusOnFirebase()

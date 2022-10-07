@@ -1,17 +1,17 @@
 package fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.interviewreminderapp.R
 import com.example.interviewreminderapp.databinding.FragmentInterviewDetailBinding
-import viewmodel.AddInterviewViewModel
 import viewmodel.FragmentViewModel
 
 
@@ -53,6 +53,12 @@ class InterviewDetailFragment : Fragment() {
     private fun observer() {
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_interviewDetailFragment_to_dashBoardActivity)
+        }
+        viewModel.toastMessage.observe(viewLifecycleOwner) {
+            it?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
