@@ -213,7 +213,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/cancelbtncolor"
-            android:onClick="@{rootView->getInterviewData.changeStatusOnCancel(rootView)}"
+            android:onClick="@{rootView->getInterviewData.onClickOnCancel(rootView)}"
             android:visibility="@{getInterviewData.button ? View.VISIBLE : View.GONE}"
             android:paddingStart="50dp"
             android:paddingEnd="50dp"

@@ -2,6 +2,7 @@ package viewmodel
 
 import android.app.*
 import android.content.Context.ALARM_SERVICE
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -20,7 +21,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-
 
 
 class FragmentViewModel : ViewModel() {
@@ -175,17 +175,29 @@ class FragmentViewModel : ViewModel() {
             }
     }
 
-    private fun onClickOnCancel(view: View): Boolean {
-        cancelAlarm(view)
-        _navigateToListScreen.postValue(Unit)
-        return true
+     fun onClickOnCancel(view: View) {
+        val dialogBuilder = AlertDialog.Builder(view.context)
+        dialogBuilder.setMessage("Are you sure you want to cancel?")
+            .setCancelable(false)
+            .setPositiveButton("No", DialogInterface.OnClickListener { dialog, id ->
+
+            })
+            .setNegativeButton("Yes", DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
+                changeStatusOnCancel()
+                cancelAlarm(view)
+                _navigateToListScreen.postValue(Unit)
+            })
+        val alert = dialogBuilder.create()
+        alert.setTitle("Alert!!!!")
+        alert.show()
     }
 
-    fun changeStatusOnCancel(view: View) {
+    fun changeStatusOnCancel() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
-                if (onClickOnCancel(view)) {
+
                     it.forEach { it1 ->
                         val interviewId = it1.data["id"]
                         if (interviewId == id.value.toString()) {
@@ -197,7 +209,6 @@ class FragmentViewModel : ViewModel() {
                         }
                     }
                 }
-            }
     }
 
     fun setFromFragment(fromFragment: String) {
@@ -227,24 +238,42 @@ class FragmentViewModel : ViewModel() {
     }
 
     private fun setAlarm(view: View) {
-        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(view.context, AlarmReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
-        try {
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
+            .whereEqualTo("status", 0)
+            .get()
+            .addOnSuccessListener {
+                it.forEach { it1 ->
+                    val time = it1.data["interviewTime"]
+                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
+                    alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                    val intent = Intent(view.context, AlarmReceiver::class.java)
+                    pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                    if (compareTime != null) {
+                        alarmManager.set(
+                            AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
+                        )
+                    }
+                }
+            }
+
     }
 
     private fun cancelAlarm(view: View) {
-        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(view.context, AlarmReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
-        alarmManager.set(AlarmManager.RTC_WAKEUP,cal.timeInMillis,pendingIntent)
-        alarmManager.cancel(pendingIntent)
+        fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
+            .whereEqualTo("status", 0)
+            .get()
+            .addOnSuccessListener {
+                it.forEach { it1 ->
+                    val time = it1.data["interviewTime"]
+                    val compareTime = SimpleDateFormat("hh:mm aa").parse(time as String)
+                    alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                    val intent = Intent(view.context, AlarmReceiver::class.java)
+                    pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent)
+                    alarmManager.cancel(pendingIntent)
+                }
+            }
+
     }
 
 }
