@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,8 +33,16 @@ class InterviewDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
+        observer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.action_interviewDetailFragment_to_dashBoardActivity)
+        }
+
         viewModel.createNotificationChannel(requireView())
         viewModel.setFromFragment(args.fromFragment)
         (requireActivity() as? AppCompatActivity)?.apply {
@@ -47,7 +56,6 @@ class InterviewDetailFragment : Fragment() {
         if (args.currentInterview != null) {
             viewModel.getInterviewData(args.currentInterview)
         }
-        observer()
     }
 
     private fun observer() {

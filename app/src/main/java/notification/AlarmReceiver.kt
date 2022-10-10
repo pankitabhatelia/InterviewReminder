@@ -10,11 +10,11 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.interviewreminderapp.R
 
 class AlarmReceiver : BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent:Intent?) {
+    override fun onReceive(context: Context, intent:Intent) {
         val i = Intent(context,DashBoardActivity::class.java)
-        intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(context,0,i,PendingIntent.FLAG_IMMUTABLE)
-        val builder = NotificationCompat.Builder(context!!,"InterviewReminder")
+        val builder = NotificationCompat.Builder(context,"InterviewReminder")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("Interview Reminder")
             .setContentText("Interview Reminder Received")

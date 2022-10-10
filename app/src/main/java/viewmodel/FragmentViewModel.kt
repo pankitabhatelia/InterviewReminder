@@ -142,15 +142,17 @@ class FragmentViewModel : ViewModel() {
                         Locale.getDefault()
                     ).parse(formatterTime as String)
                     if (compareTime != null) {
-                        if (compareDate!!.before(currentDate) || (compareDate.equals(currentDate)) && compareTime.before(
-                                currentTime
-                            )
-                        ) {
-                            fireStore.collection("AddInterview").document(it1.id)
-                                .update("status", 2)
-                                .addOnSuccessListener {
+                        if (compareDate != null) {
+                            if (compareDate.before(currentDate) || (compareDate.equals(currentDate)) && compareTime.before(
+                                    currentTime
+                                )
+                            ) {
+                                fireStore.collection("AddInterview").document(it1.id)
+                                    .update("status", 2)
+                                    .addOnSuccessListener {
 
-                                }
+                                    }
+                            }
                         }
                     }
 

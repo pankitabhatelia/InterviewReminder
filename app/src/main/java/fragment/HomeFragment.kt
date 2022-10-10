@@ -54,6 +54,7 @@ class HomeFragment : Fragment(), MenuProvider {
 
     }
 
+
     private fun observer() {
         viewModel.navigateToListScreen.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_homeFragment_to_addFragment)
