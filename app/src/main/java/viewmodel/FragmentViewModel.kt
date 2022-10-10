@@ -155,7 +155,6 @@ class FragmentViewModel : ViewModel() {
                             }
                         }
                     }
-
                 }
             }
 
