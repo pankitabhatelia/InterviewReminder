@@ -19,7 +19,7 @@ class AlarmReceiver : BroadcastReceiver() {
             .setContentTitle("Interview Reminder")
             .setContentText("Interview Reminder Received")
             .setAutoCancel(true)
-            .addAction(R.drawable.notificationbell,"Set Reminder",pendingIntent)
+            .addAction(R.drawable.notificationbell,"View Reminders",pendingIntent)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)

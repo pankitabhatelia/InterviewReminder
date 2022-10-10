@@ -230,7 +230,7 @@ class FragmentViewModel : ViewModel() {
     }
 
     fun onReminderButtonClick(view: View) {
-         setAlarm(view)
+        setAlarm(view)
         _toastMessage.value = "Reminder is set!!!"
     }
 
@@ -253,23 +253,29 @@ class FragmentViewModel : ViewModel() {
             .get()
             .addOnSuccessListener {
                 it.forEach { it1 ->
+                    val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
-                    val compareTime =
-                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
-                    alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-                    val intent = Intent(view.context, AlarmReceiver::class.java)
-                    pendingIntent = PendingIntent.getBroadcast(
-                        view.context,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-                    if (compareTime != null) {
-                        alarmManager.set(
-                            AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
+                    if (interviewId == id.value.toString()) {
+                        val compareTime =
+                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
+                        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                        val intent = Intent(view.context, AlarmReceiver::class.java)
+                        pendingIntent = PendingIntent.getBroadcast(
+                            view.context,
+                            0,
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE
                         )
+                        if (compareTime != null) {
+                            alarmManager.set(
+                                AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
+                            )
+                        }
+                        _toastMessage.value = "Alarm is set for $time"
                     }
+
                 }
+
             }
 
     }
@@ -280,21 +286,29 @@ class FragmentViewModel : ViewModel() {
             .get()
             .addOnSuccessListener {
                 it.forEach { it1 ->
+                    val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
-                    val compareTime =
-                        SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
-                    alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-                    val intent = Intent(view.context, AlarmReceiver::class.java)
-                    pendingIntent = PendingIntent.getBroadcast(
-                        view.context,
-                        0,
-                        intent,
-                        PendingIntent.FLAG_IMMUTABLE
-                    )
-                    if (compareTime != null) {
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent)
+                    if (interviewId == id.value.toString()) {
+                        val compareTime =
+                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
+                        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                        val intent = Intent(view.context, AlarmReceiver::class.java)
+                        pendingIntent = PendingIntent.getBroadcast(
+                            view.context,
+                            0,
+                            intent,
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+                        if (compareTime != null) {
+                            alarmManager.set(
+                                AlarmManager.RTC_WAKEUP,
+                                compareTime.time,
+                                pendingIntent
+                            )
+                        }
+                        alarmManager.cancel(pendingIntent)
+                        _toastMessage.value = "Alarm is cancelled for $time"
                     }
-                    alarmManager.cancel(pendingIntent)
                 }
             }
 
