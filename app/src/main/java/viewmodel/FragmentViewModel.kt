@@ -188,21 +188,20 @@ class FragmentViewModel : ViewModel() {
         val dialogBuilder = AlertDialog.Builder(view.context)
         dialogBuilder.setMessage("Are you sure you want to cancel?")
             .setCancelable(false)
-            .setPositiveButton("No") { _, _ ->
-
-            }
-            .setNegativeButton("Yes") { dialog, _ ->
-                dialog.cancel()
+            .setPositiveButton("Yes") { _, _ ->
                 changeStatusOnCancel()
                 cancelAlarm(view)
                 _navigateToListScreen.postValue(Unit)
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.cancel()
             }
         val alert = dialogBuilder.create()
         alert.setTitle("Alert!!!!")
         alert.show()
     }
 
-    private fun changeStatusOnCancel() {
+      fun changeStatusOnCancel() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
@@ -228,10 +227,6 @@ class FragmentViewModel : ViewModel() {
         }
     }
 
-    fun onReminderButtonClick(view: View) {
-        setAlarm(view)
-        _toastMessage.value = "Reminder is set!!!"
-    }
 
     fun createNotificationChannel(view: View) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -246,7 +241,7 @@ class FragmentViewModel : ViewModel() {
         }
     }
 
-    private fun setAlarm(view: View) {
+     fun setAlarm(view: View):Boolean {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()
@@ -276,10 +271,11 @@ class FragmentViewModel : ViewModel() {
                 }
 
             }
+        return false
 
     }
 
-    private fun cancelAlarm(view: View) {
+     fun cancelAlarm(view: View) {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()

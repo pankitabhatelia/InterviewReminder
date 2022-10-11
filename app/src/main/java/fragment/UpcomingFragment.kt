@@ -18,7 +18,7 @@ import viewmodel.FragmentViewModel
 import kotlin.collections.ArrayList
 
 
-class UpcomingFragment : Fragment() {
+class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
 
     private lateinit var binding: FragmentUpcomingBinding
     private lateinit var interviewViewModel: FragmentViewModel
@@ -46,6 +46,7 @@ class UpcomingFragment : Fragment() {
         interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
+        interviewViewModel.createNotificationChannel(requireView())
     }
 
     private fun fragmentStudentObserver() {
@@ -66,14 +67,23 @@ class UpcomingFragment : Fragment() {
         binding.rvUpcoming.adapter = adapter
         val itemMargin = SpaceItemDecoration(10, 10, 10, 10)
         binding.rvUpcoming.addItemDecoration(itemMargin)
-        adapter.setOnItemClickListener {
-            val action =
-                HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(
-                    it,
-                    Fragments.upcomingFragment
-                )
-            findNavController().navigate(action)
-        }
+        adapter.setOnItemClickListener(this)
+    }
+
+    override fun onItemClick(data: AddInterviewModel) {
+        val action = HomeFragmentDirections.actionHomeFragmentToInterviewDetailFragment(
+            data,
+            Fragments.upcomingFragment
+        )
+        findNavController().navigate(action)
+    }
+
+    override fun onCancelClick(data: AddInterviewModel) {
+      interviewViewModel.onClickOnCancel(requireView())
+    }
+
+    override fun onNotificationClick(data: AddInterviewModel) {
+        interviewViewModel.setAlarm(requireView())
     }
 
 

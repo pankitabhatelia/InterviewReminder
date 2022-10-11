@@ -205,7 +205,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:onClick="@{rootView->getInterviewData.onReminderButtonClick(rootView)}"
+            android:onClick="@{rootView->getInterviewData.setAlarm(rootView)}"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
             android:text="@string/setReminder"
