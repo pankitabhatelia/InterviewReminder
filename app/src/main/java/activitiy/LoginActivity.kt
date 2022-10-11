@@ -1,6 +1,8 @@
 package activitiy
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -17,6 +19,8 @@ import data.PreferenceDataStore
 import data.USER_IS_LOGGED_IN
 
 class LoginActivity : AppCompatActivity() {
+    private var _isNightModeActive: Boolean = false
+
 
     private val progressDialog by lazy { CustomProgressDialog(this) }
     private lateinit var binding: ActivityLoginBinding
@@ -59,7 +63,17 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        _isNightModeActive =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                resources.configuration.isNightModeActive
+            } else {
+                newConfig.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK ==
+                        Configuration.UI_MODE_NIGHT_YES
+            }
+    }
     private fun sessionObserver() {
         lifecycleScope.launch {
             PreferenceDataStore(this@LoginActivity).getBoolean(
