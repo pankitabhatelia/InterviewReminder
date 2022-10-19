@@ -57,6 +57,5 @@ class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
             binding.addData = data
             binding.executePendingBindings()
         }
-
     }
 }
