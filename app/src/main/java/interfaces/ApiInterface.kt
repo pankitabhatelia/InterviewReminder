@@ -1,13 +1,13 @@
 package interfaces
 
-import model.PixabayResponse
+import model.RecyclerList
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.QueryMap
+import retrofit2.http.Query
 
 
 interface ApiInterface {
 
-    @GET("api/?")
-    fun getGridImage(@QueryMap parameter:Map<String,String>): Call<PixabayResponse>
+    @GET("repositories")
+    fun getDataFromAPI(@Query("q") query: String): Call<RecyclerList>
 }
