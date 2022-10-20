@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable-v24/customsignup.xml" value="0.1625" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable-v24/edittextborder.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2115" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/black_border.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/cardview_body.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/ic_baseline_notifications_24.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/ic_illustration_login.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/my_button_bg.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/tab_bg.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/tab_bgselected.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/drawable/textborder.xml" value="0.1" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_add_reminder.xml" value="0.33" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_dashboard.xml" value="0.20416666666666666" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_home_screen.xml" value="0.25" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_login.xml" value="0.33" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_registration.xml" value="0.25" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.20416666666666666" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/fragment_add.xml" value="0.22" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/fragment_cancelled.xml" value="0.20416666666666666" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/fragment_done.xml" value="0.20416666666666666" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/fragment_upcoming.xml" value="0.20821917808219179" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/loading_item.xml" value="0.20416666666666666" />
+        <entry key="..\:/PankitaWork/Android Projects/GitRepo/InterViewReminderApp/app/src/main/res/layout/upcoming_item.xml" value="0.25" />
+        <entry key="..\:/PankitaWork/InterviewReminder-8e0607c71fbeab43e04f4e395abc02aefb51b73f/InterviewReminder/app/src/main/res/layout/activity_login.xml" value="0.20416666666666666" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

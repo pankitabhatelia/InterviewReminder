@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/upcomingFragment"
+        android:name="fragment.UpcomingFragment"
+        android:label="UpcomingFragment">
+        <action
+            android:id="@+id/action_upcomingFragment_to_cancelledFragment"
+            app:destination="@id/cancelledFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_doneFragment"
+            app:destination="@id/doneFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_interviewDetailFragment"
+            app:destination="@id/interviewDetailFragment" />
+        <action
+            android:id="@+id/action_upcomingFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/cancelledFragment"
+        android:name="fragment.CancelledFragment"
+        android:label="fragment_cancelled"
+        tools:layout="@layout/fragment_cancelled">
+        <action
+            android:id="@+id/action_cancelledFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doneFragment"
+        android:name="fragment.DoneFragment"
+        android:label="fragment_done"
+        tools:layout="@layout/fragment_done">
+        <action
+            android:id="@+id/action_doneFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="fragment.AddFragment"
+        android:label="fragment_add"
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+        <action
+            android:id="@+id/action_addFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_addFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_interviewDetailFragment"
+            app:destination="@id/interviewDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/interviewDetailFragment"
+        android:name="fragment.InterviewDetailFragment"
+        android:label="fragment_interview_detail"
+        tools:layout="@layout/fragment_interview_detail">
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_upcomingFragment"
+            app:destination="@id/upcomingFragment" />
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+
+        <argument
+            android:name="currentInterview"
+            app:argType="model.AddInterviewModel"
+            app:nullable="true" />
+
+        <argument
+            android:name="fromFragment"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_interviewDetailFragment_to_dashBoardActivity"
+            app:destination="@id/dashBoardActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/dashBoardActivity"
+        android:name="activitiy.DashBoardActivity"
+        android:label="DashBoardActivity" />
+</navigation>

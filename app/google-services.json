@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "459678322113",
+    "project_id": "interviewreminder-b60e8",
+    "storage_bucket": "interviewreminder-b60e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459678322113:android:9ee5a330b099b891f93340",
+        "android_client_info": {
+          "package_name": "com.example.interviewreminderapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459678322113-79lk51lpire9b6btjfq1brtlect8it1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0FrVA3ec2ka-guXdtZmrDA7p3XeSX8Ks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459678322113-79lk51lpire9b6btjfq1brtlect8it1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
