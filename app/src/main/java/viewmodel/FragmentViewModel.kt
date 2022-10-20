@@ -212,7 +212,7 @@ class FragmentViewModel : ViewModel() {
                         fireStore.collection("AddInterview").document(it1.id)
                             .update("status", 2)
                             .addOnSuccessListener {
-                                Log.d("Tag",interviewId.toString())
+                                Log.d("Tag",interviewTime.toString())
 
                             }
                     }
