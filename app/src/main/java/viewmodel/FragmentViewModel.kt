@@ -201,7 +201,7 @@ class FragmentViewModel : ViewModel() {
         alert.show()
     }
 
-      fun changeStatusOnCancel() {
+    fun changeStatusOnCancel() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
@@ -212,7 +212,6 @@ class FragmentViewModel : ViewModel() {
                         fireStore.collection("AddInterview").document(it1.id)
                             .update("status", 2)
                             .addOnSuccessListener {
-                                Log.d("Tag",interviewTime.toString())
 
                             }
                     }
@@ -229,20 +228,7 @@ class FragmentViewModel : ViewModel() {
     }
 
 
-    fun createNotificationChannel(view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val name: CharSequence = "InterviewReminder"
-            val description = "Reminder for Interview Scheduled"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("InterviewReminder", name, importance)
-            channel.description = description
-            val notificationManager: NotificationManager =
-                view.context.getSystemService(NotificationManager::class.java)
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-     fun setAlarm(view: View):Boolean {
+    fun setAlarm(view: View):Boolean {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()
@@ -276,7 +262,7 @@ class FragmentViewModel : ViewModel() {
 
     }
 
-     fun cancelAlarm(view: View) {
+    fun cancelAlarm(view: View) {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()

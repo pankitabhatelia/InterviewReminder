@@ -43,7 +43,6 @@ class InterviewDetailFragment : Fragment() {
             findNavController().navigate(R.id.action_interviewDetailFragment_to_dashBoardActivity)
         }
 
-        viewModel.createNotificationChannel(requireView())
         viewModel.setFromFragment(args.fromFragment)
         (requireActivity() as? AppCompatActivity)?.apply {
             setSupportActionBar(binding.appBar)

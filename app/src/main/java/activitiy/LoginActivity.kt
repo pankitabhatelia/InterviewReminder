@@ -73,6 +73,15 @@ class LoginActivity : AppCompatActivity() {
                         Configuration.UI_MODE_NIGHT_MASK ==
                         Configuration.UI_MODE_NIGHT_YES
             }
+        /*var currentNightMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+             newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
+            } // Night mode is not active, we're using the light theme
+            Configuration.UI_MODE_NIGHT_YES -> {
+                newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES
+            } // Night mode is active, we're using dark theme
+        }*/
     }
     private fun sessionObserver() {
         lifecycleScope.launch {

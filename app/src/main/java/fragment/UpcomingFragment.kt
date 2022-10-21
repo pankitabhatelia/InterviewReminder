@@ -2,6 +2,7 @@ package fragment
 
 
 import adapter.UpcomingAdapter
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +47,6 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
         interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
-        interviewViewModel.createNotificationChannel(requireView())
     }
 
     private fun fragmentStudentObserver() {
@@ -79,7 +79,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
     }
 
     override fun onCancelClick(data: AddInterviewModel) {
-      interviewViewModel.onClickOnCancel(requireView())
+        interviewViewModel.onClickOnCancel(requireView())
     }
 
     override fun onNotificationClick(data: AddInterviewModel) {

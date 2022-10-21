@@ -33,6 +33,7 @@
         <activity
             android:name="activitiy.LoginActivity"
             android:exported="true"
+            android:configChanges="uiMode"
             android:theme="@style/Theme.App.Splashscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

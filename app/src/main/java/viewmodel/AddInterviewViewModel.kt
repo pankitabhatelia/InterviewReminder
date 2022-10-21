@@ -1,12 +1,19 @@
 package viewmodel
 
+import activitiy.DashBoardActivity
 import android.app.*
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.interviewreminderapp.R
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import model.AddInterviewModel
@@ -45,11 +52,13 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val cal = Calendar.getInstance()
     private lateinit var documentReference: DocumentReference
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val channelId = "channel_id_example_01"
+    private val notificationId = 101
 
 
-    fun addOnClick() {
+    fun addOnClick(view: View) {
         if (isValid()) {
-            addData()
+            addData(view)
         }
 
     }
@@ -121,7 +130,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-    private fun addData() {
+    private fun addData(view: View) {
         _showProgress.value = true
         documentReference = firestore.collection("AddInterview").document()
         val addInterviewData = AddInterviewModel(
@@ -141,6 +150,7 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         )
         firestore.collection("AddInterview").add(addInterviewData)
             .addOnSuccessListener {
+                sendNotification(view)
                 _navigateToListScreen.postValue(Unit)
                 _showProgress.value = false
                 _toastMessage.value = "Data is inserted successfully"
@@ -243,5 +253,34 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         return false
     }
 
+    fun createNotificationChannel(view: View) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "Notification Name"
+            val descreptionText = "Notification Title"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(channelId, name, importance).apply {
+                description = descreptionText
+            }
+            val notificationManager: NotificationManager =
+                view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendNotification(view: View) {
+        val i = Intent(view.context, DashBoardActivity::class.java)
+        val pendingIntent =
+            PendingIntent.getActivity(view.context, 0, i, PendingIntent.FLAG_IMMUTABLE)
+        val builder = NotificationCompat.Builder(view.context, channelId)
+            .setSmallIcon(R.drawable.notificationbell)
+            .setContentTitle("Interview Notification")
+            .setContentText("Interview is being scheduled")
+            .addAction(R.drawable.notificationbell, "View Interviews", pendingIntent)
+            .setPriority(NotificationManager.IMPORTANCE_HIGH)
+
+        with(NotificationManagerCompat.from(view.context)) {
+            notify(notificationId, builder.build())
+        }
+    }
 
 }

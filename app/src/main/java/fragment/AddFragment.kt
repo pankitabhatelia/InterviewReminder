@@ -45,6 +45,7 @@ class AddFragment : Fragment() {
             findNavController().navigate(R.id.action_addFragment_to_dashBoardActivity)
         }
         viewModel.getDataOnDepartmentSpinner()
+        viewModel.createNotificationChannel(requireView())
         observer()
     }
 

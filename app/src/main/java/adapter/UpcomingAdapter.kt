@@ -8,24 +8,24 @@ import model.AddInterviewModel
 
 class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
     private var interviewList = ArrayList<AddInterviewModel>()
-   // private var itemClickListener: ((AddInterviewModel) -> Unit)? = null
-  private lateinit var mListener: onItemClickListener
-   /* fun setOnItemClickListener(data :(AddInterviewModel)->Unit) {
-        itemClickListener = data
-    }*/
+    private lateinit var mListener: onItemClickListener
 
-  interface onItemClickListener {
+
+    interface onItemClickListener {
         fun onItemClick(data: AddInterviewModel)
         fun onCancelClick(data: AddInterviewModel)
         fun onNotificationClick(data: AddInterviewModel)
     }
+
     fun setData(interView: ArrayList<AddInterviewModel>) {
         this.interviewList = interView
         notifyDataSetChanged()
     }
-    fun setOnItemClickListener(listener: onItemClickListener){
-        mListener=listener
+
+    fun setOnItemClickListener(listener: onItemClickListener) {
+        mListener = listener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = UpcomingItemBinding.inflate(layoutInflater, parent, false)
@@ -39,10 +39,11 @@ class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
         holder.binding.tvCandidateName.setOnClickListener {
             mListener.onItemClick(interviewList[position])
         }
-       holder.binding.ivCancel.setOnClickListener {
+        holder.binding.ivCancel.setOnClickListener {
             mListener.onCancelClick(interviewList[position])
         }
         holder.binding.ivReminderNotification.setOnClickListener {
+
             mListener.onNotificationClick(interviewList[position])
         }
     }
