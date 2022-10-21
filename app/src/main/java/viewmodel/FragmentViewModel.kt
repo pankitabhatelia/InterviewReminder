@@ -3,9 +3,13 @@ package viewmodel
 import android.app.*
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +26,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class FragmentViewModel : ViewModel() {
+class FragmentViewModel (application: Application) : AndroidViewModel(application) {
     val candidateName: MutableLiveData<String?> = MutableLiveData()
     val experience: MutableLiveData<String?> = MutableLiveData()
     val technology: MutableLiveData<String?> = MutableLiveData()
@@ -46,6 +50,9 @@ class FragmentViewModel : ViewModel() {
     private lateinit var pendingIntent: PendingIntent
     private val _toastMessage: MutableLiveData<String> = MutableLiveData()
     val toastMessage: LiveData<String> = _toastMessage
+    val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+    val r: Ringtone = RingtoneManager.getRingtone(application.applicationContext,notification)
+
 
     fun floatingAddOnClick() {
         _navigateToListScreen.postValue(Unit)
@@ -253,6 +260,8 @@ class FragmentViewModel : ViewModel() {
                             )
                         }
                         _toastMessage.value = "Alarm is set for $time"
+                        val r: Ringtone = RingtoneManager.getRingtone(view.context,notification)
+                        r.play()
                     }
 
                 }
@@ -290,6 +299,7 @@ class FragmentViewModel : ViewModel() {
                         }
                         alarmManager.cancel(pendingIntent)
                         _toastMessage.value = "Alarm is cancelled for $time"
+                        r.stop()
                     }
                 }
             }
