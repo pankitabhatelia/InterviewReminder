@@ -3,20 +3,20 @@ package activitiy
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import utils.CustomProgressDialog
 import com.example.interviewreminderapp.databinding.ActivityLoginBinding
 import com.google.firebase.FirebaseApp
-import kotlinx.coroutines.launch
-import viewmodel.LoginViewModel
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.asLiveData
 import data.PreferenceDataStore
 import data.USER_IS_LOGGED_IN
+import kotlinx.coroutines.launch
+import utils.CustomProgressDialog
+import viewmodel.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
     private var _isNightModeActive: Boolean = false
@@ -73,15 +73,6 @@ class LoginActivity : AppCompatActivity() {
                         Configuration.UI_MODE_NIGHT_MASK ==
                         Configuration.UI_MODE_NIGHT_YES
             }
-        /*var currentNightMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_NO -> {
-             newConfig.uiMode and Configuration.UI_MODE_NIGHT_NO
-            } // Night mode is not active, we're using the light theme
-            Configuration.UI_MODE_NIGHT_YES -> {
-                newConfig.uiMode and Configuration.UI_MODE_NIGHT_YES
-            } // Night mode is active, we're using dark theme
-        }*/
     }
     private fun sessionObserver() {
         lifecycleScope.launch {

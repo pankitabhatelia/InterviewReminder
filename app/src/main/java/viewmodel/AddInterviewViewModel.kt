@@ -254,17 +254,15 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun createNotificationChannel(view: View) {
-       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Notification Name"
-            val descreptionText = "Notification Title"
-            val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel(channelId, name, importance).apply {
-                description = descreptionText
-            }
-            val notificationManager: NotificationManager =
-                view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
+        val name = "Notification Name"
+        val descreptionText = "Notification Title"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(channelId, name, importance).apply {
+            description = descreptionText
         }
+        val notificationManager: NotificationManager =
+            view.context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
     }
 
     private fun sendNotification(view: View) {

@@ -6,13 +6,11 @@ import android.content.Intent
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
-import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
@@ -258,14 +256,12 @@ class FragmentViewModel (application: Application) : AndroidViewModel(applicatio
                             alarmManager.set(
                                 AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
                             )
+                            Log.d("tag",compareTime.toString())
                         }
                         _toastMessage.value = "Alarm is set for $time"
-                        val r: Ringtone = RingtoneManager.getRingtone(view.context,notification)
                         r.play()
                     }
-
                 }
-
             }
         return false
 
