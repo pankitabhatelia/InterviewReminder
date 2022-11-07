@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class FragmentViewModel (application: Application) : AndroidViewModel(application) {
+class FragmentViewModel(application: Application) : AndroidViewModel(application) {
     val candidateName: MutableLiveData<String?> = MutableLiveData()
     val experience: MutableLiveData<String?> = MutableLiveData()
     val technology: MutableLiveData<String?> = MutableLiveData()
@@ -49,7 +49,7 @@ class FragmentViewModel (application: Application) : AndroidViewModel(applicatio
     private val _toastMessage: MutableLiveData<String> = MutableLiveData()
     val toastMessage: LiveData<String> = _toastMessage
     val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
-    val r: Ringtone = RingtoneManager.getRingtone(application.applicationContext,notification)
+    val r: Ringtone = RingtoneManager.getRingtone(application.applicationContext, notification)
 
 
     fun floatingAddOnClick() {
@@ -233,12 +233,15 @@ class FragmentViewModel (application: Application) : AndroidViewModel(applicatio
     }
 
 
-    fun setAlarm(view: View):Boolean {
+    fun setAlarm(view: View): Boolean {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 it.forEach { it1 ->
+                    val date = it1.data["interviewDate"]
+                    val compareDate =
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date as String)
                     val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
                     if (interviewId == id.value.toString()) {
@@ -252,12 +255,13 @@ class FragmentViewModel (application: Application) : AndroidViewModel(applicatio
                             intent,
                             PendingIntent.FLAG_IMMUTABLE
                         )
-                        if (compareTime != null) {
-                            alarmManager.set(
-                                AlarmManager.RTC_WAKEUP, compareTime.time, pendingIntent
-                            )
-                            Log.d("tag",compareTime.toString())
+                        if (compareTime != null && compareDate != null) {
+                                cal.set(Calendar.HOUR, compareTime.hours)
+                                cal.set(Calendar.MINUTE, compareTime.minutes)
                         }
+                        alarmManager.set(
+                            AlarmManager.RTC_WAKEUP,cal.timeInMillis,pendingIntent
+                        )
                         _toastMessage.value = "Alarm is set for $time"
                         r.play()
                     }

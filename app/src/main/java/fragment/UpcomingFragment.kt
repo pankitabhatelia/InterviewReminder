@@ -86,5 +86,4 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
         interviewViewModel.setAlarm(requireView())
     }
 
-
 }

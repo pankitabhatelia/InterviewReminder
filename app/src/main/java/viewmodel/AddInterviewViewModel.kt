@@ -2,9 +2,9 @@ package viewmodel
 
 import activitiy.DashBoardActivity
 import android.app.*
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -16,9 +16,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.interviewreminderapp.R
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.yield
 import model.AddInterviewModel
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class AddInterviewViewModel(application: Application) : AndroidViewModel(application) {
     val candidateName: MutableLiveData<String?> = MutableLiveData()
@@ -199,18 +201,25 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
             }, year, month, day
         )
         datePickerDialog.show()
+
         cal.set(year, month, day)
         datePickerDialog.datePicker.minDate = cal.timeInMillis
     }
 
     fun showTime(view: View) {
         val context = view.context
+        val year = cal.get(Calendar.YEAR)
+        val month = cal.get(Calendar.MONTH)
+        val day = cal.get(Calendar.DAY_OF_MONTH)
         var amPm = ""
         val hour = cal.get(Calendar.HOUR_OF_DAY)
         val minute = cal.get(Calendar.MINUTE)
         val timePicker = TimePickerDialog(
             context,
             { _, hourOfDay, minuteOfDay ->
+                cal.set(Calendar.YEAR,year)
+                cal.set(Calendar.MONTH,month)
+                cal.set(Calendar.DAY_OF_YEAR,day)
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 cal.set(Calendar.MINUTE, minuteOfDay)
                 if (cal.get(Calendar.AM_PM) == Calendar.AM) {
