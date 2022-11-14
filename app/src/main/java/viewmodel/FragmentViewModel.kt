@@ -1,6 +1,9 @@
 package viewmodel
 
-import android.app.*
+import android.app.AlarmManager
+import android.app.AlertDialog
+import android.app.Application
+import android.app.PendingIntent
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.media.Ringtone
@@ -241,12 +244,12 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                 it.forEach { it1 ->
                     val date = it1.data["interviewDate"]
                     val compareDate =
-                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date as String)
+                        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(date as String)
                     val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
                     if (interviewId == id.value.toString()) {
-                        val compareTime =
-                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
+                        /*val compareTime =
+                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)*/
                         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
                         val intent = Intent(view.context, AlarmReceiver::class.java)
                         pendingIntent = PendingIntent.getBroadcast(
@@ -255,13 +258,18 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                             intent,
                             PendingIntent.FLAG_IMMUTABLE
                         )
-                        if (compareTime != null && compareDate != null) {
-                                cal.set(Calendar.HOUR, compareTime.hours)
-                                cal.set(Calendar.MINUTE, compareTime.minutes)
+                        if (compareDate != null) {
+                            val calendar = Calendar.getInstance()
+                            calendar.timeInMillis = compareDate.time
+                          /*  calendar[Calendar.HOUR_OF_DAY] = compareTime.hours
+                            calendar[Calendar.MINUTE] = compareTime.minutes
+                            calendar[Calendar.SECOND] = compareTime.seconds*/
+                            /*    cal.set(Calendar.HOUR, compareTime.hours)
+                                cal.set(Calendar.MINUTE, compareTime.minutes)*/
+                            alarmManager.setExact(
+                                AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent
+                            )
                         }
-                        alarmManager.set(
-                            AlarmManager.RTC_WAKEUP,cal.timeInMillis,pendingIntent
-                        )
                         _toastMessage.value = "Alarm is set for $time"
                         r.play()
                     }

@@ -216,12 +216,13 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val minute = cal.get(Calendar.MINUTE)
         val timePicker = TimePickerDialog(
             context,
-            { _, hourOfDay, minuteOfDay ->
+            { _, hourOfDay, minuteOfDay->
                 cal.set(Calendar.YEAR,year)
                 cal.set(Calendar.MONTH,month)
                 cal.set(Calendar.DAY_OF_YEAR,day)
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 cal.set(Calendar.MINUTE, minuteOfDay)
+                cal.set(Calendar.SECOND,0)
                 if (cal.get(Calendar.AM_PM) == Calendar.AM) {
                     amPm = "AM"
                 } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
