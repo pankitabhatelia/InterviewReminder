@@ -53,6 +53,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
     val toastMessage: LiveData<String> = _toastMessage
     val notification: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
     val r: Ringtone = RingtoneManager.getRingtone(application.applicationContext, notification)
+    private lateinit var alarmIntent: PendingIntent
 
 
     fun floatingAddOnClick() {
@@ -236,47 +237,44 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun setAlarm(view: View): Boolean {
+    fun setAlarm(view: View) {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
             .get()
             .addOnSuccessListener {
                 it.forEach { it1 ->
                     val date = it1.data["interviewDate"]
+                    Log.d("date", date.toString())
+                    val temp = date.toString()
                     val compareDate =
-                        SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).parse(date as String)
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(temp)
                     val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
                     if (interviewId == id.value.toString()) {
-                        /*val compareTime =
-                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)*/
+                        val compareTime =
+                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
                         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-                        val intent = Intent(view.context, AlarmReceiver::class.java)
-                        pendingIntent = PendingIntent.getBroadcast(
-                            view.context,
-                            0,
-                            intent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                        if (compareDate != null) {
-                            val calendar = Calendar.getInstance()
-                            calendar.timeInMillis = compareDate.time
-                          /*  calendar[Calendar.HOUR_OF_DAY] = compareTime.hours
-                            calendar[Calendar.MINUTE] = compareTime.minutes
-                            calendar[Calendar.SECOND] = compareTime.seconds*/
-                            /*    cal.set(Calendar.HOUR, compareTime.hours)
-                                cal.set(Calendar.MINUTE, compareTime.minutes)*/
+                        alarmIntent = Intent(view.context, AlarmReceiver::class.java).let { intent ->
+                            PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                        }
+
+                        if (compareTime != null && compareDate != null) {
+                            val calendar: Calendar = Calendar.getInstance().apply {
+                                timeInMillis = System.currentTimeMillis()
+                                set(Calendar.HOUR_OF_DAY, compareTime.hours)
+                                set(Calendar.MINUTE, compareTime.minutes)
+                            }
                             alarmManager.setExact(
-                                AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pendingIntent
+                                AlarmManager.RTC_WAKEUP,
+                                calendar.timeInMillis,
+                                alarmIntent
                             )
+                            }
                         }
                         _toastMessage.value = "Alarm is set for $time"
                         r.play()
                     }
                 }
-            }
-        return false
-
     }
 
     fun cancelAlarm(view: View) {

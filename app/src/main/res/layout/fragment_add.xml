@@ -217,7 +217,7 @@
                     app:drawableTint="@color/black"
                     android:focusable="false"
                     android:hint="@string/time"
-                    android:onClick="@{rootView->addInterview.showTime(rootView)}"
+                    android:onClick="@{rootView->addInterview.showDate(rootView)}"
                     android:inputType="text"
                     android:padding="15dp"
                     android:text="@={addInterview.interviewTime}"

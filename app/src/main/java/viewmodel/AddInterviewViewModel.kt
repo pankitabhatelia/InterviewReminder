@@ -56,7 +56,9 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val channelId = "channel_id_example_01"
     private val notificationId = 101
-
+    val year = cal.get(Calendar.YEAR)
+    val month = cal.get(Calendar.MONTH)
+    val day = cal.get(Calendar.DAY_OF_MONTH)
 
     fun addOnClick(view: View) {
         if (isValid()) {
@@ -193,57 +195,47 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
         val year = cal.get(Calendar.YEAR)
         val month = cal.get(Calendar.MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
+        val hour = cal.get(Calendar.HOUR_OF_DAY)
+        val minute = cal.get(Calendar.MINUTE)
+        var amPm = ""
         val datePickerDialog = DatePickerDialog(
             context,
             { _, myear, mmonth, mdayOfMonth ->
+
+                val timePicker = TimePickerDialog(
+                    context,
+                    { _, hourOfDay, minuteOfDay ->
+                        cal.set(myear, mmonth, mdayOfMonth)
+                        cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                        cal.set(Calendar.MINUTE, minuteOfDay)
+                        if (cal.get(Calendar.AM_PM) == Calendar.AM) {
+                            amPm = "AM"
+                        } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
+                            amPm = "PM"
+                        }
+                        val hrs =
+                            if (cal.get(Calendar.HOUR) == 0) "12" else cal.get(Calendar.HOUR)
+                                .toString()
+                        val showHours =
+                            if (cal.get(Calendar.HOUR) <= 9 && cal.get(Calendar.HOUR) != 0) "0$hrs" else hrs
+                        val showMinutes =
+                            if (cal.get(Calendar.MINUTE) <= 9) "0${cal.get(Calendar.MINUTE)}"
+                            else "${cal.get(Calendar.MINUTE)}"
+                        val time = "$showHours:$showMinutes $amPm"
+                        if (getCurrentTime()?.let { compareTwoTimes(it, time) } == true) {
+                            interviewTime.value = time
+                        } else {
+                            _toastMessage.value = "Can not use past time!!"
+                        }
+                    }, hour, minute, false
+                )
+                timePicker.show()
                 val date = "$mdayOfMonth/${mmonth + 1}/$myear"
                 interviewDate.value = date
             }, year, month, day
         )
         datePickerDialog.show()
-
-        cal.set(year, month, day)
         datePickerDialog.datePicker.minDate = cal.timeInMillis
-    }
-
-    fun showTime(view: View) {
-        val context = view.context
-        val year = cal.get(Calendar.YEAR)
-        val month = cal.get(Calendar.MONTH)
-        val day = cal.get(Calendar.DAY_OF_MONTH)
-        var amPm = ""
-        val hour = cal.get(Calendar.HOUR_OF_DAY)
-        val minute = cal.get(Calendar.MINUTE)
-        val timePicker = TimePickerDialog(
-            context,
-            { _, hourOfDay, minuteOfDay->
-                cal.set(Calendar.YEAR,year)
-                cal.set(Calendar.MONTH,month)
-                cal.set(Calendar.DAY_OF_YEAR,day)
-                cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                cal.set(Calendar.MINUTE, minuteOfDay)
-                cal.set(Calendar.SECOND,0)
-                if (cal.get(Calendar.AM_PM) == Calendar.AM) {
-                    amPm = "AM"
-                } else if (cal.get(Calendar.AM_PM) == Calendar.PM) {
-                    amPm = "PM"
-                }
-                val hrs =
-                    if (cal.get(Calendar.HOUR) == 0) "12" else cal.get(Calendar.HOUR).toString()
-                val showHours =
-                    if (cal.get(Calendar.HOUR) <= 9 && cal.get(Calendar.HOUR) != 0) "0$hrs" else hrs
-                val showMinutes =
-                    if (cal.get(Calendar.MINUTE) <= 9) "0${cal.get(Calendar.MINUTE)}"
-                    else "${cal.get(Calendar.MINUTE)}"
-                val time = "$showHours:$showMinutes $amPm"
-                if (getCurrentTime()?.let { compareTwoTimes(it, time) } == true) {
-                    interviewTime.value = time
-                } else {
-                    _toastMessage.value = "Can not use past time!!"
-                }
-            }, hour, minute, false
-        )
-        timePicker.show()
     }
 
     private fun getCurrentTime(): String? {
