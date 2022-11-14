@@ -199,7 +199,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
             .setCancelable(false)
             .setPositiveButton("Yes") { _, _ ->
                 changeStatusOnCancel()
-                cancelAlarm(view)
+               // cancelAlarm(view)
                 _navigateToListScreen.postValue(Unit)
             }
             .setNegativeButton("No") { dialog, _ ->
@@ -256,11 +256,19 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
                         alarmIntent =
                             Intent(view.context, AlarmReceiver::class.java).let { intent ->
-                                PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                                PendingIntent.getBroadcast(view.context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
                             }
 
                         if (compareTime != null && compareDate != null) {
-                            val calendar: Calendar = Calendar.getInstance().apply {
+                            val calendar = Calendar.getInstance()
+                            calendar.set(2022, 11, 15, 7, 10,0)
+                            alarmManager.setExact(
+                                AlarmManager.RTC_WAKEUP,
+                                calendar.timeInMillis,
+                                alarmIntent
+                            )
+
+                            /* val calendar: Calendar = Calendar.getInstance().apply {
                                 timeInMillis = System.currentTimeMillis()
                                 set(Calendar.DATE,compareDate.date)
                                 Log.d("date",compareDate.date.toString())
@@ -274,47 +282,54 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                                 calendar.timeInMillis,
                                 alarmIntent
                             )
+                        }*/
+
+                            _toastMessage.value = "Alarm is set for $time"
+                            r.play()
                         }
                     }
-                    _toastMessage.value = "Alarm is set for $time"
-                    r.play()
                 }
-            }
-    }
 
-    fun cancelAlarm(view: View) {
-        fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
-            .whereEqualTo("status", 0)
-            .get()
-            .addOnSuccessListener {
-                it.forEach { it1 ->
-                    val interviewId = it1.data["id"]
-                    val time = it1.data["interviewTime"]
-                    if (interviewId == id.value.toString()) {
-                        val compareTime =
-                            SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
-                        alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-                        val intent = Intent(view.context, AlarmReceiver::class.java)
-                        pendingIntent = PendingIntent.getBroadcast(
-                            view.context,
-                            0,
-                            intent,
-                            PendingIntent.FLAG_IMMUTABLE
-                        )
-                        if (compareTime != null) {
-                            alarmManager.set(
-                                AlarmManager.RTC_WAKEUP,
-                                compareTime.time,
-                                pendingIntent
-                            )
+                fun cancelAlarm(view: View) {
+                    fireStore.collection("AddInterview")
+                        .whereEqualTo("interviewerId", firebaseUser?.uid)
+                        .whereEqualTo("status", 0)
+                        .get()
+                        .addOnSuccessListener {
+                            it.forEach { it1 ->
+                                val interviewId = it1.data["id"]
+                                val time = it1.data["interviewTime"]
+                                if (interviewId == id.value.toString()) {
+                                    val compareTime =
+                                        SimpleDateFormat(
+                                            "hh:mm aa",
+                                            Locale.getDefault()
+                                        ).parse(time as String)
+                                    alarmManager =
+                                        view.context.getSystemService(ALARM_SERVICE) as AlarmManager
+                                    val intent = Intent(view.context, AlarmReceiver::class.java)
+                                    pendingIntent = PendingIntent.getBroadcast(
+                                        view.context,
+                                        0,
+                                        intent,
+                                        PendingIntent.FLAG_IMMUTABLE
+                                    )
+                                    if (compareTime != null) {
+                                        alarmManager.set(
+                                            AlarmManager.RTC_WAKEUP,
+                                            compareTime.time,
+                                            pendingIntent
+                                        )
+                                    }
+                                    alarmManager.cancel(pendingIntent)
+                                    _toastMessage.value = "Alarm is cancelled for $time"
+                                    r.stop()
+                                }
+                            }
                         }
-                        alarmManager.cancel(pendingIntent)
-                        _toastMessage.value = "Alarm is cancelled for $time"
-                        r.stop()
-                    }
+
                 }
             }
-
     }
 
 }
