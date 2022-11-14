@@ -245,9 +245,8 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                 it.forEach { it1 ->
                     val date = it1.data["interviewDate"]
                     Log.d("date", date.toString())
-                    val temp = date.toString()
                     val compareDate =
-                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(temp)
+                        SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).parse(date as String)
                     val interviewId = it1.data["id"]
                     val time = it1.data["interviewTime"]
                     if (interviewId == id.value.toString()) {
