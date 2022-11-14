@@ -254,27 +254,32 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                         val compareTime =
                             SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
                         alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
-                        alarmIntent = Intent(view.context, AlarmReceiver::class.java).let { intent ->
-                            PendingIntent.getBroadcast(view.context, 0, intent, 0)
-                        }
+                        alarmIntent =
+                            Intent(view.context, AlarmReceiver::class.java).let { intent ->
+                                PendingIntent.getBroadcast(view.context, 0, intent, 0)
+                            }
 
                         if (compareTime != null && compareDate != null) {
                             val calendar: Calendar = Calendar.getInstance().apply {
                                 timeInMillis = System.currentTimeMillis()
-                                set(Calendar.HOUR_OF_DAY, compareTime.hours)
+                                set(Calendar.DATE,compareDate.date)
+                                Log.d("date",compareDate.date.toString())
+                                val time = set(Calendar.HOUR_OF_DAY, compareTime.hours)
+                                Log.d("hour", compareTime.hours.toString())
                                 set(Calendar.MINUTE, compareTime.minutes)
+                                Log.d("hour", compareTime.minutes.toString())
                             }
                             alarmManager.setExact(
                                 AlarmManager.RTC_WAKEUP,
                                 calendar.timeInMillis,
                                 alarmIntent
                             )
-                            }
                         }
-                        _toastMessage.value = "Alarm is set for $time"
-                        r.play()
                     }
+                    _toastMessage.value = "Alarm is set for $time"
+                    r.play()
                 }
+            }
     }
 
     fun cancelAlarm(view: View) {
