@@ -4,12 +4,8 @@ import android.app.*
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
-import android.media.Ringtone
-import android.media.RingtoneManager
-import android.net.Uri
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,7 +18,6 @@ import notification.AlarmReceiver
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -268,14 +263,13 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
         val alarmManager = view.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(view.context, AlarmReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
-        alarmManager.setRepeating(
+        alarmManager.setExact(
             AlarmManager.RTC,
             timeInMillis,
-            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
             pendingIntent
         )
 
-        _toastMessage.value = "Alarm is set...."
+        _toastMessage.value = "Alarm Reminder is set...."
     }
 
 
