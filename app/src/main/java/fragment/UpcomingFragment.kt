@@ -45,6 +45,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
         interviewViewModel.updateStatusOnFirebase()
         interviewViewModel.showData()
         interviewViewModel.interviewList.clear()
+        interviewViewModel.createNotificationChannel(requireView())
     }
 
     private fun fragmentStudentObserver() {
