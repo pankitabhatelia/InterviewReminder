@@ -56,9 +56,6 @@ class AddInterviewViewModel(application: Application) : AndroidViewModel(applica
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val channelId = "channel_id_example_01"
     private val notificationId = 101
-    val year = cal.get(Calendar.YEAR)
-    val month = cal.get(Calendar.MONTH)
-    val day = cal.get(Calendar.DAY_OF_MONTH)
 
     fun addOnClick(view: View) {
         if (isValid()) {

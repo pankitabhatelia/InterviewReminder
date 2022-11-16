@@ -1,7 +1,6 @@
 package viewmodel
 
 import android.app.*
-import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.util.Log
@@ -202,7 +201,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
         alert.show()
     }
 
-    fun changeStatusOnCancel() {
+    private fun changeStatusOnCancel() {
         fireStore.collection("AddInterview").whereEqualTo("interviewerId", firebaseUser?.uid)
             .get()
             .addOnSuccessListener {
@@ -246,7 +245,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
                             SimpleDateFormat("hh:mm aa", Locale.getDefault()).parse(time as String)
 
                         if (compareTime != null && compareDate != null) {
-                           cal.apply {
+                            cal.apply {
                                 set(Calendar.DATE, compareDate.date)
                                 set(Calendar.HOUR_OF_DAY, compareTime.hours)
                                 set(Calendar.MINUTE, compareTime.minutes)
@@ -260,9 +259,10 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
     }
 
     private fun getAlarm(view: View, timeInMillis: Long) {
-        val alarmManager = view.context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val alarmManager = view.context.getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(view.context, AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(view.context, 0, intent, 0)
+        val pendingIntent =
+            PendingIntent.getBroadcast(view.context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         alarmManager.setExact(
             AlarmManager.RTC,
             timeInMillis,
@@ -273,7 +273,7 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
     }
 
 
-    fun cancelAlarm(view: View) {
+    private fun cancelAlarm(view: View) {
         fireStore.collection("AddInterview")
             .whereEqualTo("interviewerId", firebaseUser?.uid)
             .whereEqualTo("status", 0)
@@ -300,12 +300,12 @@ class FragmentViewModel(application: Application) : AndroidViewModel(application
 
     }
 
-     fun createNotificationChannel(view:View) {
+    fun createNotificationChannel(view: View) {
         val name = "Interview Reminder"
-        val descreptionText = "Interview Reminder Received"
+        val descriptionText = "Interview Reminder Received"
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel("InterviewReminder", name, importance)
-        channel.description=descreptionText
+        channel.description = descriptionText
         val notificationManager = view.context.getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(channel)
     }

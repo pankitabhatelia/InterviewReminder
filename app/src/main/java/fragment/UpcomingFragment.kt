@@ -30,7 +30,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
+class UpcomingFragment : Fragment(), UpcomingAdapter.OnItemClickListener {
     private val fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
     private var firebaseUser: FirebaseUser? = auth.currentUser
@@ -146,7 +146,7 @@ class UpcomingFragment : Fragment(), UpcomingAdapter.onItemClickListener {
     private fun getAlarm(timeInMillis: Long) {
         val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
         alarmManager.setExact(
             AlarmManager.RTC,
             timeInMillis,

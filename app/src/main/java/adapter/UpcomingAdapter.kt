@@ -8,10 +8,10 @@ import model.AddInterviewModel
 
 class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
     private var interviewList = ArrayList<AddInterviewModel>()
-    private lateinit var mListener: onItemClickListener
+    private lateinit var mListener: OnItemClickListener
 
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
         fun onItemClick(data: AddInterviewModel)
         fun onCancelClick(data: AddInterviewModel)
         fun onNotificationClick(data: AddInterviewModel)
@@ -22,7 +22,7 @@ class UpcomingAdapter : RecyclerView.Adapter<UpcomingAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnItemClickListener(listener: onItemClickListener) {
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         mListener = listener
     }
 
